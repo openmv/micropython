@@ -82,7 +82,10 @@
 extern void __fatal_error(const char*);
 extern PCD_HandleTypeDef pcd_handle;
 extern DCMI_HandleTypeDef DCMIHandle;
+
+#ifdef HAL_SD_MODULE_ENABLED
 extern SD_HandleTypeDef  SDHandle;
+#endif
 
 /******************************************************************************/
 /*            Cortex-M4 Processor Exceptions Handlers                         */
@@ -440,6 +443,7 @@ void DMA2_Stream1_IRQHandler(void) {
     HAL_DMA_IRQHandler(DCMIHandle.DMA_Handle);
 }
 
+#ifdef HAL_SD_MODULE_ENABLED
 // SDIO
 void SDIO_IRQHandler(void)
 {
@@ -450,6 +454,7 @@ void DMA2_Stream3_IRQHandler(void)
 {
     HAL_DMA_IRQHandler(SDHandle.hdmatx);
 }
+#endif
 
 // UART/USART IRQ handlers
 void USART1_IRQHandler(void) {

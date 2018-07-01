@@ -340,6 +340,40 @@ Finally, FFMPEG is used to provide conversion and video player support and may
 be used for any non-OpenMV Cam activites you like. FFMPEG can convert/play
 a large number of file formats.
 
+    *
+        To convert a video file into a set of pictures select the video file
+        as the source and make the target a "%07d.bmp"/"%07d.jpg"/etc. file
+        name. FFMPEG understands ``printf()`` like format statements with an
+        image file format extension to mean it should break the video file
+        up into still images of the target format.
+
+    *
+        To convert a series of still images into a video set the source file
+        name to "%7d.bmp"/"%7d.jpg"/etc. where all the images in a directory
+        have a name like ``1.bmp``, ``2.bmp``, etc.  FFMPEG understands
+        ``printf()`` like format statements with an image file format extension
+        to mean it should join those images files together into a video.
+
+    *
+        To convert an `ImageWriter` file into any other video format select
+        the file as the source and target to be whatever file format you want.
+
+    *
+        To convert a video file of any format into an `ImageWriter` file select
+        the video file you want to convert as the source and set the target to
+        be a ``.bin`` file. FFMPEG will then break the video into JPGs and
+        OpenMV IDE will turn these JPGs into RAW Grayscale or RGB565 frames
+        saves to the ``.bin`` file using the `ImageWriter` file format.
+
+    *
+        To optimize a `.gif` file saved by your OpenMV Cam for the web set the
+        source file to be that `.gif` and the target file to be another `.gif`.
+
+    *
+        To convert an MJPEG file saved by your OpenMV Cam to another format
+        set the MJPEG file as the source and another file using another format
+        (like ``.mp4``) as the target.
+
 Options
 -------
 

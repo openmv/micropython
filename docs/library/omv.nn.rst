@@ -6,6 +6,11 @@
 
 The ``nn`` module is used for neural networks.
 
+Please see the examples that come with OpenMV IDE for how to use the NN module.
+
+For more information about creating your own NN examples see please see the
+`README on our github here <https://github.com/openmv/openmv/tree/master/ml/cmsisnn>`_.
+
 class nn_class -- nn dection result
 ===================================
 

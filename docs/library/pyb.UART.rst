@@ -93,7 +93,7 @@ Constructors
        the bus, if any).  If extra arguments are given, the bus is initialised.
        See ``init`` for parameters of initialisation.
 
-       The physical pins of the UART busses are for the OpenMV Cam M4:
+       The physical pins of the UART bus are for the OpenMV Cam M4:
 
          - ``UART(3)``: ``(TX, RX) = (P4, P5) = (PB10, PB11)``
 

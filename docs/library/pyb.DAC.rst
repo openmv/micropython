@@ -4,74 +4,148 @@
 class DAC -- digital to analog conversion
 =========================================
 
-The DAC is used to output analog values (a specific voltage) on pin X5 or pin X6.
-The voltage will be between 0 and 3.3V.
+.. only:: port_pyboard
 
-*This module will undergo changes to the API.*
+   The DAC is used to output analog values (a specific voltage) on pin X5 or pin X6.
+   The voltage will be between 0 and 3.3V.
 
-Example usage::
+   *This module will undergo changes to the API.*
 
-    from pyb import DAC
+   Example usage::
 
-    dac = DAC(1)            # create DAC 1 on pin X5
-    dac.write(128)          # write a value to the DAC (makes X5 1.65V)
+       from pyb import DAC
 
-    dac = DAC(1, bits=12)   # use 12 bit resolution
-    dac.write(4095)         # output maximum value, 3.3V
+       dac = DAC(1)            # create DAC 1 on pin X5
+       dac.write(128)          # write a value to the DAC (makes X5 1.65V)
 
-To output a continuous sine-wave::
+       dac = DAC(1, bits=12)   # use 12 bit resolution
+       dac.write(4095)         # output maximum value, 3.3V
 
-    import math
-    from pyb import DAC
+   To output a continuous sine-wave::
 
-    # create a buffer containing a sine-wave
-    buf = bytearray(100)
-    for i in range(len(buf)):
-        buf[i] = 128 + int(127 * math.sin(2 * math.pi * i / len(buf)))
+       import math
+       from pyb import DAC
 
-    # output the sine-wave at 400Hz
-    dac = DAC(1)
-    dac.write_timed(buf, 400 * len(buf), mode=DAC.CIRCULAR)
+       # create a buffer containing a sine-wave
+       buf = bytearray(100)
+       for i in range(len(buf)):
+           buf[i] = 128 + int(127 * math.sin(2 * math.pi * i / len(buf)))
 
-To output a continuous sine-wave at 12-bit resolution::
+       # output the sine-wave at 400Hz
+       dac = DAC(1)
+       dac.write_timed(buf, 400 * len(buf), mode=DAC.CIRCULAR)
 
-    import math
-    from array import array
-    from pyb import DAC
+   To output a continuous sine-wave at 12-bit resolution::
 
-    # create a buffer containing a sine-wave, using half-word samples
-    buf = array('H', 2048 + int(2047 * math.sin(2 * math.pi * i / 128)) for i in range(128))
+       import math
+       from array import array
+       from pyb import DAC
 
-    # output the sine-wave at 400Hz
-    dac = DAC(1, bits=12)
-    dac.write_timed(buf, 400 * len(buf), mode=DAC.CIRCULAR)
+       # create a buffer containing a sine-wave, using half-word samples
+       buf = array('H', 2048 + int(2047 * math.sin(2 * math.pi * i / 128)) for i in range(128))
+
+       # output the sine-wave at 400Hz
+       dac = DAC(1, bits=12)
+       dac.write_timed(buf, 400 * len(buf), mode=DAC.CIRCULAR)
+
+.. only:: port_openmvcam
+
+   The DAC is used to output analog values (a specific voltage) on pin P6.
+    The voltage will be between 0 and 3.3V.
+
+   *This module will undergo changes to the API.*
+
+   Example usage::
+
+       from pyb import DAC
+
+       dac = DAC(pyb.Pin("P6"))             # create DAC on pin P6
+       dac.write(128)                       # write a value to the DAC (makes P6 1.65V)
+
+       dac = DAC(pyb.Pin("P6"), bits=12)    # use 12 bit resolution
+       dac.write(4095)                      # output maximum value, 3.3V
+
+   To output a continuous sine-wave::
+
+       import math
+       from pyb import DAC
+
+       # create a buffer containing a sine-wave
+       buf = bytearray(100)
+       for i in range(len(buf)):
+           buf[i] = 128 + int(127 * math.sin(2 * math.pi * i / len(buf)))
+
+       # output the sine-wave at 400Hz
+       dac = DAC(pyb.Pin("P6"))
+       dac.write_timed(buf, 400 * len(buf), mode=DAC.CIRCULAR)
+
+   To output a continuous sine-wave at 12-bit resolution::
+
+       import math
+       from array import array
+       from pyb import DAC
+
+       # create a buffer containing a sine-wave, using half-word samples
+       buf = array('H', 2048 + int(2047 * math.sin(2 * math.pi * i / 128)) for i in range(128))
+
+       # output the sine-wave at 400Hz
+       dac = DAC(pyb.Pin("P6"), bits=12)
+       dac.write_timed(buf, 400 * len(buf), mode=DAC.CIRCULAR)
 
 Constructors
 ------------
 
-.. class:: pyb.DAC(port, bits=8, \*, buffering=None)
+.. only:: port_pyboard
 
-   Construct a new DAC object.
+   .. class:: pyb.DAC(port, bits=8, \*, buffering=None)
 
-   ``port`` can be a pin object, or an integer (1 or 2).
-   DAC(1) is on pin X5 and DAC(2) is on pin X6.
+      Construct a new DAC object.
 
-   ``bits`` is an integer specifying the resolution, and can be 8 or 12.
-   The maximum value for the write and write_timed methods will be
-   2\*\*``bits``-1.
+      ``port`` can be a pin object, or an integer (1 or 2).
+      DAC(1) is on pin X5 and DAC(2) is on pin X6.
 
-   The *buffering* parameter selects the behaviour of the DAC op-amp output
-   buffer, whose purpose is to reduce the output impedance.  It can be
-   ``None`` to select the default (buffering enabled for :meth:`DAC.noise`,
-   :meth:`DAC.triangle` and :meth:`DAC.write_timed`, and disabled for
-   :meth:`DAC.write`), ``False`` to disable buffering completely, or ``True``
-   to enable output buffering.
+      ``bits`` is an integer specifying the resolution, and can be 8 or 12.
+      The maximum value for the write and write_timed methods will be
+      2\*\*``bits``-1.
 
-   When buffering is enabled the DAC pin can drive loads down to 5KΩ.
-   Otherwise it has an output impedance of 15KΩ maximum: consequently
-   to achieve a 1% accuracy without buffering requires the applied load
-   to be less than 1.5MΩ.  Using the buffer incurs a penalty in accuracy,
-   especially near the extremes of range.
+      The *buffering* parameter selects the behaviour of the DAC op-amp output
+      buffer, whose purpose is to reduce the output impedance.  It can be
+      ``None`` to select the default (buffering enabled for :meth:`DAC.noise`,
+      :meth:`DAC.triangle` and :meth:`DAC.write_timed`, and disabled for
+      :meth:`DAC.write`), ``False`` to disable buffering completely, or ``True``
+      to enable output buffering.
+
+      When buffering is enabled the DAC pin can drive loads down to 5KΩ.
+      Otherwise it has an output impedance of 15KΩ maximum: consequently
+      to achieve a 1% accuracy without buffering requires the applied load
+      to be less than 1.5MΩ.  Using the buffer incurs a penalty in accuracy,
+      especially near the extremes of range.
+
+.. only:: port_openmvcam
+
+   .. class:: pyb.DAC(port, bits=8, \*, buffering=None)
+
+      Construct a new DAC object.
+
+      ``port`` can be a pin object, or an integer (1).
+       DAC(1) is on pin P6.
+
+      ``bits`` is an integer specifying the resolution, and can be 8 or 12.
+      The maximum value for the write and write_timed methods will be
+      2\*\*``bits``-1.
+
+      The *buffering* parameter selects the behaviour of the DAC op-amp output
+      buffer, whose purpose is to reduce the output impedance.  It can be
+      ``None`` to select the default (buffering enabled for :meth:`DAC.noise`,
+      :meth:`DAC.triangle` and :meth:`DAC.write_timed`, and disabled for
+      :meth:`DAC.write`), ``False`` to disable buffering completely, or ``True``
+      to enable output buffering.
+
+      When buffering is enabled the DAC pin can drive loads down to 5KΩ.
+      Otherwise it has an output impedance of 15KΩ maximum: consequently
+      to achieve a 1% accuracy without buffering requires the applied load
+      to be less than 1.5MΩ.  Using the buffer incurs a penalty in accuracy,
+      especially near the extremes of range.
 
 Methods
 -------
@@ -79,7 +153,7 @@ Methods
 .. method:: DAC.init(bits=8, \*, buffering=None)
 
    Reinitialise the DAC.  *bits* can be 8 or 12.  *buffering* can be
-   ``None``, ``False`` or ``True`; see above constructor for the meaning
+   ``None``, ``False`` or ``True``; see above constructor for the meaning
    of this parameter.
 
 .. method:: DAC.deinit()
@@ -103,22 +177,44 @@ Methods
    value is 2\*\*``bits``-1, where ``bits`` is set when creating the DAC
    object or by using the ``init`` method.
 
-.. method:: DAC.write_timed(data, freq, \*, mode=DAC.NORMAL)
+.. only:: port_pyboard
 
-   Initiates a burst of RAM to DAC using a DMA transfer.
-   The input data is treated as an array of bytes in 8-bit mode, and
-   an array of unsigned half-words (array typecode 'H') in 12-bit mode.
+   .. method:: DAC.write_timed(data, freq, \*, mode=DAC.NORMAL)
 
-   ``freq`` can be an integer specifying the frequency to write the DAC
-   samples at, using Timer(6).  Or it can be an already-initialised
-   Timer object which is used to trigger the DAC sample.  Valid timers
-   are 2, 4, 5, 6, 7 and 8.
+      Initiates a burst of RAM to DAC using a DMA transfer.
+      The input data is treated as an array of bytes in 8-bit mode, and
+      an array of unsigned half-words (array typecode 'H') in 12-bit mode.
 
-   ``mode`` can be ``DAC.NORMAL`` or ``DAC.CIRCULAR``.
+      ``freq`` can be an integer specifying the frequency to write the DAC
+      samples at, using Timer(6).  Or it can be an already-initialised
+      Timer object which is used to trigger the DAC sample.  Valid timers
+      are 2, 4, 5, 6, 7 and 8.
 
-   Example using both DACs at the same time::
+      ``mode`` can be ``DAC.NORMAL`` or ``DAC.CIRCULAR``.
 
-     dac1 = DAC(1)
-     dac2 = DAC(2)
-     dac1.write_timed(buf1, pyb.Timer(6, freq=100), mode=DAC.CIRCULAR)
-     dac2.write_timed(buf2, pyb.Timer(7, freq=200), mode=DAC.CIRCULAR)
+      Example using both DACs at the same time::
+
+        dac1 = DAC(1)
+        dac2 = DAC(2)
+        dac1.write_timed(buf1, pyb.Timer(6, freq=100), mode=DAC.CIRCULAR)
+        dac2.write_timed(buf2, pyb.Timer(7, freq=200), mode=DAC.CIRCULAR)
+
+.. only:: port_openmvcam
+
+   .. method:: DAC.write_timed(data, freq, \*, mode=DAC.NORMAL)
+
+      Initiates a burst of RAM to DAC using a DMA transfer.
+      The input data is treated as an array of bytes in 8-bit mode, and
+      an array of unsigned half-words (array typecode 'H') in 12-bit mode.
+
+      ``freq`` can be an integer specifying the frequency to write the DAC
+      samples at, using Timer(6).  Or it can be an already-initialised
+      Timer object which is used to trigger the DAC sample.  Valid timers
+      are 2, 4, 5, 6, 7 and 8.
+
+      ``mode`` can be ``DAC.NORMAL`` or ``DAC.CIRCULAR``.
+
+      Example using both DACs at the same time::
+
+        dac = pyb.DAC(pyb.Pin("P6"))
+        dac.write_timed(buf1, pyb.Timer(4, freq=100), mode=DAC.CIRCULAR)

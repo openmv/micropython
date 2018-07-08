@@ -78,9 +78,9 @@ Constructors
        the bus, if any).  If extra arguments are given, the bus is initialised.
        See ``init`` for parameters of initialisation.
 
-       The physical pins of the SPI busses are:
+       The physical pins of the SPI bus are:
 
-         - ``SPI(2)`` is on the Y position: ``(NSS, SCK, MISO, MOSI) = (P3, P2, P1, P0) = (PB12, PB13, PB14, PB15)``
+         - ``SPI(2)``: ``(NSS, SCK, MISO, MOSI) = (P3, P2, P1, P0) = (PB12, PB13, PB14, PB15)``
 
        At the moment, the NSS pin is not used by the SPI driver and is free
        for other use.

@@ -658,7 +658,7 @@ parameter should be `id`.
        Connect to a wifi network with ssid ``ssid`` using key ``key`` with
        security ``security``.
 
-       After connecting to the network use the `usocket` module to open TCP/UDP
+       After connecting to the network use the :mod:`usocket` module to open TCP/UDP
        ports to send and receive data.
 
        .. note::

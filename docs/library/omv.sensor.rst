@@ -95,6 +95,7 @@ Functions
       * `sensor.OV2640`: Second gen OpenMV Cam sensor - never released.
       * `sensor.OV7725`: Rolling shutter sensor module.
       * `sensor.MT9V034`: Global shutter sensor module.
+      * `sensor.LEPTON`: Lepton1/2/3 sensor module.
 
 .. function:: sensor.alloc_extra_fb(width, height, pixformat)
 
@@ -164,6 +165,8 @@ Functions
       * `sensor.B128X128`: 128x128 (for use with `image.find_displacement()`)
       * `sensor.LCD`: 128x160 (for use with the lcd shield)
       * `sensor.QQVGA2`: 128x160 (for use with the lcd shield)
+      * `sensor.WVGA`: 720x480
+      * `sensor.WVGA2`:752x480
       * `sensor.SVGA`: 800x600 (only in JPEG mode for the OV2640 sensor)
       * `sensor.SXGA`: 1280x1024 (only in JPEG mode for the OV2640 sensor)
       * `sensor.UXGA`: 1600x1200 (only in JPEG mode for the OV2640 sensor)
@@ -339,6 +342,10 @@ Constants
 
    `sensor.get_id()` returns this for the MT9V034 camera.
 
+.. data:: sensor.LEPTON
+
+   `sensor.get_id()` returns this for the LEPTON1/2/3 cameras.
+
 .. data:: sensor.QQCIF
 
    88x72 resolution for the camera sensor.
@@ -427,6 +434,14 @@ Constants
 .. data:: sensor.QQVGA2
 
    128x160 resolution for the camera sensor (for use with the lcd shield).
+
+.. data:: sensor.WVGA
+
+   720x480 resolution for the MT9V034 camera sensor.
+
+.. data:: sensor.WVGA2
+
+   752x480 resolution for the MT9V034 camera sensor.
 
 .. data:: sensor.SVGA
 

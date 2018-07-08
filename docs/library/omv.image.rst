@@ -1633,6 +1633,17 @@ Methods
 
    Not supported on compressed images or bayer images.
 
+.. method:: image.to_bitmap([copy=False])
+
+   Converts an image to a bitmap image (1 bit per pixel). This method modifies
+   the underlying image pixels changing the image size in bytes too so it can
+   only be done in place on a Grayscale or an RGB565 image. Otherwise ``copy``
+   must be True to create a new modified image on the heap.
+
+   Returns the image object so you can call another method using ``.`` notation.
+
+   Not supported on compressed images or bayer images.
+
 .. method:: image.to_grayscale([copy=False])
 
    Converts an image to a grayscale image. This method modifies the underlying
@@ -1944,7 +1955,7 @@ Methods
 
    This method is not available on the OpenMV Cam M4.
 
-.. method:: image.binary(thresholds, [invert=False, [zero=False, [mask=None]]])
+.. method:: image.binary(thresholds, [invert=False, [zero=False, [mask=None, [to_bitmap=False, [copy=False]]]]])
 
    Sets all pixels in the image to black or white depending on if the pixel
    is inside of a threshold in the threshold list ``thresholds`` or not.
@@ -1987,6 +1998,12 @@ Methods
    The mask should be an image with just black or white pixels and should be the
    same size as the image being operated on. Only pixels set in the mask are
    modified.
+
+   ``to_bitmap`` turns the image data into a binary bitmap image where each
+   pixel is stored in 1 bit. Set ``copy`` to True when using ``to_bitmap``.
+
+   ``copy`` if True creates a copy of the binarized image on the heap versus
+   modifying the source image.
 
    Returns the image object so you can call another method using ``.`` notation.
 
@@ -2596,8 +2613,6 @@ Methods
 
    Not supported on compressed images or bayer images.
 
-   This method is not available on the OpenMV Cam M4.
-
 .. method:: image.laplacian(size, [sharpen=False, [mul, [add=0, [threshold=False, [offset=0, [invert=False, [mask=None]]]]]]])
 
    Convolves the image by a edge detecting laplacian kernel.
@@ -3142,7 +3157,7 @@ Methods
 
    This method is not available on the OpenMV Cam M4.
 
-.. method:: image.find_circles([roi, [x_stride=2, [y_stride=1, [threshold=2000, [x_margin=10, [y_margin=10, [r_margin=10]]]]]]])
+.. method:: image.find_circles([roi, [x_stride=2, [y_stride=1, [threshold=2000, [x_margin=10, [y_margin=10, [r_margin=10, [r_min=2, [r_max, [r_step=2]]]]]]]]]])
 
    Finds circles in the image using the hough transform. Returns a list of
    `image.circle` objects.
@@ -3171,6 +3186,14 @@ Methods
 
    ``r_margin`` controls the merging of detected circles. Circles which are
    ``x_margin``, ``y_margin``, and ``r_margin`` pixels apart are merged.
+
+   ``r_min`` controls the minimum circle radius detected. Increase this to speed
+   up the algorithm. Defaults to 2.
+
+   ``r_max`` controls the maximum circle radius detected. Decrease this to speed
+   up the algorithm. Defaults to min(roi.w/2, roi.h/2).
+
+   ``r_step`` controls how to step the radius detection by. Defaults to 2.
 
    Not supported on compressed images or bayer images.
 
@@ -3465,8 +3488,6 @@ Methods
    ``roi`` is the region-of-interest rectangle tuple (x, y, w, h). If not
    specified, it is equal to the image rectangle. Only pixels within the
    ``roi`` are operated on.
-
-   Only works on grayscale images.
 
 .. method:: image.find_eye(roi)
 

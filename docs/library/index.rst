@@ -203,7 +203,7 @@ the following libraries.
    machine.rst
    micropython.rst
    network.rst
-
+   uctypes.rst
 
 .. only:: port_pyboard
 
@@ -271,6 +271,7 @@ the following libraries.
       omv.time.rst
       omv.sensor.rst
       omv.image.rst
+      omv.nn.rst
       omv.gif.rst
       omv.mjpeg.rst
       omv.lcd.rst

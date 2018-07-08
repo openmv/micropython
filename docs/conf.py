@@ -30,6 +30,7 @@ ports = OrderedDict((
     ('pyboard', 'the pyboard'),
     ('wipy', 'the WiPy'),
     ('esp8266', 'the ESP8266'),
+    ('openmvcam', 'the OpenMV Cam'),
 ))
 
 # The members of the html_context dict are available inside topindex.html
@@ -51,6 +52,10 @@ html_context = {
     'downloads':[
         ('PDF', url_pattern % (micropy_version, 'micropython-%s.pdf' % micropy_port)),
     ],
+    'all_languages':[
+        ('English', 'http://docs.openmv.io'),
+        (u'中文', 'http://doc.singtown.cc/openmv_zh')
+    ]
 }
 
 
@@ -90,7 +95,7 @@ source_suffix = '.rst'
 
 # General information about the project.
 project = 'MicroPython'
-copyright = '2014-2018, Damien P. George, Paul Sokolovsky, and contributors'
+copyright = '2014-2018, Damien P. George, Paul Sokolovsky, OpenMV LLC, and contributors'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -178,12 +183,12 @@ else:
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-#html_logo = '../../logo/trans-logo.png'
+html_logo = '../../openmv-media/logos/openmv-logo-white/web-logo-sticky.png'
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
 # pixels large.
-html_favicon = 'favicon.ico'
+html_favicon = '../../openmv-media/logos/openmv-logo/favicon.ico'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -260,7 +265,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
   (master_doc, 'MicroPython.tex', 'MicroPython Documentation',
-   'Damien P. George, Paul Sokolovsky, and contributors', 'manual'),
+   'Damien P. George, Paul Sokolovsky, OpenMV LLC, and contributors', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -290,7 +295,7 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'micropython', 'MicroPython Documentation',
-     ['Damien P. George, Paul Sokolovsky, and contributors'], 1),
+     ['Damien P. George, Paul Sokolovsky, OpenMV LLC, and contributors'], 1),
 ]
 
 # If true, show URL addresses after external links.
@@ -304,7 +309,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   (master_doc, 'MicroPython', 'MicroPython Documentation',
-   'Damien P. George, Paul Sokolovsky, and contributors', 'MicroPython', 'One line description of project.',
+   'Damien P. George, Paul Sokolovsky, OpenMV LLC, and contributors', 'MicroPython', 'One line description of project.',
    'Miscellaneous'),
 ]
 
@@ -331,6 +336,7 @@ modules_port_specific = {
     'pyboard': ['pyb'],
     'wipy': ['wipy'],
     'esp8266': ['esp'],
+    'openmvcam': ['pyb']
 }
 
 modindex_exclude = []
@@ -338,6 +344,8 @@ modindex_exclude = []
 for p, l in modules_port_specific.items():
     if p != micropy_port:
         modindex_exclude += l
+for module in modules_port_specific[micropy_port]:
+    modindex_exclude.remove(module)
 
 # Exclude extra modules per port
 modindex_exclude += {

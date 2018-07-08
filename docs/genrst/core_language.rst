@@ -2,7 +2,7 @@
 
 Core Language
 =============
-Generated Sat 28 Apr 2018 19:34:04 UTC
+Generated Sun 08 Jul 2018 04:25:25 UTC
 
 Classes
 -------
@@ -161,27 +161,6 @@ Sample code::
 |     append() takes exactly one argument (0 given) |     function takes 2 positional arguments but 1 were given |
 +---------------------------------------------------+------------------------------------------------------------+
 
-.. _cpydiff_core_function_unpacking:
-
-Unpacking function arguments in non-last position isn't detected as an error
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-**Workaround:** The syntax below is invalid, never use it in applications.
-
-Sample code::
-
-    print(*(1, 2), 3)
-
-+-------------+---------------------------------------------+
-| CPy output: | uPy output:                                 |
-+-------------+---------------------------------------------+
-| ::          | ::                                          |
-|             |                                             |
-|     1 2 3   |     Traceback (most recent call last):      |
-|             |       File "<stdin>", line 7, in <module>   |
-|             |     SyntaxError: non-keyword arg after */** |
-+-------------+---------------------------------------------+
-
 .. _cpydiff_core_function_userattr:
 
 User-defined attributes for functions are not supported
@@ -273,7 +252,7 @@ Sample code::
 +----------------+------------------------------------------------------------------------------------------------+
 | ::             | ::                                                                                             |
 |                |                                                                                                |
-|     {'val': 2} |     {'test': <function test at 0x7f014da2e560>, '__name__': '__main__', '__file__': '<stdin>'} |
+|     {'val': 2} |     {'test': <function test at 0x7f2762f81560>, '__name__': '__main__', '__file__': '<stdin>'} |
 +----------------+------------------------------------------------------------------------------------------------+
 
 .. _cpydiff_core_locals_eval:

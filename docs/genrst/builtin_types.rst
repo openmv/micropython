@@ -2,7 +2,7 @@
 
 Builtin Types
 =============
-Generated Sat 28 Apr 2018 19:34:04 UTC
+Generated Sun 08 Jul 2018 04:25:25 UTC
 
 Exception
 ---------
@@ -97,9 +97,9 @@ Exception.__init__ method does not exist.
 
 **Workaround:** Call using ``super()`` instead::
 
-class A(Exception):
-    def __init__(self):
-        super().__init__()
+    class A(Exception):
+        def __init__(self):
+            super().__init__()
 
 Sample code::
 
@@ -202,8 +202,6 @@ uPy and CPython outputs formats may differ
 Sample code::
 
     print('%.1g' % -9.9)
-    print('%.1e' % 9.99)
-    print('%.1e' % 0.999)
 
 +-------------+-------------+
 | CPy output: | uPy output: |
@@ -211,8 +209,6 @@ Sample code::
 | ::          | ::          |
 |             |             |
 |     -1e+01  |     -10     |
-|     1.0e+01 |     1.0e+01 |
-|     1.0e+00 |     1.0e+00 |
 +-------------+-------------+
 
 int
@@ -243,26 +239,6 @@ Sample code::
 |             |       File "<stdin>", line 8, in <lambda>  |
 |             |     TypeError: can't convert A to int      |
 +-------------+--------------------------------------------+
-
-.. _cpydiff_types_int_tobytesfloat:
-
-Incorrect error message when passing float into to_bytes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Sample code::
-
-    try:
-        int('1').to_bytes(1.0)
-    except TypeError as e:
-        print(e)
-
-+------------------------------------------+------------------------------------------------------+
-| CPy output:                              | uPy output:                                          |
-+------------------------------------------+------------------------------------------------------+
-| ::                                       | ::                                                   |
-|                                          |                                                      |
-|     integer argument expected, got float |     function missing 1 required positional arguments |
-+------------------------------------------+------------------------------------------------------+
 
 list
 ----
@@ -340,29 +316,6 @@ Sample code::
 
 str
 ---
-
-.. _cpydiff_types_str_decodeerror:
-
-UnicodeDecodeError not raised when expected
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Sample code::
-
-    try:
-        print(repr(str(b"\xa1\x80", 'utf8')))
-        print('Should not get here')
-    except UnicodeDecodeError:
-        print('UnicodeDecodeError')
-
-+------------------------+---------------------------------------------------------+
-| CPy output:            | uPy output:                                             |
-+------------------------+---------------------------------------------------------+
-| ::                     | ::                                                      |
-|                        |                                                         |
-|     UnicodeDecodeError |     Traceback (most recent call last):                  |
-|                        |       File "<stdin>", line 9, in <module>               |
-|                        |     NameError: name 'UnicodeDecodeError' is not defined |
-+------------------------+---------------------------------------------------------+
 
 .. _cpydiff_types_str_endswith:
 

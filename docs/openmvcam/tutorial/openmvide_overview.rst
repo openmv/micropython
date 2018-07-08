@@ -366,8 +366,8 @@ a large number of file formats.
         saves to the ``.bin`` file using the `ImageWriter` file format.
 
     *
-        To optimize a `.gif` file saved by your OpenMV Cam for the web set the
-        source file to be that `.gif` and the target file to be another `.gif`.
+        To optimize a ``.gif`` file saved by your OpenMV Cam for the web set the
+        source file to be that ``.gif`` and the target file to be another ``.gif``.
 
     *
         To convert an MJPEG file saved by your OpenMV Cam to another format

@@ -44,7 +44,7 @@ It's that easy! However, what if you want to open-drain an output? Just do::
 
     p = pyb.Pin("P0", pyb.Pin.OUT_OD)
 
-And now `pyb.Pin.high()` will cause the pin to float while `pyb.Pin.low()` will
+And now ``pyb.Pin.high()`` will cause the pin to float while ``pyb.Pin.low()`` will
 pull the pin low. If you need a pull-up resistor on the Pin just add::
 
     p = pyb.Pin("P0", pyb.Pin.OUT_OD, pyb.Pin.PULL_UP)

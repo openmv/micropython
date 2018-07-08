@@ -37,7 +37,7 @@ means the data will be packed in little-endian format. "l" means pack a long,
 `Python Struct Module <https://docs.python.org/3/library/struct.html>`_ for
 more information.
 
-Now, if you'd like to receive data just use the `UART.any()` method along with
-the `UART.read()` method. Note that you'll need to code up some sort of state
+Now, if you'd like to receive data just use the `pyb.UART.any()` method along with
+the `pyb.UART.read()` method. Note that you'll need to code up some sort of state
 machine to receive data reliability. For example, see the
 ``Examples->Pixy Emulation->pixy_uart_emulation.py`` example.

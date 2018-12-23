@@ -22,34 +22,62 @@ Example usage::
         img = sensor.snapshot()
         ta, ir, to_min, to_max = fir.read_ir()
         fir.draw_ir(image, ir)
-        print("ambient temperature: %0.2f" % ta)
-        print("min temperature seen: %0.2f" % to_min)
-        print("max temperature seen: %0.2f" % to_max)
+        print("====================")
+        print("Ambient temperature: %0.2f" % ta)
+        print("Min temperature seen: %0.2f" % to_min)
+        print("Max temperature seen: %0.2f" % to_max)
 
 Functions
 ---------
 
-.. function:: fir.init([type=1, [refresh=64, [resolution=18]]])
+.. function:: fir.init([type=fir.FIR_SHIELD, [refresh, [resolution]]])
 
    Initializes an attached thermopile shield using I/O pins P4 and P5.
 
-   ``type`` indicates the type of thermopile shield (for future use possibly):
+   ``type`` indicates the type of thermopile shield:
 
-      * 0: None
-      * 1: thermopile shield
+      * `fir.FIR_NONE`: 0 pixels.
+      * `fir.FIR_SHIELD`: 16 pixels.
+      * `fir.FIR_MLX90620`: 16 pixels.
+      * `fir.FIR_MLX90621`: 16 pixels.
+      * `fir.FIR_MLX90640`: 32 pixels.
+      * `fir.FIR_AMG8833`: 8 pixels.
 
-   ``refresh`` is the thermopile sensor power-of-2 refresh rate in Hz. Defaults
-   to 64 Hz. Can be 1 Hz, 2 Hz, 4 Hz, 8 Hz, 16 Hz, 32 Hz, 64 Hz, 128 Hz, 256 Hz,
-   or 512 Hz. Note that a higher refresh rate lowers the accuracy and vice-versa.
+   ``refresh`` is the thermopile sensor power-of-2 refresh rate in Hz:
 
-   ``resolution`` is the thermopile sensor measurement resolution. Defaults to
-   18-bits. Can be 15-bits, 16-bits, 17-bits, or 18-bits. Note that a higher
-   resolution lowers the maximum temperature range and vice-versa.
+      * `fir.FIR_NONE`: N/A
+      * `fir.FIR_SHIELD`: Defaults to 64 Hz. Can be 1 Hz, 2 Hz, 4 Hz, 8 Hz, 16 Hz, 32 Hz, 64 Hz, 128 Hz, 256 Hz, or 512 Hz. Note that a higher refresh rate lowers the accuracy and vice-versa.
+      * `fir.FIR_MLX90620`: Defaults to 64 Hz. Can be 1 Hz, 2 Hz, 4 Hz, 8 Hz, 16 Hz, 32 Hz, 64 Hz, 128 Hz, 256 Hz, or 512 Hz. Note that a higher refresh rate lowers the accuracy and vice-versa.
+      * `fir.FIR_MLX90621`: Defaults to 64 Hz. Can be 1 Hz, 2 Hz, 4 Hz, 8 Hz, 16 Hz, 32 Hz, 64 Hz, 128 Hz, 256 Hz, or 512 Hz. Note that a higher refresh rate lowers the accuracy and vice-versa.
+      * `fir.FIR_MLX90640`: Defaults to 64 Hz. Can be 1 Hz, 2 Hz, 4 Hz, 8 Hz, 16 Hz, 32 Hz, or 64 Hz. Note that a higher refresh rate lowers the accuracy and vice-versa.
+      * `fir.FIR_AMG8833`: 10 Hz
+
+   ``resolution`` is the thermopile sensor measurement resolution:
+
+      * `fir.FIR_NONE`: N/A
+      * `fir.FIR_SHIELD`: Defaults to 18-bits. Can be 15-bits, 16-bits, 17-bits, or 18-bits. Note that a higher resolution lowers the maximum temperature range and vice-versa.
+      * `fir.FIR_MLX90620`: Defaults to 18-bits. Can be 15-bits, 16-bits, 17-bits, or 18-bits. Note that a higher resolution lowers the maximum temperature range and vice-versa.
+      * `fir.FIR_MLX90621`: Defaults to 18-bits. Can be 15-bits, 16-bits, 17-bits, or 18-bits. Note that a higher resolution lowers the maximum temperature range and vice-versa.
+      * `fir.FIR_MLX90640`: Defaults to 19-bits. Can be 16-bits, 17-bits, 18-bits, or 19-bits. Note that a higher resolution lowers the maximum temperature range and vice-versa.
+      * `fir.FIR_AMG8833`: 10 Hz
+
+   For the `fir.FIR_SHIELD`, `fir.FIR_MLX90620`, and `fir.FIR_MLX90621`:
 
       * 15-bits -> Max of ~950C.
       * 16-bits -> Max of ~750C.
       * 17-bits -> Max of ~600C.
       * 18-bits -> Max of ~450C.
+
+   For the `fir.FIR_MLX90640`:
+
+      * 16-bits -> Max of ~750C.
+      * 17-bits -> Max of ~600C.
+      * 18-bits -> Max of ~450C.
+      * 19-bits -> Max of ~300C.
+
+   For the `fir.FIR_AMG8833`:
+
+      * Max of ~80C.
 
 .. function:: fir.deinit()
 
@@ -59,22 +87,34 @@ Functions
 
    Returns the width (horizontal resolution) of the thermopile shield.
 
-      * None: 0 pixels.
-      * thermopile shield: 16 pixels.
+      * `fir.FIR_NONE`: 0 pixels.
+      * `fir.FIR_SHIELD`: 16 pixels.
+      * `fir.FIR_MLX90620`: 16 pixels.
+      * `fir.FIR_MLX90621`: 16 pixels.
+      * `fir.FIR_MLX90640`: 32 pixels.
+      * `fir.FIR_AMG8833`: 8 pixels.
 
 .. function:: fir.height()
 
    Returns the height (vertical resolution) of the thermopile shield.
 
-      * None: 0 pixels.
-      * thermopile shield: 4 pixels.
+      * `fir.FIR_NONE`: 0 pixels.
+      * `fir.FIR_SHIELD`: 4 pixels.
+      * `fir.FIR_MLX90620`: 4 pixels.
+      * `fir.FIR_MLX90621`: 4 pixels.
+      * `fir.FIR_MLX90640`: 24 pixels.
+      * `fir.FIR_AMG8833`: 8 pixels.
 
 .. function:: fir.type()
 
-   Returns the type of the thermopile shield (for future use possibly):
+   Returns the type of the thermopile shield:
 
-      * 0: None
-      * 1: thermopile shield
+      * `fir.FIR_NONE`
+      * `fir.FIR_SHIELD`
+      * `fir.FIR_MLX90620`
+      * `fir.FIR_MLX90621`
+      * `fir.FIR_MLX90640`
+      * `fir.FIR_AMG8833`
 
 .. function:: fir.read_ta()
 
@@ -101,6 +141,14 @@ Functions
    .. note::
 
       ``ir`` is a (width * height) list of floats.
+
+.. function:: fir.refresh()
+
+   Returns the current refresh rate set during `fir.init()` call.
+
+.. function:: fir.resolution()
+
+   Returns the current resolution set during the `fir.init()` call.
 
 .. function:: fir.draw_ta(image, ta, [alpha=128, [scale]])
 
@@ -136,3 +184,46 @@ Functions
    .. note::
 
       For best results look at really cold or hot objects.
+
+.. function:: fir.snapshot([alpha=128, [scale, [pixformat=sensor.RGB565, [copy_to_fb=False]]]])
+
+   Works like `sensor.snapshot()` and returns an `image` object that's either
+   `sensor.GRAYSCALE` (grayscale) or `sensor.RGB565` (color). If ``copy_to_fb`` is False then
+   the new image is allocated on the MicroPython heap. However, the MicroPython heap is limited
+   and may not have space to store the new image if exhausted. Instead, pass ``copy_to_fb`` width
+   True to set the frame buffer to the new image making this function work just like `sensor.snapshot()`.
+
+   ``alpha`` controls the transparency. 256 for an opaque overlay. 0 for none.
+
+   ``scale`` controls the rainbow table color conversion. The first number is
+   the minimum temperature cutoff and the second number is the max. Values
+   closer to the min are blue and values closer to the max are red.
+
+   Returns a tuple containing the new image and the raw floating point IR temperature array in Celsius.
+
+Constants
+---------
+
+.. data:: fir.FIR_NONE
+
+   No FIR sensor type.
+
+.. data:: fir.FIR_SHIELD
+
+   The OpenMV Cam Thermopile Shield Type (MLX90621).
+
+.. data:: fir.FIR_MLX90620
+
+   MLX90620 FIR sensor.
+
+.. data:: fir.FIR_MLX90621
+
+   FIR_MLX90621 FIR sensor.
+
+.. data:: fir.FIR_MLX90640
+
+   FIR_MLX90640 FIR sensor.
+
+.. data:: fir.FIR_AMG8833
+
+   FIR_AMG8833 FIR sensor.

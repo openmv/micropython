@@ -37,11 +37,11 @@ Functions
    ``type`` indicates the type of thermopile shield:
 
       * `fir.FIR_NONE`: 0 pixels.
-      * `fir.FIR_SHIELD`: 16 pixels.
-      * `fir.FIR_MLX90620`: 16 pixels.
-      * `fir.FIR_MLX90621`: 16 pixels.
-      * `fir.FIR_MLX90640`: 32 pixels.
-      * `fir.FIR_AMG8833`: 8 pixels.
+      * `fir.FIR_SHIELD`: 16x4 pixels.
+      * `fir.FIR_MLX90620`: 16x4 pixels.
+      * `fir.FIR_MLX90621`: 16x4 pixels.
+      * `fir.FIR_MLX90640`: 32x24 pixels.
+      * `fir.FIR_AMG8833`: 8x8 pixels.
 
    ``refresh`` is the thermopile sensor power-of-2 refresh rate in Hz:
 
@@ -49,7 +49,7 @@ Functions
       * `fir.FIR_SHIELD`: Defaults to 64 Hz. Can be 1 Hz, 2 Hz, 4 Hz, 8 Hz, 16 Hz, 32 Hz, 64 Hz, 128 Hz, 256 Hz, or 512 Hz. Note that a higher refresh rate lowers the accuracy and vice-versa.
       * `fir.FIR_MLX90620`: Defaults to 64 Hz. Can be 1 Hz, 2 Hz, 4 Hz, 8 Hz, 16 Hz, 32 Hz, 64 Hz, 128 Hz, 256 Hz, or 512 Hz. Note that a higher refresh rate lowers the accuracy and vice-versa.
       * `fir.FIR_MLX90621`: Defaults to 64 Hz. Can be 1 Hz, 2 Hz, 4 Hz, 8 Hz, 16 Hz, 32 Hz, 64 Hz, 128 Hz, 256 Hz, or 512 Hz. Note that a higher refresh rate lowers the accuracy and vice-versa.
-      * `fir.FIR_MLX90640`: Defaults to 64 Hz. Can be 1 Hz, 2 Hz, 4 Hz, 8 Hz, 16 Hz, 32 Hz, or 64 Hz. Note that a higher refresh rate lowers the accuracy and vice-versa.
+      * `fir.FIR_MLX90640`: Defaults to 32 Hz. Can be 1 Hz, 2 Hz, 4 Hz, 8 Hz, 16 Hz, 32 Hz, or 64 Hz. Note that a higher refresh rate lowers the accuracy and vice-versa.
       * `fir.FIR_AMG8833`: 10 Hz
 
    ``resolution`` is the thermopile sensor measurement resolution:
@@ -59,7 +59,7 @@ Functions
       * `fir.FIR_MLX90620`: Defaults to 18-bits. Can be 15-bits, 16-bits, 17-bits, or 18-bits. Note that a higher resolution lowers the maximum temperature range and vice-versa.
       * `fir.FIR_MLX90621`: Defaults to 18-bits. Can be 15-bits, 16-bits, 17-bits, or 18-bits. Note that a higher resolution lowers the maximum temperature range and vice-versa.
       * `fir.FIR_MLX90640`: Defaults to 19-bits. Can be 16-bits, 17-bits, 18-bits, or 19-bits. Note that a higher resolution lowers the maximum temperature range and vice-versa.
-      * `fir.FIR_AMG8833`: 10 Hz
+      * `fir.FIR_AMG8833`: 12-bits.
 
    For the `fir.FIR_SHIELD`, `fir.FIR_MLX90620`, and `fir.FIR_MLX90621`:
 
@@ -116,6 +116,14 @@ Functions
       * `fir.FIR_MLX90640`
       * `fir.FIR_AMG8833`
 
+.. function:: fir.refresh()
+
+   Returns the current refresh rate set during `fir.init()` call.
+
+.. function:: fir.resolution()
+
+   Returns the current resolution set during the `fir.init()` call.
+
 .. function:: fir.read_ta()
 
    Returns the ambient temperature (i.e. sensor temperature).
@@ -141,14 +149,6 @@ Functions
    .. note::
 
       ``ir`` is a (width * height) list of floats.
-
-.. function:: fir.refresh()
-
-   Returns the current refresh rate set during `fir.init()` call.
-
-.. function:: fir.resolution()
-
-   Returns the current resolution set during the `fir.init()` call.
 
 .. function:: fir.draw_ta(image, ta, [alpha=128, [scale]])
 
@@ -190,7 +190,7 @@ Functions
    Works like `sensor.snapshot()` and returns an `image` object that's either
    `sensor.GRAYSCALE` (grayscale) or `sensor.RGB565` (color). If ``copy_to_fb`` is False then
    the new image is allocated on the MicroPython heap. However, the MicroPython heap is limited
-   and may not have space to store the new image if exhausted. Instead, pass ``copy_to_fb`` width
+   and may not have space to store the new image if exhausted. Instead, set ``copy_to_fb`` to
    True to set the frame buffer to the new image making this function work just like `sensor.snapshot()`.
 
    ``alpha`` controls the transparency. 256 for an opaque overlay. 0 for none.

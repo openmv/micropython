@@ -2309,6 +2309,11 @@ Methods
 
    Not supported on compressed images or bayer images.
 
+   Note::
+
+      This method is meant for image blending and cannot multiply the pixels in
+      the image by a scalar like ``2``.
+
 .. method:: image.div(image, [invert=False, [mask=None]])
 
    Divides this image by another one.
@@ -2329,6 +2334,11 @@ Methods
    Returns the image object so you can call another method using ``.`` notation.
 
    Not supported on compressed images or bayer images.
+
+   Note::
+
+      This method is meant for image blending and cannot divide the pixels in
+      the image by a scalar like ``2``.
 
 .. method:: image.min(image, [mask=None])
 

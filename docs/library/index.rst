@@ -279,4 +279,5 @@ the following libraries.
       omv.lcd.rst
       omv.fir.rst
       omv.tv.rst
+      omv.cpufreq.rst
       omv.omv.rst

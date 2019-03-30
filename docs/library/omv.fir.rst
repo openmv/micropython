@@ -132,7 +132,7 @@ Functions
 
       ta = fir.read_ta()
 
-   The value returned is a float that represents the temperature in Celsius.
+   The value returned is a float that represents the temperature in celsius.
 
 .. function:: fir.read_ir()
 
@@ -144,7 +144,7 @@ Functions
 
       ta, ir, to_min, to_max = fir.read_ir()
 
-   The values returned are floats that represent the temperature in Celsius.
+   The values returned are floats that represent the temperature in celsius.
 
    .. note::
 
@@ -153,15 +153,16 @@ Functions
 .. function:: fir.draw_ta(image, ta, [alpha=128, [scale]])
 
    Draws the ambient temperature ``ta`` on the `image` using a rainbow
-   table color conversion.
+   table color conversion. This method colors the whole image by a blue to red
+   overlay depending on the ambient temperature.
 
    ``alpha`` controls the transparency. 256 for an opaque overlay. 0 for none.
 
-   ``scale`` controls the rainbow table color conversion. The first number is
-   the minimum temperature cutoff and the second number is the max. Values
+   ``scale`` is a two value tuple which controls the rainbow table color conversion. The first number is
+   the minimum temperature in celsius cutoff and the second number is the max. Values
    closer to the min are blue and values closer to the max are red.
 
-   The default ``scale`` is (-17.7778C, 37.7778C) corresponds to (0F, 100F).
+   The default ``scale`` is (-17.7778C, 37.7778C) which corresponds to (0F, 100F).
 
    .. note::
 
@@ -170,12 +171,13 @@ Functions
 .. function:: fir.draw_ir(image, ir, [alpha=128, [scale]])
 
    Draws the temperature list ``ir`` on the `image` using a rainbow
-   table color conversion.
+   table color conversion. This method auotmatically handles scaling the IR data
+   to the right resolution and applies a centering offset to overlay on the image.
 
    ``alpha`` controls the transparency. 256 for an opaque overlay. 0 for none.
 
-   ``scale`` controls the rainbow table color conversion. The first number is
-   the minimum temperature cutoff and the second number is the max. Values
+   ``scale`` is a two value tuple which controls the rainbow table color conversion. The first number is
+   the minimum temperature in celsius cutoff and the second number is the max. Values
    closer to the min are blue and values closer to the max are red.
 
    The minimum and maximum values in the temperature list are used to scale
@@ -193,13 +195,29 @@ Functions
    and may not have space to store the new image if exhausted. Instead, set ``copy_to_fb`` to
    True to set the frame buffer to the new image making this function work just like `sensor.snapshot()`.
 
+   ``copy_to_fb`` may also be another image object if you want to replace that image object's memory
+   buffer, type, width, and height with new image data.
+
+   .. note::
+
+      Any use of ``copy_to_fb`` invalidates the previous image object it overwrites. Do not use
+      any references to previous image objects anymore it overwrites. Either for an image object
+      referencing the frame buffer, frame buffer stack, or an image on the MicroPython heap.
+
    ``alpha`` controls the transparency. 256 for an opaque overlay. 0 for none.
 
-   ``scale`` controls the rainbow table color conversion. The first number is
-   the minimum temperature cutoff and the second number is the max. Values
+   ``scale`` is a two value tuple which controls the rainbow table color conversion. The first number is
+   the minimum temperature in celsius cutoff and the second number is the max. Values
    closer to the min are blue and values closer to the max are red.
 
-   Returns a tuple containing the new image and the raw floating point IR temperature array in Celsius.
+   The minimum and maximum values in the temperature list are used to scale
+   the output `image` automatically unless explicitly overridden using scale.
+
+   Returns a tuple containing the new image and the raw floating point IR temperature array in celsius.
+
+   .. note::
+
+      For best results look at really cold or hot objects.
 
 Constants
 ---------

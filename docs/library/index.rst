@@ -278,4 +278,5 @@ the following libraries.
       omv.mjpeg.rst
       omv.lcd.rst
       omv.fir.rst
+      omv.tv.rst
       omv.omv.rst

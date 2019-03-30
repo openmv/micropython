@@ -75,7 +75,7 @@ GPIO Pinout:
 * Pin('P6') -> P6 (PA5)
 * Pin('P7') -> P7 (PD12)
 * Pin('P8') -> P8 (PD13)
-* Pin('P9') -> P9 (PD14) (OpenMV Cam M7 Only)
+* Pin('P9') -> P9 (PD14) (OpenMV Cam M7/H7 Only)
 
 All pins are 5V tolerant with a 3.3V output (P6 is not 5V tolerant in ADC or DAC mode).
 
@@ -97,7 +97,7 @@ Servo Pinout:
 
 * Servo(1) -> P7 (PD12)
 * Servo(2) -> P8 (PD13)
-* Servo(3) -> P9 (PD14) (OpenMV Cam M7 Only)
+* Servo(3) -> P9 (PD14) (OpenMV Cam M7/H7 Only)
 
 External interrupts
 -------------------
@@ -120,7 +120,7 @@ GPIO Pinout:
 * Pin('P6') -> P6 (PA5)
 * Pin('P7') -> P7 (PD12)
 * Pin('P8') -> P8 (PD13)
-* Pin('P9') -> P9 (PD14) (OpenMV Cam M7 Only)
+* Pin('P9') -> P9 (PD14) (OpenMV Cam M7/H7 Only)
 
 Timers
 ------
@@ -144,7 +144,7 @@ Timer Pinout:
 * Timer 2 Channel 1 Positive -> P6 (PA5)
 * Timer 4 Channel 1 Negative -> P7 (PD12)
 * Timer 4 Channel 2 Negative -> P8 (PD13)
-* Timer 4 Channel 3 Positive -> P9 (PD14) (OpenMV Cam M7 Only)
+* Timer 4 Channel 3 Positive -> P9 (PD14) (OpenMV Cam M7/H7 Only)
 
 PWM (pulse width modulation)
 ----------------------------
@@ -168,7 +168,7 @@ Timer Pinout:
 * Timer 2 Channel 1 Positive -> P6 (PA5)
 * Timer 4 Channel 1 Negative -> P7 (PD12)
 * Timer 4 Channel 2 Negative -> P8 (PD13)
-* Timer 4 Channel 3 Positive -> P9 (PD14) (OpenMV Cam M7 Only)
+* Timer 4 Channel 3 Positive -> P9 (PD14) (OpenMV Cam M7/H7 Only)
 
 ADC (analog to digital conversion)
 ----------------------------------
@@ -217,8 +217,8 @@ UART Pinout:
 
 * UART 3 RX -> P5 (PB11)
 * UART 3 TX -> P4 (PB10)
-* UART 1 RX -> P0 (PB15) (OpenMV Cam M7 Only)
-* UART 1 TX -> P1 (PB14) (OpenMV Cam M7 Only)
+* UART 1 RX -> P0 (PB15) (OpenMV Cam M7/H7 Only)
+* UART 1 TX -> P1 (PB14) (OpenMV Cam M7/H7 Only)
 
 SPI bus
 -------
@@ -227,7 +227,7 @@ See :ref:`pyb.SPI <pyb.SPI>`. ::
 
     from pyb import SPI
 
-    spi = SPI(2, SPI.MASTER, baudrate=200000, polarity=1, phase=0)
+    spi = SPI(2, SPI.MASTER, baudrate=1000000, polarity=1, phase=0)
     spi.send('hello')
     spi.recv(5) # receive 5 bytes on the bus
     spi.send_recv('hello') # send a receive 5 bytes
@@ -257,5 +257,5 @@ I2C Pinout:
 
 * I2C 2 SCL (Serial Clock) -> P4 (PB10)
 * I2C 2 SDA (Serial Data)  -> P5 (PB11)
-* I2C 4 SCL (Serial Clock) -> P7 (PD13) (OpenMV Cam M7 Only)
-* I2C 4 SDA (Serial Data)  -> P8 (PD12) (OpenMV Cam M7 Only)
+* I2C 4 SCL (Serial Clock) -> P7 (PD13) (OpenMV Cam M7/H7 Only)
+* I2C 4 SDA (Serial Data)  -> P8 (PD12) (OpenMV Cam M7/H7 Only)

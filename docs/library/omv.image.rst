@@ -1900,13 +1900,13 @@ Methods
       Bitmap images are like grayscale images with only two pixels values - 0
       and 1. Additionally, bitmap images are packed such that they only store
       1 bit per pixel making them very small. The OpenMV image library allows
-      bitmap images to be used in all places `GRAYSCALE` and `RGB565` images
+      bitmap images to be used in all places `sensor.GRAYSCALE` and `sensor.RGB565` images
       can be used. However, many operations when applied on bitmap images don't
       make any sense becuase bitmap images only have 2 values. OpenMV recommends
       using bitmap images for ``mask`` values in operations and such as they
       fit on the MicroPython heap quite easily. Finally, bitmap image pixel values
-      0 and 1 are interpreted as black and white when being applied to `GRAYSCALE`
-      or `RGB565` images. The library automatically handles conversion.
+      0 and 1 are interpreted as black and white when being applied to `sensor.GRAYSCALE`
+      or `sensor.RGB565` images. The library automatically handles conversion.
 
    Returns the image object so you can call another method using ``.`` notation.
 
@@ -2054,7 +2054,7 @@ Methods
 
 .. method:: image.crop([roi, [x_scale, [y_scale, [copy_to_fb=False]]]])
 
-   Like ``image.copy() but operates on the image object instead of making a
+   Like ``image.copy()`` but operates on the image object instead of making a
    deep copy.
 
    ``roi`` is the region-of-interest rectangle (x, y, w, h) to copy from.
@@ -2092,7 +2092,7 @@ Methods
 
 .. method:: image.scale([roi, [x_scale, [y_scale, [copy_to_fb=False]]]])
 
-   Like ``image.copy() but operates on the image object instead of making a
+   Like ``image.copy()`` but operates on the image object instead of making a
    deep copy.
 
    ``roi`` is the region-of-interest rectangle (x, y, w, h) to copy from.
@@ -2483,13 +2483,13 @@ Methods
       Bitmap images are like grayscale images with only two pixels values - 0
       and 1. Additionally, bitmap images are packed such that they only store
       1 bit per pixel making them very small. The OpenMV image library allows
-      bitmap images to be used in all places `GRAYSCALE` and `RGB565` images
+      bitmap images to be used in all places `sensor.GRAYSCALE` and `sensor.RGB565` images
       can be used. However, many operations when applied on bitmap images don't
       make any sense becuase bitmap images only have 2 values. OpenMV recommends
       using bitmap images for ``mask`` values in operations and such as they
       fit on the MicroPython heap quite easily. Finally, bitmap image pixel values
-      0 and 1 are interpreted as black and white when being applied to `GRAYSCALE`
-      or `RGB565` images. The library automatically handles conversion.
+      0 and 1 are interpreted as black and white when being applied to `sensor.GRAYSCALE`
+      or `sensor.RGB565` images. The library automatically handles conversion.
 
    Returns the image object so you can call another method using ``.`` notation.
 

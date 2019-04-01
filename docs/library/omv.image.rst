@@ -2900,7 +2900,7 @@ Methods
 
 .. method:: image.max(image, [mask=None])
 
-   Returns the minimum image of two images pixel-wise.
+   Returns the maximum image of two images pixel-wise.
 
    ``image`` can either be an image object, a path to an uncompressed image
    file (bmp/pgm/ppm), or a scalar value. If a scalar value the value can

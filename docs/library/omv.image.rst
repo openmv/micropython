@@ -9,41 +9,191 @@ The ``image`` module is used for machine vision.
 Functions
 ---------
 
-.. function:: image.rgb_to_lab(rgb_tuple)
+.. function:: image.binary_to_grayscale(binary_image_value)
 
-   Returns the LAB tuple (l, a, b) for the RGB888 ``rgb_tuple`` (r, g, b).
+   Returns a converted binary value (0-1) to a grayscale value (0-255).
+
+.. function:: image.binary_to_rgb(binary_image_value)
+
+   Returns a converted binary value (0-1) to a 3 value RGB888 tuple.
+
+.. function:: image.binary_to_lab(binary_image_value)
+
+   Returns a converted binary value (0-1) to a 3 value LAB tuple.
+
+   L goes between 0 and 100 and A/B go from -128 to 128.
+
+.. function:: image.binary_to_yuv(binary_image_value)
+
+   Returns a converted binary value (0-1) to a 3 value YUV tuple.
+
+   Y goes between 0 and 255 and U/V go from -128 to 128.
+
+.. function:: image.grayscale_to_binary(grayscale_value)
+
+   Returns a converted grayscale value (0-255) to a binary value (0-1).
+
+.. function:: image.grayscale_to_rgb(grayscale_value)
+
+   Returns a converted grayscale value to a 3 value RGB888 tuple.
 
    .. note::
 
-      RGB888 means 8-bits (0-255) for red, green, and blue. For LAB, L
-      goes from 0-100 and a/b go from -128 to 127.
+      The OpenMV Cam firmware does the conversion using a RGB565->RGB888 process
+      so this method won't return the exact values as a pure RGB888 system would.
+      However, it's true to how the image lib works internally.
 
-.. function:: image.lab_to_rgb(lab_tuple)
+.. function:: image.grayscale_to_lab(grayscale_value)
 
-   Returns the RGB888 tuple (r, g, b) for the LAB ``lab_tuple`` (l, a, b).
+   Returns a converted grayscale value to a 3 value LAB tuple.
+
+   L goes between 0 and 100 and A/B go from -128 to 128.
 
    .. note::
 
-      RGB888 means 8-bits (0-255) for red, green, and blue. For LAB, L
-      goes from 0-100 and a/b go from -128 to 127.
+      The OpenMV Cam firmware does the conversion using a RGB565->LAB process
+      so this method won't return the exact values as a pure LAB system would.
+      However, it's true to how the image lib works internally.
+
+.. function:: image.grayscale_to_yuv(grayscale_value)
+
+   Returns a converted grayscale value to a 3 value YUV tuple.
+
+   Y goes between 0 and 255 and U/V go from -128 to 128.
+
+   .. note::
+
+      The OpenMV Cam firmware does the conversion using a RGB565->YUV process
+      so this method won't return the exact values as a pure YUV system would.
+      However, it's true to how the image lib works internally.
+
+.. function:: image.rgb_to_binary(rgb_tuple)
+
+   Returns a converted 3 value RGB888 tuple to a center range thresholded binary value (0-1).
+
+   .. note::
+
+      The OpenMV Cam firmware does the conversion using a RGB888->RGB565 process
+      so this method won't return the exact values as a pure RGB888 system would.
+      However, it's true to how the image lib works internally.
 
 .. function:: image.rgb_to_grayscale(rgb_tuple)
 
-   Returns the grayscale value for the RGB888 ``rgb_tuple`` (r, g, b).
+   Returns a converted 3 value RGB888 tuple to a grayscale value (0-255).
 
    .. note::
 
-      RGB888 means 8-bits (0-255) for red, green, and blue. The grayscale
-      values goes between 0-255.
+      The OpenMV Cam firmware does the conversion using a RGB888->RGB565 process
+      so this method won't return the exact values as a pure RGB888 system would.
+      However, it's true to how the image lib works internally.
 
-.. function:: image.grayscale_to_rgb(g_value)
+.. function:: image.rgb_to_lab(rgb_tuple)
 
-   Returns the RGB888 tuple (r, a, b) for the grayscale ``g_value``.
+   Returns a converted 3 value RGB888 tuple to a 3 value LAB tuple.
+
+   L goes between 0 and 100 and A/B go from -128 to 128.
 
    .. note::
 
-       RGB888 means 8-bits (0-255) for red, green, and blue. The grayscale
-       values goes between 0-255.
+      The OpenMV Cam firmware does the conversion using a RGB888->RGB565 process
+      so this method won't return the exact values as a pure RGB888 system would.
+      However, it's true to how the image lib works internally.
+
+.. function:: image.rgb_to_yuv(rgb_tuple)
+
+   Returns a converted 3 value RGB888 tuple to a 3 value YUV tuple.
+
+   Y goes between 0 and 255 and U/V go from -128 to 128.
+
+   .. note::
+
+      The OpenMV Cam firmware does the conversion using a RGB888->RGB565 process
+      so this method won't return the exact values as a pure RGB888 system would.
+      However, it's true to how the image lib works internally.
+
+.. function:: image.lab_to_binary(lab_tuple)
+
+   Returns a converted 3 value LAB tuple to a center range thresholded binary value (0-1).
+
+   .. note::
+
+      The OpenMV Cam firmware does the conversion using a LAB->RGB565 process
+      so this method won't return the exact values as a pure LAB system would.
+      However, it's true to how the image lib works internally.
+
+.. function:: image.lab_to_grayscale(lab_tuple)
+
+   Returns a converted 3 value LAB tuple to a grayscale value (0-255).
+
+   .. note::
+
+      The OpenMV Cam firmware does the conversion using a LAB->RGB565 process
+      so this method won't return the exact values as a pure LAB system would.
+      However, it's true to how the image lib works internally.
+
+.. function:: image.lab_to_rgb(lab_tuple)
+
+   Returns a converted 3 value LAB tuple to a 3 value RGB888 tuple.
+
+   .. note::
+
+      The OpenMV Cam firmware does the conversion using a LAB->RGB565 process
+      so this method won't return the exact values as a pure LAB system would.
+      However, it's true to how the image lib works internally.
+
+.. function:: image.lab_to_yuv(lab_tuple)
+
+   Returns a converted 3 value LAB tuple to a 3 value YUV tuple.
+
+   Y goes between 0 and 255 and U/V go from -128 to 128.
+
+   .. note::
+
+      The OpenMV Cam firmware does the conversion using a LAB->RGB565 process
+      so this method won't return the exact values as a pure LAB system would.
+      However, it's true to how the image lib works internally.
+
+.. function:: image.yuv_to_binary(yuv_tuple)
+
+   Returns a converted 3 value YUV tuple to a center range thresholded binary value (0-1).
+
+   .. note::
+
+      The OpenMV Cam firmware does the conversion using a YUV->RGB565 process
+      so this method won't return the exact values as a pure YUV system would.
+      However, it's true to how the image lib works internally.
+
+.. function:: image.yuv_to_grayscale(yuv_tuple)
+
+   Returns a converted 3 value YUV tuple to a grayscale value (0-255).
+
+   .. note::
+
+      The OpenMV Cam firmware does the conversion using a YUV->RGB565 process
+      so this method won't return the exact values as a pure YUV system would.
+      However, it's true to how the image lib works internally.
+
+.. function:: image.yuv_to_rgb(lab_tuple)
+
+   Returns a converted 3 value YUV tuple to a 3 value RGB888 tuple.
+
+   .. note::
+
+      The OpenMV Cam firmware does the conversion using a YUV->RGB565 process
+      so this method won't return the exact values as a pure YUV system would.
+      However, it's true to how the image lib works internally.
+
+.. function:: image.yuv_to_lab(yuv_tuple)
+
+   Returns a converted 3 value YUV tuple to a 3 value LAB tuple.
+
+   L goes between 0 and 100 and A/B go from -128 to 128.
+
+   .. note::
+
+      The OpenMV Cam firmware does the conversion using a YUV->RGB565 process
+      so this method won't return the exact values as a pure YUV system would.
+      However, it's true to how the image lib works internally.
 
 .. function:: image.load_decriptor(path)
 
@@ -565,6 +715,17 @@ Constructors
 Methods
 -------
 
+.. method:: blob.corners()
+
+   Returns a list of 4 (x,y) tuples of the 4 corners of the object. Corners are
+   always returned in sorted clock-wise order starting from the top left.
+
+.. method:: blob.min_corners()
+
+   Returns a list of 4 (x,y) tuples of the 4 corners than bound the min area
+   rectangle of the blob. Unlike `blob.corners()` the min area rectangle corners
+   do not necessarily lie on the blob.
+
 .. method:: blob.rect()
 
    Returns a rectangle tuple (x, y, w, h) for use with other `image` methods
@@ -606,24 +767,40 @@ Methods
 
    You may also get this value doing ``[5]`` on the object.
 
+.. method:: blob.cxf()
+
+   Returns the centroid x position of the blob (float).
+
 .. method:: blob.cy()
 
    Returns the centroid y position of the blob (int).
 
    You may also get this value doing ``[6]`` on the object.
 
+.. method:: blob.cyf()
+
+   Returns the centroid y position of the blob (float).
+
 .. method:: blob.rotation()
 
    Returns the rotation of the blob in radians (float). If the blob is like
    a pencil or pen this value will be unique for 0-180 degrees. If the blob
-   is round this value is not useful. You'll only be able to get 0-360 degrees
-   of rotation from this if the blob has no symmetry at all.
+   is round this value is not useful.
 
    You may also get this value doing ``[7]`` on the object.
 
+.. method:: blob.rotation_deg()
+
+   Returns the rotation of the blob in degrees.
+
+.. method:: blob.rotation_rad()
+
+   Returns the rotation of the blob in radians. This method is more descriptive
+   than just `blob.rotation()`.
+
 .. method:: blob.code()
 
-   Returns a 16-bit binary number with a bit set in it for each color threshold
+   Returns a 32-bit binary number with a bit set in it for each color threshold
    that's part of this blob. For example, if you passed `image.find_blobs()`
    three color thresholds to look for then bits 0/1/2 may be set for this blob.
    Note that only one bit will be set for each blob unless `image.find_blobs()`
@@ -635,10 +812,22 @@ Methods
 
 .. method:: blob.count()
 
-   Returns the number of blobs merged into this blob. THis is 1 unless you
+   Returns the number of blobs merged into this blob. This is 1 unless you
    called `image.find_blobs()` with ``merge=True``.
 
    You may also get this value doing ``[9]`` on the object.
+
+.. method:: blob.perimeter()
+
+   Returns the number of pixels on this blob's perimeter.
+
+.. method:: blob.roundness()
+
+   Returns a value between 0 and 1 representing how round the object is. A circle would be a 1.
+
+.. method:: blob.elongation()
+
+   Returns a value between 0 and 1 representing how long (not round) the object is. A line would be a 1.
 
 .. method:: blob.area()
 
@@ -648,7 +837,55 @@ Methods
 
    Returns the density ratio of the blob. This is the number of pixels in the
    blob over its bounding box area. A low density ratio means in general that
-   the lock on the object isn't very good.
+   the lock on the object isn't very good. The result is between 0 and 1.
+
+.. method:: blob.extent()
+
+   Alias for `blob.density()`.
+
+.. method:: blob.compactness()
+
+   Like `blob.density()`, but, uses the perimeter of the blob instead to measure
+   the objects density and is thus more accurate. The result is between 0 and 1.
+
+.. method:: blob.solidity()
+
+   Like `blob.density()` but, uses the minimum area rotated rectangle versus the
+   bounding rectangle to measure density. The result is between 0 and 1.
+
+.. method:: blob.convexity()
+
+   Returns a value between 0 and 1 representing how convex the object is. A square would be 1.
+
+.. method:: blob.x_hist_bins()
+
+   Returns a histogram of the x axis of all columns in a blob. Bin values are
+   scaled between 0 and 1.
+
+.. method:: blob.y_hist_bins()
+
+   Returns a histogram of the y axis of all the rows in a blob. Bin values are
+   scaled between 0 and 1.
+
+.. method:: blob.major_axis_line()
+
+   Returns a line tuple (x1, y1, x2, y2) that can be drawn with `image.draw_line()` of the major
+   axis of the blob (the line going through the longest side of the min area rectangle).
+
+.. method:: blob.minor_axis_line()
+
+   Returns a line tuple (x1, y1, x2, y2) that can be drawn with `image.draw_line()` of the minor
+   axis of the blob (the line going through the shortest side of the min area rectangle).
+
+.. method:: blob.enclosing_circle()
+
+   Returns a circle tuple (x, y, r) that can be drawn with `image.draw_circle()` of
+   the circle that encloses the min area rectangle of a blob.
+
+.. method:: blob.enclosed_ellipse()
+
+   Returns an ellipse tuple (x, y, rx, ry, rotation) that can be drawn with `image.draw_ellipse()`
+   of the ellipse that fits inside of the min area rectangle of a blob.
 
 class Line -- Line object
 =========================
@@ -1471,6 +1708,17 @@ Methods
    image from the stream is read playback will start from the beginning again.
    Otherwise, this method will return None after all frames have been read.
 
+   You may also set ``copy_to_fb`` equal to another image object and that
+   buffer will then be overwritten with the copied image changing the passed
+   image object's pixel format and resolution.
+
+   .. note::
+
+      If ``copy_to_fb`` is set to True or another image object do not continue
+      using the old image object passed to this method or the frame buffer
+      image object. Use the new returned image object reference from this
+      method as the old references are now stale.
+
    Note that `imagereader.next_frame()` tries to limit playback speed by pausing
    after reading frames to match the speed frames were recorded at. Otherwise
    this method would zoom through all images at 200+ FPS.
@@ -1491,7 +1739,9 @@ Constructors
 
 .. class:: image.Image(path, [copy_to_fb=False])
 
-   Creates a new image object from a file at ``path``.
+   Creates a new image object from a file at ``path``. Alternatively, you may
+   pass a width, height, and either `sensor.BINARY`, `sensor.GRAYSCALE`, or
+   `sensor.RGB565` to create new blank image object (initialized to 0 - black).
 
    Supports bmp/pgm/ppm/jpg/jpeg image files.
 
@@ -1499,15 +1749,16 @@ Constructors
    allowing you to load up large images. If False, the image is loaded into
    MicroPython's heap which is much smaller than the frame buffer.
 
-      *
-        On the OpenMV Cam M4 you should try to keep images sizes less than
-        8KB in size if ``copy_to_fb`` is False. Otherwise, images can be
-        up to 160KB in size.
+   You may also set ``copy_to_fb`` equal to another image object and that
+   buffer will then be overwritten with the copied image changing the passed
+   image object's pixel format and resolution.
 
-      *
-        On the OpenMV Cam M7 you should try to keep images sizes less than
-        16KB in size if ``copy_to_fb`` is False. Otherwise, images can be
-        up to 320KB in size.
+   .. note::
+
+      If ``copy_to_fb`` is set to True or another image object do not continue
+      using the old image object passed to this method or the frame buffer
+      image object. Use the new returned image object reference from this
+      method as the old references are now stale.
 
    Images support "[]" notation. Do ``image[index] = 8/16-bit value`` to assign
    an image pixel or ``image[index]`` to get an image pixel which will be
@@ -1633,40 +1884,64 @@ Methods
 
    Not supported on compressed images or bayer images.
 
-.. method:: image.to_bitmap([copy=False])
+.. method:: image.to_bitmap([copy=False, [rgb_channel=-1]])
 
    Converts an image to a bitmap image (1 bit per pixel). This method modifies
    the underlying image pixels changing the image size in bytes too so it can
    only be done in place on a Grayscale or an RGB565 image. Otherwise ``copy``
    must be True to create a new modified image on the heap.
 
+   ``rgb_channel`` if set to 0/1/2 creates a bitmap from either the R/G/B channel
+   respectively versus the center thresholded grayscale value computed from an
+   RGB565 pixel if this method was called on an RGB565 image.
+
+   .. note::
+
+      Bitmap images are like grayscale images with only two pixels values - 0
+      and 1. Additionally, bitmap images are packed such that they only store
+      1 bit per pixel making them very small. The OpenMV image library allows
+      bitmap images to be used in all places `GRAYSCALE` and `RGB565` images
+      can be used. However, many operations when applied on bitmap images don't
+      make any sense becuase bitmap images only have 2 values. OpenMV recommends
+      using bitmap images for ``mask`` values in operations and such as they
+      fit on the MicroPython heap quite easily. Finally, bitmap image pixel values
+      0 and 1 are interpreted as black and white when being applied to `GRAYSCALE`
+      or `RGB565` images. The library automatically handles conversion.
+
    Returns the image object so you can call another method using ``.`` notation.
 
    Not supported on compressed images or bayer images.
 
-.. method:: image.to_grayscale([copy=False])
+.. method:: image.to_grayscale([copy=False, [rgb_channel=-1]])
 
    Converts an image to a grayscale image. This method modifies the underlying
    image pixels changing the image size in bytes too so it can only be done
    in place on a Grayscale or an RGB565 image. Otherwise ``copy`` must be True
    to create a new modified image on the heap.
 
+   ``rgb_channel`` if set to 0/1/2 creates a grayscale image from either the
+   R/G/B channel respectively versus the grayscale value computed from an
+   RGB565 pixel if this method was called on an RGB565 image.
+
    Returns the image object so you can call another method using ``.`` notation.
 
    Not supported on compressed images or bayer images.
 
-.. method:: image.to_rgb565([copy=False])
+.. method:: image.to_rgb565([copy=False, [rgb_channel=-1]])
 
    Converts an image to an RGB565 image. This method modifies the underlying
    image pixels changing the image size in bytes too so it can only be done
    in place on an RGB565 image. Otherwise ``copy`` must be True to
    create a new modified image on the heap.
 
+   ``rgb_channel`` if set to 0/1/2 creates a RGB565 image from either the
+   R/G/B channel respectively if this method was called on an RGB565 image.
+
    Returns the image object so you can call another method using ``.`` notation.
 
    Not supported on compressed images or bayer images.
 
-.. method:: image.to_rainbow([copy=False])
+.. method:: image.to_rainbow([copy=False, [rgb_channel=-1, [color_palette=sensor.PALETTE_RAINBOW]]])
 
    Converts an image to a rainbow image. This method modifies the underlying
    image pixels changing the image size in bytes too so it can only be done
@@ -1676,6 +1951,11 @@ Methods
    A rainbow image is a color image with a unique color value for each 8-bitmask
    grayscale lighting value in an image. For example, it provides heat-map color
    to a thermal-image.
+
+   ``rgb_channel`` if set to 0/1/2 creates a rainbow image from either the
+   R/G/B channel respectively if this method was called on an RGB565 image.
+
+   ``color_palette`` sets the color palette to use for rainbow conversion.
 
    Returns the image object so you can call another method using ``.`` notation.
 
@@ -1735,7 +2015,7 @@ Methods
 
    ``quality`` is the compression quality (0-100) (int).
 
-.. method:: image.copy([roi, [copy_to_fb=False]])
+.. method:: image.copy([roi, [x_scale, [y_scale, [copy_to_fb=False]]]])
 
    Creates a deep copy of the image object.
 
@@ -1743,15 +2023,110 @@ Methods
    If not specified, it is equal to the image rectangle which copies the entire
    image. This argument is not applicable for JPEG images.
 
+   ``x_scale`` is a floating point value by which to scale the image in the x
+   direction.
+
+   ``y_scale`` is a floating point value by which to scale the image in the y
+   direction.
+
    Keep in mind that image copies are stored in the MicroPython heap and not
-   the frame buffer. As such, you need to keep image copies under 8KB for the
-   OpenMV Cam M4 and 16KB for the OpenMV Cam M7. If you attempt a copy
-   operation that uses up all the heap space this function will throw an
-   exception. Since images are large this is rather easy to trigger.
+   the frame buffer. As such, copying images can easily cause you to run out
+   of RAM.
 
    If ``copy_to_fb`` is True then this method instead replaces the frame
    buffer with the image. The frame buffer has a lot more space than the heap
    and can hold large images.
+
+   You may also set ``copy_to_fb`` equal to another image object and that
+   buffer will then be overwritten with the copied image changing the passed
+   image object's pixel format and resolution.
+
+   .. note::
+
+      If ``copy_to_fb`` is set to True or another image object do not continue
+      using the old image object passed to this method or the frame buffer
+      image object. Use the new returned image object reference from this
+      method as the old references are now stale.
+
+   Returns the new image object.
+
+   Not supported on compressed images or bayer images.
+
+.. method:: image.crop([roi, [x_scale, [y_scale, [copy_to_fb=False]]]])
+
+   Like ``image.copy() but operates on the image object instead of making a
+   deep copy.
+
+   ``roi`` is the region-of-interest rectangle (x, y, w, h) to copy from.
+   If not specified, it is equal to the image rectangle which copies the entire
+   image. This argument is not applicable for JPEG images.
+
+   ``x_scale`` is a floating point value by which to scale the image in the x
+   direction.
+
+   ``y_scale`` is a floating point value by which to scale the image in the y
+   direction.
+
+   Keep in mind that image copies are stored in the MicroPython heap and not
+   the frame buffer. As such, copying images can easily cause you to run out
+   of RAM.
+
+   If ``copy_to_fb`` is True then this method instead replaces the frame
+   buffer with the image. The frame buffer has a lot more space than the heap
+   and can hold large images.
+
+   You may also set ``copy_to_fb`` equal to another image object and that
+   buffer will then be overwritten with the copied image changing the passed
+   image object's pixel format and resolution.
+
+   .. note::
+
+      If ``copy_to_fb`` is set to True or another image object do not continue
+      using the old image object passed to this method or the frame buffer
+      image object. Use the new returned image object reference from this
+      method as the old references are now stale.
+
+   Returns the image object so you can call another method using ``.`` notation.
+
+   Not supported on compressed images or bayer images.
+
+.. method:: image.scale([roi, [x_scale, [y_scale, [copy_to_fb=False]]]])
+
+   Like ``image.copy() but operates on the image object instead of making a
+   deep copy.
+
+   ``roi`` is the region-of-interest rectangle (x, y, w, h) to copy from.
+   If not specified, it is equal to the image rectangle which copies the entire
+   image. This argument is not applicable for JPEG images.
+
+   ``x_scale`` is a floating point value by which to scale the image in the x
+   direction.
+
+   ``y_scale`` is a floating point value by which to scale the image in the y
+   direction.
+
+   Keep in mind that image copies are stored in the MicroPython heap and not
+   the frame buffer. As such, copying images can easily cause you to run out
+   of RAM.
+
+   If ``copy_to_fb`` is True then this method instead replaces the frame
+   buffer with the image. The frame buffer has a lot more space than the heap
+   and can hold large images.
+
+   You may also set ``copy_to_fb`` equal to another image object and that
+   buffer will then be overwritten with the copied image changing the passed
+   image object's pixel format and resolution.
+
+   .. note::
+
+      If ``copy_to_fb`` is set to True or another image object do not continue
+      using the old image object passed to this method or the frame buffer
+      image object. Use the new returned image object reference from this
+      method as the old references are now stale.
+
+   Returns the image object so you can call another method using ``.`` notation.
+
+   Not supported on compressed images or bayer images.
 
 .. method:: image.save(path, [roi, [quality=50]])
 
@@ -1769,9 +2144,14 @@ Methods
 
    Returns the image object so you can call another method using ``.`` notation.
 
-.. method:: image.clear()
+.. method:: image.clear([mask])
 
    Sets all pixels in the image to zero (very fast).
+
+   ``mask`` is another image to use as a pixel level mask for the operation.
+   The mask should be an image with just black or white pixels and should be the
+   same size as the image being operated on. Only pixels set in the mask are
+   modified.
 
    Returns the image object so you can call another method using ``.`` notation.
 
@@ -1826,7 +2206,24 @@ Methods
 
    Not supported on compressed images or bayer images.
 
-.. method:: image.draw_string(x, y, text, [color, [scale=1, [x_spacing=0, [y_spacing=0, [mono_space=True]]]]])
+.. method:: image.draw_ellipse(cx, cy, rx, ry, rotation, [color, [thickness=1, [fill=False]]])
+
+   Draws an ellipse on the image. You may either pass cx, cy, rx, ry, and the
+   rotation (in degrees) separately or as a tuple (cx, yc, rx, ry, rotation).
+
+   ``color`` is an RGB888 tuple for Grayscale or RGB565 images. Defaults to
+   white. However, you may also pass the underlying pixel value (0-255) for
+   grayscale images or a byte-reversed RGB565 value for RGB565 images.
+
+   ``thickness`` controls how thick the edges are in pixels.
+
+   Pass ``fill`` set to True to fill the ellipse.
+
+   Returns the image object so you can call another method using ``.`` notation.
+
+   Not supported on compressed images or bayer images.
+
+.. method:: image.draw_string(x, y, text, [color, [scale=1, [x_spacing=0, [y_spacing=0, [mono_space=True, [char_rotation=0, [char_hmirror=False, [char_vflip=False, [string_rotation=0, [string_hmirror=False, [string_vflip=False]]]]]]]]]]])
 
    Draws 8x10 text starting at location (x, y) in the image. You may either pass
    x, y separately or as a tuple (x, y).
@@ -1838,8 +2235,8 @@ Methods
    white. However, you may also pass the underlying pixel value (0-255) for
    grayscale images or a byte-reversed RGB565 value for RGB565 images.
 
-   ``scale`` may be increased to increase the size of the text on the image.
-   Integer values only (e.g. 1/2/3/etc.).
+   ``scale`` may be increased to increase/decrease the size of the text on the
+   image. You can pass greater than 0 integer or floating point values.
 
    ``x_spacing`` allows you to add (if positive) or subtract (if negative) x
    pixels between cahracters.
@@ -1850,6 +2247,20 @@ Methods
    ``mono_space`` defaults to True which forces text to be fixed spaced. For
    large text scales this looks terrible. Set the False to get non-fixed width
    character spacing which looks A LOT better.
+
+   ``char_rotation`` may be 0, 90, 180, 270 to rotate each character in the
+   string by this amount.
+
+   ``char_hmirror`` if True horizontally mirrors all characters in the string.
+
+   ``char_vflip`` if True vertically flips all characters in the string.
+
+   ``string_rotation`` may be 0, 90, 180, 270 to rotate the string by this
+   amount.
+
+   ``string_hmirror`` if True horizontally mirrors the string.
+
+   ``string_vflip`` if True vertically flips the string.
 
    Returns the image object so you can call another method using ``.`` notation.
 
@@ -1887,14 +2298,46 @@ Methods
 
    Not supported on compressed images or bayer images.
 
-.. method:: image.draw_image(image, x, y, [x_scale=1.0, [y_scale=1.0, [mask=None]]])
+.. method:: image.draw_edges(image, corners, [color, [size=0, [thickness=1, [fill=False]]]])
+
+   Draws line edges between a corner list returned by methods like `blob.corners`. Coners is
+   a four valued tuple of two valued x/y tuples. E.g. [(x1,y1),(x2,y2),(x3,y3),(x4,y4)].
+
+   ``color`` is an RGB888 tuple for Grayscale or RGB565 images. Defaults to
+   white. However, you may also pass the underlying pixel value (0-255) for
+   grayscale images or a byte-reversed RGB565 value for RGB565 images.
+
+   ``size`` if greater than 0 causes the corners to be drawn as circles of radius ``size``.
+
+   ``thickness`` controls how thick the line is in pixels.
+
+   Pass ``fill`` set to True to fill the corner circles if drawn.
+
+   Returns the image object so you can call another method using ``.`` notation.
+
+   Not supported on compressed images or bayer images.
+
+.. method:: image.draw_image(image, x, y, [x_scale=1.0, [y_scale=1.0, [alpha=256, [mask=None]]]])
 
    Draws an ``image`` whose top-left corner starts at location x, y. You may either
-   pass x, y separately or as a tuple (x, y).
+   pass x, y separately or as a tuple (x, y). This method ia very flexible and does
+   not require the image being drawn on the target image to have the same width/height
+   and/or pixel format (GRAYSCALE/RGB565). This method also automatically handles
+   clipping pixels being drawn off the edge of the target image.
 
-   ``x_scale`` controls how much the image is scaled by in the x direction (float).
+   That said, the above flexiblity comes with the cost of increased drawing time.
+   Use the more constrained methods like `image.replace` which require both images
+   to have the same width/height with a mask to more quickly render one image onto
+   another if you need more performance.
 
-   ``y_scale`` controls how much the image is scaled by in the y direction (float).
+   ``x_scale`` controls how much the drawn image is scaled by in the x direction (float).
+
+   ``y_scale`` controls how much the drawn image is scaled by in the y direction (float).
+
+   ``alpha`` controls how much of the other image to blend into this image.
+   ``alpha`` should be an integer value between 0 and 256. A value closer to
+   zero blends more of the other image into this image and a value closer to
+   256 does the opposite.
 
    ``mask`` is another image to use as a pixel level mask for the drawing operation.
    The mask should be an image with just black or white pixels and should be the
@@ -1907,7 +2350,10 @@ Methods
 
 .. method:: image.draw_keypoints(keypoints, [color, [size=10, [thickness=1, [fill=False]]]])
 
-   Draws the keypoints of a keypoints object on the image.
+   Draws the keypoints of a keypoints object on the image. You may also pass a
+   list of three value tuples containing the (x, y, rotation_angle_in_degrees) to
+   re-use this method for drawing keypoint glyphs which are a cirle with a line
+   pointing in a particular direction.
 
    ``color`` is an RGB888 tuple for Grayscale or RGB565 images. Defaults to
    white. However, you may also pass the underlying pixel value (0-255) for
@@ -1955,23 +2401,48 @@ Methods
 
    This method is not available on the OpenMV Cam M4.
 
+.. method:: image.mask_rectange([x, y, w, h])
+
+   Zeros a rectangular part of the image. If no arguments are supplied this
+   method zeros the center of the image.
+
+   Returns the image object so you can call another method using ``.`` notation.
+
+   Not supported on compressed images or bayer images.
+
+.. method:: image.mask_circle([x, y, radius])
+
+   Zeros a circular part of the image. If no arguments are supplied this
+   method zeros the center of the image.
+
+   Returns the image object so you can call another method using ``.`` notation.
+
+   Not supported on compressed images or bayer images.
+
+.. method:: image.mask_ellipse([x, y, radius_x, radius_y, rotation_angle_in_degrees])
+
+   Zeros an ellipsed shaped part of the image. If no arguments are supplied this
+   method zeros the center of the image.
+
+   Returns the image object so you can call another method using ``.`` notation.
+
+   Not supported on compressed images or bayer images.
+
 .. method:: image.binary(thresholds, [invert=False, [zero=False, [mask=None, [to_bitmap=False, [copy=False]]]]])
 
    Sets all pixels in the image to black or white depending on if the pixel
    is inside of a threshold in the threshold list ``thresholds`` or not.
 
-   ``thresholds`` must be a list of tuples
-   ``[(lo, hi), (lo, hi), ..., (lo, hi)]`` defining the ranges of color you
-   want to track. For
-   grayscale images each tuple needs to contain two values - a min grayscale
-   value and a max grayscale value. Only pixel regions that fall between these
-   thresholds will be considered. For RGB565 images each tuple needs to have
-   six values (l_lo, l_hi, a_lo, a_hi, b_lo, b_hi) - which are minimums and
-   maximums for the LAB L, A, and B channels respectively. For easy usage this
-   function will automatically fix swapped min and max values. Additionally,
-   if a tuple is larger than six values the rest are ignored. Conversely, if the
-   tuple is too short the rest of the thresholds are assumed to be at maximum
-   range.
+   ``thresholds`` must be a list of tuples ``[(lo, hi), (lo, hi), ..., (lo, hi)]``
+   defining the ranges of color you want to track. For grayscale images each tuple
+   needs to contain two values - a min grayscale value and a max grayscale value.
+   Only pixel regions that fall between these thresholds will be considered.
+   For RGB565 images each tuple needs to have six values (l_lo, l_hi, a_lo, a_hi, b_lo, b_hi)
+   - which are minimums and maximums for the LAB L, A, and B channels respectively.
+   For easy usage this function will automatically fix swapped min and max values.
+   Additionally, if a tuple is larger than six values the rest are ignored.
+   Conversely, if the tuple is too short the rest of the thresholds are assumed
+   to be at maximum range.
 
    .. note::
 
@@ -2000,10 +2471,25 @@ Methods
    modified.
 
    ``to_bitmap`` turns the image data into a binary bitmap image where each
-   pixel is stored in 1 bit. Set ``copy`` to True when using ``to_bitmap``.
+   pixel is stored in 1 bit. For very small images the new bitmap image may
+   not fit inside of the original image requiring an out-of-place operation
+   using ``copy``.
 
    ``copy`` if True creates a copy of the binarized image on the heap versus
    modifying the source image.
+
+   .. note::
+
+      Bitmap images are like grayscale images with only two pixels values - 0
+      and 1. Additionally, bitmap images are packed such that they only store
+      1 bit per pixel making them very small. The OpenMV image library allows
+      bitmap images to be used in all places `GRAYSCALE` and `RGB565` images
+      can be used. However, many operations when applied on bitmap images don't
+      make any sense becuase bitmap images only have 2 values. OpenMV recommends
+      using bitmap images for ``mask`` values in operations and such as they
+      fit on the MicroPython heap quite easily. Finally, bitmap image pixel values
+      0 and 1 are interpreted as black and white when being applied to `GRAYSCALE`
+      or `RGB565` images. The library automatically handles conversion.
 
    Returns the image object so you can call another method using ``.`` notation.
 
@@ -2218,19 +2704,45 @@ Methods
 
    Not supported on compressed images or bayer images.
 
-.. method:: image.negate()
+.. method:: image.gamma_corr([gamma=1.0, [contrast=1.0, [brightness=0.0])
 
-   Flips (numerically inverts) all pixels values in an image very quickly.
+   Quickly changes the image gamma, contrast, and brightness. Please use this
+   method instead of `image.mul` or `image.div` which are meant for blending to
+   adjust pixels values.
+
+   ``gamma`` with values greater than 1.0 makes the image darker in a non-linear
+   manner while less than 1.0 makes the image brighter. The gamma value is applied
+   to the image by scaling all pixel color channels to be between [0:1) and then
+   doing a remapping of ``pow(pixel, 1/gamma)`` on all pixels before scaling back.
+
+   ``contrast`` with values greater than 1.0 makes the image brighter in a linear
+   manner while less than 1.0 makes the image darker. The contrast value is applied
+   to the image by scaling all pixel color channels to be between [0:1) and then
+   doing a remapping of ``pixel * contrast`` on all pixels before scaling back.
+
+   ``brightness`` with values greater than 0.0 makes the image brighter in a constant
+   manner while less than 0.0 makes the image darker. The brightness value is applied
+   to the image by scaling all pixel color channels to be between [0:1) and then
+   doing a remapping of ``pixel + brightness`` on all pixels before scaling back.
 
    Returns the image object so you can call another method using ``.`` notation.
 
    Not supported on compressed images or bayer images.
 
-.. method:: image.replace(image, [hmirror=False, [vflip=False, [mask=None]]])
+.. method:: image.negate()
 
-   Replaces all pixels in the image with a new image.
+   Flips (numerically inverts) all pixels values in an image very quickly. E.g.
+   for GRAYSCALE images this method changes all pixels from ``pixel`` to ``255 - pixel``.
 
-   ``image`` can either be an image object, a path to an uncompressed image
+   Returns the image object so you can call another method using ``.`` notation.
+
+   Not supported on compressed images or bayer images.
+
+.. method:: image.replace(image, [hmirror=False, [vflip=False, [transpose=False, [mask=None]]]])
+
+   Replaces all pixels in the image object with a new image.
+
+   ``image`` can either be another image object, a path to an uncompressed image
    file (bmp/pgm/ppm), or a scalar value. If a scalar value the value can
    either be an RGB888 tuple or the underlying pixel value (e.g. an 8-bit grayscale
    for grayscale images or a byte-reversed RGB565 value for RGB images).
@@ -2239,14 +2751,40 @@ Methods
 
    Set ``vflip`` to True to vertically flip the replacing image.
 
+   Set ``transpose`` to True to flip the image along the diagonal (this changes
+   the image image width/height if the image is non-square).
+
+   If you want to rotate an image by multiples of 90 degrees pass the following:
+
+      * vflip=False, hmirror=False, transpose=False -> 0 degree rotation
+      * vflip=True,  hmirror=False, transpose=True  -> 90 degree rotation
+      * vflip=True,  hmirror=True,  transpose=False -> 180 degree rotation
+      * vflip=False, hmirror=True,  transpose=True  -> 270 degree rotation
+
+   .. note::
+
+      If you don't pass an ``image`` this method will operate on the underlying
+      image that you were going to replace by applying the ``hmirror``, ``vflip``,
+      and ``transpose`` options to rotate the image around. E.g. if you want
+      to do ``img.replace(img, etc...)`` you just need to do ``img.replace(etc..)``.
+
    ``mask`` is another image to use as a pixel level mask for the operation.
    The mask should be an image with just black or white pixels and should be the
    same size as the image being operated on. Only pixels set in the mask are
-   modified.
+   modified. Note that the mask is applied on the image before hmirror/vflip/transpose
+   so the mask should be the same width/height of the initial unmodifed image.
 
    Returns the image object so you can call another method using ``.`` notation.
 
    Not supported on compressed images or bayer images.
+
+.. method:: image.assign(image, [hmirror=False, [vflip=False, [transpose=False, [mask=None]]]])
+
+   Alias for `image.replace`.
+
+.. method:: image.set(image, [hmirror=False, [vflip=False, [transpose=False, [mask=None]]]])
+
+   Alias for `image.replace`.
 
 .. method:: image.add(image, [mask=None])
 
@@ -2312,9 +2850,9 @@ Methods
    Note::
 
       This method is meant for image blending and cannot multiply the pixels in
-      the image by a scalar like ``2``.
+      the image by a scalar like ``2``. Use `image.gamma_corr` for that.
 
-.. method:: image.div(image, [invert=False, [mask=None]])
+.. method:: image.div(image, [invert=False, [mod=False, [mask=None]]])
 
    Divides this image by another one.
 
@@ -2325,6 +2863,8 @@ Methods
 
    Set ``invert`` to True to change the division direction from ``a/b`` to
    ``b/a``.
+
+   Set ``mod`` to True to change the division operation to the modulus operation.
 
    ``mask`` is another image to use as a pixel level mask for the operation.
    The mask should be an image with just black or white pixels and should be the
@@ -2338,7 +2878,7 @@ Methods
    Note::
 
       This method is meant for image blending and cannot divide the pixels in
-      the image by a scalar like ``2``.
+      the image by a scalar like ``2``. Use `image.gamma_corr` for that.
 
 .. method:: image.min(image, [mask=None])
 
@@ -3023,7 +3563,7 @@ Methods
 
    Not supported on compressed images or bayer images.
 
-.. method:: image.find_blobs(thresholds, [invert=False, [roi, [x_stride=2, [y_stride=1, [area_threshold=10, [pixels_threshold=10, [merge=False, [margin=0, [threshold_cb=None, [merge_cb=None]]]]]]]]]])
+.. method:: image.find_blobs(thresholds, [invert=False, [roi, [x_stride=2, [y_stride=1, [area_threshold=10, [pixels_threshold=10, [merge=False, [margin=0, [threshold_cb=None, [merge_cb=None, [x_hist_bins_max=0, [y_hist_bins_max=0]]]]]]]]]]]])
 
    Finds all blobs (connected pixel regions that pass a threshold test) in the
    image and returns a list of `image.blob` objects which describe each blob.
@@ -3031,7 +3571,7 @@ Methods
 
    ``thresholds`` must be a list of tuples
    ``[(lo, hi), (lo, hi), ..., (lo, hi)]`` defining the ranges of color you
-   want to track. You may pass up to 16 threshold tuples in one call. For
+   want to track. You may pass up to 32 threshold tuples in one call. For
    grayscale images each tuple needs to contain two values - a min grayscale
    value and a max grayscale value. Only pixel regions that fall between these
    thresholds will be considered. For RGB565 images each tuple needs to have
@@ -3108,6 +3648,14 @@ Methods
    be merged to prevent or allow the merge. The call back function will receive
    two arguments - the two blob objects to be merged. The call back then must
    return True to merge the blobs or False to prevent merging the blobs.
+
+   ``x_hist_bins_max`` if set to non-zero populates a histogram buffer in each
+   blob object with an x_histogram projection of all columns in the object. This
+   value then sets the number of bins for that projection.
+
+   ``y_hist_bins_max`` if set to non-zero populates a histogram buffer in each
+   blob object with an y_histogram projection of all rows in the object. This
+   value then sets the number of bins for that projection.
 
    Not supported on compressed images or bayer images.
 

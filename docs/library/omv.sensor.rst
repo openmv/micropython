@@ -120,7 +120,7 @@ Functions
       memory more easily if you try to execute more memory intensive machine
       vision algorithms like `image.find_apriltags`.
 
-.. function:: sensor.dealloc_extra_db()
+.. function:: sensor.dealloc_extra_fb()
 
    Deallocates the last previously allocated extra frame buffer. Extra frame
    buffers are stored in a stack like structure.
@@ -169,8 +169,8 @@ Functions
       * `sensor.B128X128`: 128x128 (for use with `image.find_displacement()`)
       * `sensor.LCD`: 128x160 (for use with the lcd shield)
       * `sensor.QQVGA2`: 128x160 (for use with the lcd shield)
-      * `sensor.WVGA`: 720x480
-      * `sensor.WVGA2`:752x480
+      * `sensor.WVGA`: 720x480 (for the MT9V034)
+      * `sensor.WVGA2`:752x480 (for the MT9V034)
       * `sensor.SVGA`: 800x600 (only in JPEG mode for the OV2640 sensor)
       * `sensor.SXGA`: 1280x1024 (only in JPEG mode for the OV2640 sensor)
       * `sensor.UXGA`: 1600x1200 (only in JPEG mode for the OV2640 sensor)
@@ -289,6 +289,41 @@ Functions
    will be generated on this pin to power FSIN on another OpenMV Cam to sync
    both camera image streams for stereo vision applications...
 
+.. function:: sensor.ioctl(...)
+
+   Executes a sensor specific method:
+
+   * `sensor.IOCTL_SET_TRIGGERED_MODE` - Pass this enum followed by True or False set triggered mode for the MT9V034 sensor.
+   * `sensor.IOCTL_GET_TRIGGERED_MODE` - Pass this enum for `sensor.ioctl` to return the current triggered mode state.
+   * `sensor.IOCTL_LEPTON_GET_WIDTH` - Pass this enum to get the FLIR Lepton image width in pixels.
+   * `sensor.IOCTL_LEPTON_GET_HEIGHT` - Pass this enum to get the FLIR Lepton image height in pixels.
+   * `sensor.IOCTL_LEPTON_GET_RADIOMETRY` - Pass this enum to get the FLIR Lepton type (radiometric or not).
+   * `sensor.IOCTL_LEPTON_GET_REFRESH` - Pass this enum to get the FLIR Lepton refresh rate in hertz.
+   * `sensor.IOCTL_LEPTON_GET_RESOLUTION` - Pass this enum to get the FLIR Lepton ADC resolution in bits.
+   * `sensor.IOCTL_LEPTON_RUN_COMMAND` - Pass this enum to execute a FLIR Lepton SDK command. You need to pass an additional 16-bit value after the enum as the command to execute.
+   * `sensor.IOCTL_LEPTON_SET_ATTRIBUTE` - Pass this enum to set a FLIR Lepton SDK attribute.
+     * The first argument is the 16-bit attribute ID to set (set the FLIR Lepton SDK).
+     * The second argument is a MicroPython byte array of bytes to write (should be a multiple of 16-bits). Create the byte array using `ustruct` following the FLIR Lepton SDK.
+   * `sensor.IOCTL_LEPTON_GET_ATTRIBUTE` - Pass this enum to get a FLIR Lepton SDK attribute.
+     * The first argument is the 16-bit attribute ID to set (set the FLIR Lepton SDK).
+     * Returns a MicroPython byte array of the attribute. Use `ustruct` to deserialize the byte array following the FLIR Lepton SDK.
+   * `sensor.IOCTL_LEPTON_GET_FPA_TEMPERATURE` - Pass this enum to get the FLIR Lepton FPA Temp in celsius.
+   * `sensor.IOCTL_LEPTON_GET_AUX_TEMPERATURE` - Pass this enum to get the FLIR Lepton AUX Temp in celsius.
+   * `sensor.IOCTL_LEPTON_SET_MEASUREMENT_MODE` - Pass this followed by True or False to turn off automatic gain control on the FLIR Lepton and force it to output an image where each pixel value represents an exact temperature value in celsius.
+   * `sensor.IOCTL_LEPTON_GET_MEASUREMENT_MODE` - Pass this to get if measurment mode is enabled or not.
+   * `sensor.IOCTL_LEPTON_SET_MEASUREMENT_RANGE` - Pass this when measurement mode is enabled to set the temperature range in celsius for the mapping operation. The temperature image returned by the FLIR Lepton will then be clamped between these min and max values and then scaled to values between 0 to 255. To map a pixel value back to a temperature (on a grayscale image) do: ((pixel * (max_temp_in_celsius - min_temp_in_celsius)) / 255.0) + min_temp_in_celsius.
+      * The first arugment should be the min temperature in celsius.
+      * The second argument should be the max temperature in celsius. If the arguments are reversed the library will automatically swap them for you.
+   * `sensor.IOCTL_LEPTON_GET_MEASUREMENT_RANGE` - Pass this to return the sorted (min, max) 2 value temperature range tuple. The default is -17.7778C to 37.7778C (0F to 100F) if not set yet.
+
+.. function:: sensor.set_color_palette(palette)
+
+   Sets the color palette to use for FLIR Lepton grayscale to RGB565 conversion.
+
+.. function:: sensor.get_color_palette()
+
+   Returns the current color palette setting. Defaults to `sensor.PALETTE_RAINBOW`.
+
 .. function:: sensor.__write_reg(address, value)
 
    Write ``value`` (int) to camera register at ``address`` (int).
@@ -304,12 +339,12 @@ Functions
 Constants
 ---------
 
-.. data:: sensor.BAYER
+.. data:: sensor.BINARY
 
-   RAW BAYER image pixel format. If you try to make the frame size too big
-   to fit in the frame buffer your OpenMV Cam will set the pixel format
-   to BAYER so that you can capture images but no image processing methods
-   will be operational.
+   BINARY (bitmap) pixel format. Each pixel is 1-bit.
+
+   This format is usful for mask storage. Can be used with `image.Image()` and
+   `sensor.alloc_extra_fb()`.
 
 .. data:: sensor.GRAYSCALE
 
@@ -325,6 +360,13 @@ Constants
 
    All of our computer vision algorithms run slower on RGB565 images than
    grayscale images.
+
+.. data:: sensor.BAYER
+
+   RAW BAYER image pixel format. If you try to make the frame size too big
+   to fit in the frame buffer your OpenMV Cam will set the pixel format
+   to BAYER so that you can capture images but no image processing methods
+   will be operational.
 
 .. data:: sensor.JPEG
 
@@ -393,7 +435,6 @@ Constants
 .. data:: sensor.VGA
 
    640x480 resolution for the camera sensor.
-   Only works for the OV2640 camera or the OpenMV Cam M7.
 
 .. data:: sensor.HQQQVGA
 
@@ -458,3 +499,75 @@ Constants
 .. data:: sensor.UXGA
 
    1600x1200 resolution for the camera sensor. Only works for the OV2640 camera.
+
+.. data:: sensor.PALETTE_RAINBOW
+
+   Default OpenMV Cam color palette for thermal images using a smooth color wheel.
+
+.. data:: sensor.PALETTE_IRONBOW
+
+   Makes images look like the FLIR Lepton thermal images using a very non-linear color palette.
+
+.. data:: sensor.IOCTL_SET_TRIGGERED_MODE
+
+   Lets you set the triggered mode for the MT9V034.
+
+.. data:: sensor.IOCTL_GET_TRIGGERED_MODE
+
+   Lets you get the triggered mode for the MT9V034.
+
+.. data:: sensor.IOCTL_LEPTON_GET_WIDTH
+
+   Lets you get the FLIR Lepton image resolution width in pixels.
+
+.. data:: sensor.IOCTL_LEPTON_GET_HEIGHT
+
+   Lets you get the FLIR Lepton image resolution height in pixels.
+
+.. data:: sensor.IOCTL_LEPTON_GET_RADIOMETRY
+
+   Lets you get the FLIR Lepton type (radiometric or not).
+
+.. data:: sensor.IOCTL_LEPTON_GET_REFRESH
+
+   Lets you get the FLIR Lepton refresh rate in hertz.
+
+.. data:: sensor.IOCTL_LEPTON_GET_RESOLUTION
+
+   Lets you get the FLIR Lepton ADC resolution in bits.
+
+.. data:: sensor.IOCTL_LEPTON_RUN_COMMAND
+
+   Executes a 16-bit command given the FLIR Lepton SDK.
+
+.. data:: sensor.IOCTL_LEPTON_SET_ATTRIBUTE
+
+   Sets a FLIR Lepton Attribute given the FLIR Lepton SDK.
+
+.. data:: sensor.IOCTL_LEPTON_GET_ATTRIBUTE
+
+   Gets a FLIR Lepton Attribute given the FLIR Lepton SDK.
+
+.. data:: sensor.GET_FPA_TEMPERATURE
+
+   Gets the FLIR Lepton FPA temp in celsius.
+
+.. data:: sensor.GET_AUX_TEMPERATURE
+
+   Gets the FLIR Lepton AUX temp in celsius.
+
+.. data:: sensor.IOCTL_LEPTON_SET_MEASUREMENT_MODE
+
+   Lets you set the FLIR Lepton driver into a mode where you can get a valid temperature value per pixel. See `sensor.ioctl()` for more information.
+
+.. data:: sensor.IOCTL_LEPTON_GET_MEASUREMENT_MODE
+
+   Lets you get if measurement mode is enabled or not for the FLIR Lepton sensor. See `sensor.ioctl()` for more information.
+
+.. data:: sensor.IOCTL_LEPTON_SET_MEASUREMENT_RANGE
+
+   Lets you set the temperature range you want to map pixels in the image to when in measurement mode. See `sensor.ioctl()` for more information.
+
+.. data:: sensor.IOCTL_LEPTON_GET_MEASUREMENT_RANGE
+
+   Lets you get the temperature range used for measurement mode. See `sensor.ioctl()` for more information.

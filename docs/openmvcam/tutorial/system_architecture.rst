@@ -19,9 +19,9 @@ even if we built the system with an 8-layer board using a 32-bit DRAM bus
 requring 50+ I/O pins for the DRAM.
 
 So, since we're built on the STM32 architecture and limited to using expensive
-and slow SDR DRAM for now we haven't added it. As production volumes go up and
-technology improves hopefully we'll be able to have more memory while still
-keeping the OpenMV Cam simple to use.
+and slow SDR DRAM for now we haven't added it as our internal SRAM is way faster.
+As production volumes go up and technology improves hopefully we'll be able to
+have more memory while still keeping the OpenMV Cam simple to use.
 
 Memory Architecture
 -------------------
@@ -65,11 +65,11 @@ Now while this works great it means you can only have one big image in the frame
 buffer in RAM. As the MicroPython heap is optimized for small objects storing
 large 100KB images in it doesn't make sense. To enable more images to fit in RAM
 we allow the frame buffer stack to be used for secondary image storage using
-`sensor.allocate_extra_fb()`. By allocating a secondary frame buffer on the
-frame buffer stack you can now havw two or more images in RAM at the cost
+`sensor.alloc_extra_fb()`. By allocating a secondary frame buffer on the
+frame buffer stack you can now have two or more images in RAM at the cost
 of reducing memory space for more complex algorithms (like AprilTags).
 
 So, that's the memory architecture. And... we allow images to be stored in
 the frame buffer, heap, and the frame buffer stack. Yes, our code is rather
 complex to handle all of this and it would have been great to just throw
-everything in a large DRAM. But, know you know why this isn't the case.
+everything in a large DRAM. But, now you know why this isn't the case.

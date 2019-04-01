@@ -9,11 +9,13 @@ The OpenMV Cam tutorial covers how to use your OpenMV Cam and its accessories.
    :maxdepth: 1
    :numbered:
 
+   overview.rst
    software_setup.rst
    hardware_setup.rst
    openmvide_overview.rst
 
    script_structure.rst
    io_tutorial.rst
+   system_architecture.rst
 
    more_information.rst

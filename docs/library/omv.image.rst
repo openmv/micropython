@@ -2015,6 +2015,36 @@ Methods
 
    ``quality`` is the compression quality (0-100) (int).
 
+.. method: image.jpeg_encode_for_ide()
+
+   This formats the JPEG data for transmission to OpenMV IDE to display by
+   encoding every 6-bits as a byte valued between 128-191. This is done to
+   prevent JPEG data from being misinterpreted as other text data in the byte
+   stream. This method does the formatting in-place destroying the original
+   JPEG image and returns the encoded jpeg image.
+
+   You need to use this method to format image data for display to terminal
+   windows created via "Open Terminal" in OpenMV IDE.
+
+   Returns the image object so you can call another method using ``.`` notation.
+
+   Only works on JPEG images.
+
+.. method: image.jpeg_encoded_for_ide()
+
+   This formats the JPEG data for transmission to OpenMV IDE to display by
+   encoding every 6-bits as a byte valued between 128-191. This is done to
+   prevent JPEG data from being misinterpreted as other text data in the byte
+   stream. This method does the formatting out-of-place preserving the original
+   JPEG image and returns a new encoded jpeg image.
+
+   You need to use this method to format image data for display to terminal
+   windows created via "Open Terminal" in OpenMV IDE.
+
+   Returns the image object so you can call another method using ``.`` notation.
+
+   Only works on JPEG images.
+
 .. method:: image.copy([roi, [x_scale, [y_scale, [copy_to_fb=False]]]])
 
    Creates a deep copy of the image object.
@@ -3235,7 +3265,7 @@ Methods
 
    This method is not available on the OpenMV Cam M4.
 
-.. method:: image.cartoon(size, [seed_threshold=0.05, [floating_threshold=0.05, [mask=None]]])
+.. method:: image.cartoon([seed_threshold=0.05, [floating_threshold=0.05, [mask=None]]])
 
    Walks across an image and flood-fills all pixels regions in the image. This
    effectively removes texture from the image by flattening the color in all

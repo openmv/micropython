@@ -492,6 +492,10 @@ Constants
 
    800x600 resolution for the camera sensor. Only works for the OV2640 camera.
 
+.. data:: sensor.XGA
+
+   1024x768 resolution for the camera sensor. Only works for the OV2640 camera.
+
 .. data:: sensor.SXGA
 
    1280x1024 resolution for the camera sensor. Only works for the OV2640 camera.

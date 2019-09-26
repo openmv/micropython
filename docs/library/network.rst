@@ -694,9 +694,30 @@ parameter should be `id`.
        this will block forever. This method returns a list containing the
        connected client's IP adress.
 
-    .. method:: winc.ifconfig()
+    .. method:: winc.ifconfig([ip_addr, subnet_addr, gateway_addr, dns_addr])
 
-       Returns a list containing:
+       Returns a tuple containing:
+
+          * [0]: IP Address String (XXX.XXX.XXX.XXX)
+          * [1]: Subnet Address String (XXX.XXX.XXX.XXX)
+          * [2]: Gateway String (XXX.XXX.XXX.XXX)
+          * [3]: DNS Address String (XXX.XXX.XXX.XXX)
+
+       While connected to the network.
+
+       You may optionally pass a tuple/list of the ip_addr, subnet_addr,
+       gateway_addr, and dns_addr strings in ipv4 (XXX.XXX.XXX.XXX) format
+       to set a static IP address versus an address obtained through DHCP (which happens by default).
+
+       Example usage::
+
+           wlan = network.WINC()
+           wlan.ifconfig(('192.168.1.100', '255.255.255.0', '192.168.1.1', '192.168.1.1'))
+           wlan.connect(SSID, key=KEY, security=wlan.WPA_PSK)
+
+    .. method: winc.netinfo()
+
+       Returns a tuple containing:
 
           * [0]: RSSI - received signal strength indicator (int)
           * [1]: Authorization Type (see constants)

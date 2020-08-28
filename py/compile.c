@@ -2126,7 +2126,7 @@ STATIC void compile_lambdef(compiler_t *comp, mp_parse_node_struct_t *pns) {
 #if MICROPY_PY_ASSIGN_EXPR
 STATIC void compile_namedexpr_helper(compiler_t *comp, mp_parse_node_t pn_name, mp_parse_node_t pn_expr) {
     if (!MP_PARSE_NODE_IS_ID(pn_name)) {
-        compile_syntax_error(comp, (mp_parse_node_t)pn_name, MP_ERROR_TEXT("can't assign to expression"));
+        compile_syntax_error(comp, (mp_parse_node_t)pn_name, "can't assign to expression");
     }
     compile_node(comp, pn_expr);
     EMIT(dup_top);

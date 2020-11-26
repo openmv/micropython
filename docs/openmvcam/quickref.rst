@@ -29,7 +29,7 @@ Use the :mod:`time <utime>` module::
     utime.sleep_ms(500)      # sleep for 500 milliseconds
     utime.sleep_us(10)       # sleep for 10 microseconds
     start = utime.ticks_ms() # get value of millisecond counter
-    delta = utime.ticks_diff(time.ticks_ms(), start) # compute time difference
+    delta = utime.ticks_diff(utime.ticks_ms(), start) # compute time difference
 
 LEDs
 ----

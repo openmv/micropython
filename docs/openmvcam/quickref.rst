@@ -25,11 +25,11 @@ Use the :mod:`time <utime>` module::
 
     import utime
 
-    time.sleep(1)           # sleep for 1 second
-    time.sleep_ms(500)      # sleep for 500 milliseconds
-    time.sleep_us(10)       # sleep for 10 microseconds
-    start = time.ticks_ms() # get value of millisecond counter
-    delta = time.ticks_diff(time.ticks_ms(), start) # compute time difference
+    utime.sleep(1)           # sleep for 1 second
+    utime.sleep_ms(500)      # sleep for 500 milliseconds
+    utime.sleep_us(10)       # sleep for 10 microseconds
+    start = utime.ticks_ms() # get value of millisecond counter
+    delta = utime.ticks_diff(time.ticks_ms(), start) # compute time difference
 
 LEDs
 ----

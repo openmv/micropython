@@ -47,9 +47,11 @@ void PORTENTA_board_low_power(int mode)
 {
     switch (mode) {
         case 0:     // Leave stop mode.
+            __HAL_RCC_JPEG_CLK_SLEEP_DISABLE();
             sdram_leave_low_power();
             break;
         case 1:     // Enter stop mode.
+            __HAL_RCC_JPEG_CLK_SLEEP_ENABLE();
             sdram_enter_low_power();
             break;
         case 2:     // Enter standby mode.

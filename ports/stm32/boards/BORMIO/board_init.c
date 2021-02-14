@@ -23,8 +23,10 @@ void BORMIO_board_low_power(int mode)
 {
     switch (mode) {
         case 0:     // Leave stop mode.
+            __HAL_RCC_JPEG_CLK_SLEEP_DISABLE();
             break;
         case 1:     // Enter stop mode.
+            __HAL_RCC_JPEG_CLK_SLEEP_ENABLE();
             break;
         case 2:     // Enter standby mode.
             break;

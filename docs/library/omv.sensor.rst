@@ -210,7 +210,9 @@ Functions
       * `sensor.WVGA2`:752x480 (for the MT9V034)
       * `sensor.SVGA`: 800x600 (only for the OV2640/OV5640 sensor)
       * `sensor.XGA`: 1024x768 (only for the OV2640/OV5640 sensor)
+      * `sensor.WXGA`: 1280x768 (for the MT9M114)
       * `sensor.SXGA`: 1280x1024 (only for the OV2640/OV5640 sensor)
+      * `sensor.SXGAM`: 1280x960 (for the MT9M114)
       * `sensor.UXGA`: 1600x1200 (only for the OV2640/OV5640 sensor)
       * `sensor.HD`: 1280x720 (only for the OV2640/OV5640 sensor)
       * `sensor.FHD`: 1920x1080 (only for the OV5640 sensor)
@@ -746,15 +748,23 @@ Constants
 
 .. data:: sensor.SVGA
 
-   800x600 resolution for the camera sensor. Only works for the OV2640/OV5640 cameras.
+   800x600 resolution for the camera sensor.
 
 .. data:: sensor.XGA
 
-   1024x768 resolution for the camera sensor. Only works for the OV2640/OV5640 cameras.
+   1024x768 resolution for the camera sensor.
+
+.. data:: sensor.WXGA
+
+   1280x768 resolution for the MT9M114 camera sensor.
 
 .. data:: sensor.SXGA
 
    1280x1024 resolution for the camera sensor. Only works for the OV2640/OV5640 cameras.
+
+.. data:: sensor.SXGAM
+
+   1280x960 resolution for the MT9M114 camera sensor.
 
 .. data:: sensor.UXGA
 
@@ -762,7 +772,7 @@ Constants
 
 .. data:: sensor.HD
 
-   1280x720 resolution for the camera sensor. Only works for the OV2640/OV5640 cameras.
+   1280x720 resolution for the camera sensor.
 
 .. data:: sensor.FHD
 

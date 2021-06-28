@@ -120,6 +120,7 @@ Functions
       * `sensor.LEPTON`: Lepton1/2/3 sensor module.
       * `sensor.HM01B0`: Arduino Portenta H7 sensor module.
       * `sensor.GC2145`: Arduino Nicla Vision H7 sensor module.
+      * `sensor.PAJ6100`: PixArt Imaging sensor Module.
 
 .. function:: sensor.alloc_extra_fb(width, height, pixformat)
 
@@ -192,13 +193,16 @@ Functions
       * `sensor.QQVGA`: 160x120
       * `sensor.QVGA`: 320x240
       * `sensor.VGA`: 640x480
+      * `sensor.HQQQQVGA`: 30x20
       * `sensor.HQQQVGA`: 60x40
       * `sensor.HQQVGA`: 120x80
       * `sensor.HQVGA`: 240x160
+      * `sensor.HVGA`: 480x320
       * `sensor.B64X32`: 64x32 (for use with `image.find_displacement()`)
       * `sensor.B64X64`: 64x64 (for use with `image.find_displacement()`)
       * `sensor.B128X64`: 128x64 (for use with `image.find_displacement()`)
       * `sensor.B128X128`: 128x128 (for use with `image.find_displacement()`)
+      * `sensor.B160X160`: 160x160 (for the HM01B0)
       * `sensor.B320X320`: 320x320 (for the HM01B0)
       * `sensor.LCD`: 128x160 (for use with the lcd shield)
       * `sensor.QQVGA2`: 128x160 (for use with the lcd shield)
@@ -221,11 +225,19 @@ Functions
 
 .. function:: sensor.set_framerate(rate)
 
-   Sets the frame rate in hz on the HM01B0. May be 15, 30, 60, or 120 Hz.
+   Sets the frame rate in hz for the camera module.
+
+   .. note::
+
+      `set_framerate` works by dropping frames received by the camera module to keep the frame rate
+      equal to (or below) the rate you specify. By default the camera will run at the maximum frame
+      rate. If implemented for the particular camera sensor then `set_framerate` will also reduce
+      the camera sensor frame rate internally to save power and improve image quality by increasing
+      the sensor exposure. `set_framerate` may conflict with `set_auto_exposure` on some cameras.
 
 .. function:: sensor.get_framerate()
 
-   Returns the frame rate in hz on the HM01B0.
+   Returns the frame rate in hz for the camera module.
 
 .. function:: sensor.set_windowing(roi)
 
@@ -434,6 +446,22 @@ Functions
 
    Returns the current number of frame buffers allocated.
 
+.. function:: sensor.disable_full_flush([disable])
+
+   If ``disable`` is ``True`` then automatic framebuffer flushing mentioned in `set_framebuffers`
+   is disabled. This removes any time limit on frames in the frame buffer fifo. For example, if
+   you set the number of frame buffers to 30 and set the frame rate to 30 you can now precisely
+   record 1 second of video from the camera without risk of frame loss.
+
+   If this function is called with no arguments it returns if automatic flushing is disabled. By
+   default automatic flushing on frame drop is enabled to clear out stale frames.
+
+   .. note::
+
+      `snapshot` starts the frame capture process which will continue to capture frames until
+      there is no space to hold a frame at which point the frame capture process stops. The
+      process always stops when there is no space to hold the next frame.
+
 .. function:: sensor.set_lens_correction(enable, radi, coef)
 
    ``enable`` True to enable and False to disable (bool).
@@ -600,6 +628,10 @@ Constants
 
    `sensor.get_id()` returns this for the GC2145 camera.
 
+.. data:: sensor.PAJ6100
+
+   `sensor.get_id()` returns this for the PAJ6100 camera.
+
 .. data:: sensor.QQCIF
 
    88x72 resolution for the camera sensor.
@@ -644,6 +676,10 @@ Constants
 
    640x480 resolution for the camera sensor.
 
+.. data:: sensor.HQQQQVGA
+
+   30x20 resolution for the camera sensor.
+
 .. data:: sensor.HQQQVGA
 
    60x40 resolution for the camera sensor.
@@ -655,6 +691,10 @@ Constants
 .. data:: sensor.HQVGA
 
    240x160 resolution for the camera sensor.
+
+.. data:: sensor.HVGA
+
+   480x320 resolution for the camera sensor.
 
 .. data:: sensor.B64X32
 
@@ -679,6 +719,10 @@ Constants
    128x128 resolution for the camera sensor.
 
    For use with `image.find_displacement()` and any other FFT based algorithm.
+
+.. data:: sensor.B160X160
+
+   160x160 resolution for the HM01B0 camera sensor.
 
 .. data:: sensor.B320X320
 

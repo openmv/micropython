@@ -15,7 +15,7 @@ Functions
 
 .. function:: ssl.wrap_socket(sock, server_side=False, keyfile=None, certfile=None, cert_reqs=CERT_NONE, ca_certs=None, do_handshake=True)
 
-   Takes a `stream` *sock* (usually socket.socket instance of ``SOCK_STREAM`` type),
+   Takes a ``stream`` *sock* (usually socket.socket instance of ``SOCK_STREAM`` type),
    and returns an instance of ssl.SSLSocket, which wraps the underlying stream in
    an SSL context. Returned object has the usual ``stream`` interface methods like
    ``read()``, ``write()``, etc.

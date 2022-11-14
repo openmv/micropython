@@ -47,8 +47,21 @@ Constructors
 
        This mode enables WiFi module firmware update.
 
+   .. note::
+
+      ``mode`` can also be ``network.STA_IF`` (station aka client, connects to upstream WiFi access
+      points) and and ``network.AP_IF`` (access point, allows other WiFi clients to
+      connect). Availability of the methods below depends on interface type.
+      For example, only STA interface may `WLAN.connect()` to an access point.
+
 Methods
 -------
+
+.. method:: WINC.active([is_active])
+
+   Activate ("up") or deactivate ("down") network interface, if boolean
+   argument is passed. Otherwise, query current state if no argument is
+   provided. Most other methods require active interface.
 
 .. method:: WINC.connect(ssid, [key=None, [security=WPA_PSK]])
 
@@ -112,7 +125,7 @@ Methods
        wlan.ifconfig(('192.168.1.100', '255.255.255.0', '192.168.1.1', '192.168.1.1'))
        wlan.connect(SSID, key=KEY, security=wlan.WPA_PSK)
 
-.. method: WINC.netinfo()
+.. method:: WINC.netinfo()
 
    Returns a tuple containing:
 

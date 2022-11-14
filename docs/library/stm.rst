@@ -77,28 +77,3 @@ Example use:
 
     # read PA3
     value = (stm.mem32[stm.GPIOA + stm.GPIO_IDR] >> 3) & 1
-
-
-Functions specific to STM32WBxx MCUs
-------------------------------------
-
-These functions are available on STM32WBxx microcontrollers, and interact with
-the second CPU, the RF core.
-
-.. function:: rfcore_status()
-
-    Returns the status of the second CPU as an integer (the first word of device
-    info table).
-
-.. function:: rfcore_fw_version(id)
-
-    Get the version of the firmware running on the second CPU.  Pass in 0 for
-    *id* to get the FUS version, and 1 to get the WS version.
-
-    Returns a 5-tuple with the full version number.
-
-.. function:: rfcore_sys_hci(ogf, ocf, data, timeout_ms=0)
-
-    Execute a HCI command on the SYS channel.  The execution is synchronous.
-
-    Returns a bytes object with the result of the SYS command.

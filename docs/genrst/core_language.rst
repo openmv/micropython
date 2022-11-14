@@ -2,7 +2,115 @@
 
 Core language
 =============
-Generated Sun 23 May 2021 17:39:38 UTC
+Generated Mon 14 Nov 2022 04:08:40 UTC
+
+.. _cpydiff_core_fstring_concat:
+
+f-strings don't support concatenation with adjacent literals if the adjacent literals contain braces or are f-strings
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Cause:** MicroPython is optimised for code space.
+
+**Workaround:** Use the + operator between literal strings when either or both are f-strings
+
+Sample code::
+
+    
+    x, y = 1, 2
+    print("aa" f"{x}")  # works
+    print(f"{x}" "ab")  # works
+    print("a{}a" f"{x}")  # fails
+    print(f"{x}" "a{}b")  # fails
+    print(f"{x}" f"{y}")  # fails
+
++-------------+------------------------------------------------------+
+| CPy output: | uPy output:                                          |
++-------------+------------------------------------------------------+
+| ::          | ::                                                   |
+|             |                                                      |
+|     aa1     |     /bin/sh: 1: ../ports/unix/micropython: not found |
+|     1ab     |                                                      |
+|     a{}a1   |                                                      |
+|     1a{}b   |                                                      |
+|     12      |                                                      |
++-------------+------------------------------------------------------+
+
+.. _cpydiff_core_fstring_parser:
+
+f-strings cannot support expressions that require parsing to resolve unbalanced nested braces and brackets
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Cause:** MicroPython is optimised for code space.
+
+**Workaround:** Always use balanced braces and brackets in expressions inside f-strings
+
+Sample code::
+
+    
+    print(f'{"hello { world"}')
+    print(f'{"hello ] world"}')
+
++-------------------+------------------------------------------------------+
+| CPy output:       | uPy output:                                          |
++-------------------+------------------------------------------------------+
+| ::                | ::                                                   |
+|                   |                                                      |
+|     hello { world |     /bin/sh: 1: ../ports/unix/micropython: not found |
+|     hello ] world |                                                      |
++-------------------+------------------------------------------------------+
+
+.. _cpydiff_core_fstring_raw:
+
+Raw f-strings are not supported
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Cause:** MicroPython is optimised for code space.
+
+Sample code::
+
+    
+    rf"hello"
+
++-------------+------------------------------------------------------+
+| CPy output: | uPy output:                                          |
++-------------+------------------------------------------------------+
+|             | ::                                                   |
+|             |                                                      |
+|             |     /bin/sh: 1: ../ports/unix/micropython: not found |
++-------------+------------------------------------------------------+
+
+.. _cpydiff_core_fstring_repr:
+
+f-strings don't support the !r, !s, and !a conversions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Cause:** MicroPython is optimised for code space.
+
+**Workaround:** Use repr(), str(), and ascii() explictly.
+
+Sample code::
+
+    
+    
+    class X:
+        def __repr__(self):
+            return "repr"
+    
+        def __str__(self):
+            return "str"
+    
+    
+    print(f"{X()!r}")
+    print(f"{X()!s}")
+
++-------------+------------------------------------------------------+
+| CPy output: | uPy output:                                          |
++-------------+------------------------------------------------------+
+| ::          | ::                                                   |
+|             |                                                      |
+|     repr    |     /bin/sh: 1: ../ports/unix/micropython: not found |
+|     str     |                                                      |
++-------------+------------------------------------------------------+
 
 Classes
 -------
@@ -175,6 +283,33 @@ Sample code::
 |                                                   |                                                      |
 |     append() takes exactly one argument (0 given) |     /bin/sh: 1: ../ports/unix/micropython: not found |
 +---------------------------------------------------+------------------------------------------------------+
+
+.. _cpydiff_core_function_moduleattr:
+
+Function objects do not have the ``__module__`` attribute
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Cause:** MicroPython is optimized for reduced code size and RAM usage.
+
+**Workaround:** Use ``sys.modules[function.__globals__['__name__']]`` for non-builtin modules.
+
+Sample code::
+
+    
+    
+    def f():
+        pass
+    
+    
+    print(f.__module__)
+
++--------------+------------------------------------------------------+
+| CPy output:  | uPy output:                                          |
++--------------+------------------------------------------------------+
+| ::           | ::                                                   |
+|              |                                                      |
+|     __main__ |     /bin/sh: 1: ../ports/unix/micropython: not found |
++--------------+------------------------------------------------------+
 
 .. _cpydiff_core_function_userattr:
 
@@ -355,7 +490,7 @@ Sample code::
 +-----------------------------------------------------------------------------+------------------------------------------------------+
 | ::                                                                          | ::                                                   |
 |                                                                             |                                                      |
-|     ['/home/kwagyeman/GitHub/openmv/src/micropython/tests/cpydiff/modules'] |     /bin/sh: 1: ../ports/unix/micropython: not found |
+|     ['/home/kwagyeman/GitHub/openmv-doc/micropython/tests/cpydiff/modules'] |     /bin/sh: 1: ../ports/unix/micropython: not found |
 +-----------------------------------------------------------------------------+------------------------------------------------------+
 
 .. _cpydiff_core_import_prereg:

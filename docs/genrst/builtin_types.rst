@@ -2,10 +2,35 @@
 
 Builtin types
 =============
-Generated Sun 23 May 2021 17:39:38 UTC
+Generated Mon 14 Nov 2022 04:08:40 UTC
 
 Exception
 ---------
+
+.. _cpydiff_types_exception_attrs:
+
+All exceptions have readable ``value`` and ``errno`` attributes, not just ``StopIteration`` and ``OSError``.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Cause:** MicroPython is optimised to reduce code size.
+
+**Workaround:** Only use ``value`` on ``StopIteration`` exceptions, and ``errno`` on ``OSError`` exceptions.  Do not use or rely on these attributes on other exceptions.
+
+Sample code::
+
+    e = Exception(1)
+    print(e.value)
+    print(e.errno)
+
++-----------------------------------------------------------------+------------------------------------------------------+
+| CPy output:                                                     | uPy output:                                          |
++-----------------------------------------------------------------+------------------------------------------------------+
+| ::                                                              | ::                                                   |
+|                                                                 |                                                      |
+|     Traceback (most recent call last):                          |     /bin/sh: 1: ../ports/unix/micropython: not found |
+|       File "<stdin>", line 8, in <module>                       |                                                      |
+|     AttributeError: 'Exception' object has no attribute 'value' |                                                      |
++-----------------------------------------------------------------+------------------------------------------------------+
 
 .. _cpydiff_types_exception_chaining:
 
@@ -252,6 +277,29 @@ Sample code::
 
 int
 ---
+
+.. _cpydiff_types_int_bit_length:
+
+``bit_length`` method doesn't exist.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Cause:** bit_length method is not implemented.
+
+**Workaround:** Avoid using this method on MicroPython.
+
+Sample code::
+
+    
+    x = 255
+    print("{} is {} bits long.".format(x, x.bit_length()))
+
++-------------------------+------------------------------------------------------+
+| CPy output:             | uPy output:                                          |
++-------------------------+------------------------------------------------------+
+| ::                      | ::                                                   |
+|                         |                                                      |
+|     255 is 8 bits long. |     /bin/sh: 1: ../ports/unix/micropython: not found |
++-------------------------+------------------------------------------------------+
 
 .. _cpydiff_types_int_subclassconv:
 

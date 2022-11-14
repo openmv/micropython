@@ -129,6 +129,25 @@ The full list of supported commands are:
   - ``mkdir <dirs...>`` to create directories on the device
   - ``rmdir <dirs...>`` to remove directories on the device
 
+- edit a file on the device:
+
+  .. code-block:: bash
+
+      $ mpremote edit <files...>
+
+  The ``edit`` command will copy each file from the device to a local temporary
+  directory and then launch your editor for each file (defined by the environment
+  variable ``$EDITOR``). If the editor exits successfully, the updated file will
+  be copied back to the device.
+
+- install packages from :term:`micropython-lib` (or GitHub) using the ``mip`` tool:
+
+  .. code-block:: bash
+
+      $ mpremote mip install <packages...>
+
+  See :ref:`packages` for more information.
+
 - mount the local directory on the remote device:
 
   .. code-block:: bash
@@ -247,4 +266,14 @@ Examples
 
   mpremote cp main.py :
 
+  mpremote cp :a.py :b.py
+
   mpremote cp -r dir/ :
+
+  mpremote cp a.py b.py : + repl
+
+  mpremote mip install aioble
+
+  mpremote mip install github:org/repo@branch
+
+  mpremote mip install --target /flash/third-party functools

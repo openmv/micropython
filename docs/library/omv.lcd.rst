@@ -274,8 +274,6 @@ Functions
    ``x_scale`` or ``x_size`` are specified then ``x_scale`` internally will be set to be equal to
    ``y_size`` to maintain the aspect-ratio.
 
-   Not supported for compressed images.
-
 .. function:: lcd.clear([display_off=False])
 
    Clears the lcd screen to black.

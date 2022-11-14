@@ -151,6 +151,16 @@ Glossary
         machine-independent features. It can also function in a similar way to
         :term:`CPython`'s ``python`` executable.
 
+    mip
+        A package installer for MicroPython (mip - "mip installs packages"). It
+        installs MicroPython packages either from :term:`micropython-lib`,
+        GitHub, or arbitrary URLs.  mip can be used on-device on
+        network-capable boards, and internally by tools such
+        as :term:`mpremote`.
+
+    mpremote
+        A tool for interacting with a MicroPython device.
+
     .mpy file
         The output of the :term:`cross-compiler`. A compiled form of a
         :term:`.py file` that contains MicroPython bytecode instead of Python
@@ -198,3 +208,7 @@ Glossary
         functionality.
         upip runs both on the :term:`Unix port <MicroPython Unix port>` and on
         :term:`baremetal` ports which offer filesystem and networking support.
+
+    webrepl
+        A way of connecting to the REPL (and transferring files) on a device
+        over the internet from a browser. See https://micropython.org/webrepl

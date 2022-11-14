@@ -11,7 +11,7 @@ You can read more about how to create your own models that can run on the
 OpenMV Cam `here <https://www.tensorflow.org/lite/microcontrollers>`__. In
 particular:
 
-   * Supported operations are listed `here <https://github.com/openmv/tensorflow/blob/master/tensorflow/lite/micro/all_ops_resolver.cc>`__.
+   * Supported operations are listed `here <https://github.com/openmv/tensorflow-lib/blob/master/libtf.cc#L70>`__.
 
      * Note that tensorflow lite operations are versioned. If no version numbers
        are listed after the operation then the min and max version supported are
@@ -94,6 +94,37 @@ Functions
    ``roi`` is the region-of-interest rectangle tuple (x, y, w, h). If not
    specified, it is equal to the image rectangle. Only pixels within the
    ``roi`` are operated on.
+
+.. function:: tf.detect(path, img, [roi, [thresholds, [invert]]])
+
+   Executes the TensorFlow Lite image segmentation model on the ``img``
+   object and returns a list of `image.blob` objects for each segmentation
+   class output. E.g. if you have an image that's segmented into two classes
+   this method will return a list of two lists of blobs that match the requested
+   thresholds.
+
+   ``path`` a path to a ``.tflite`` model to execute on your OpenMV Cam's
+   disk. The model is loaded into memory, executed, and released all in
+   one function call to save from having to load the model in the
+   MicroPython heap.
+
+   ``roi`` is the region-of-interest rectangle tuple (x, y, w, h). If not
+   specified, it is equal to the image rectangle. Only pixels within the
+   ``roi`` are operated on.
+
+   ``thresholds`` must be a list of tuples
+   ``[(lo, hi), (lo, hi), ..., (lo, hi)]`` defining the ranges of color you
+   want to track. You may pass up to 32 threshold tuples in one call. Each tuple
+   needs to contain two values - a min grayscale value and a max grayscale value.
+   Only pixel regions that fall between these thresholds will be considered.
+   For easy usage this function will automatically fix swapped min and max values.
+   If the tuple is too short the rest of the thresholds are assumed to be at maximum
+   range. If no thresholds are specified they are assumed to be (128, 255) which
+   will detect "active" pixel regions in the segmented images. 
+
+   ``invert`` inverts the thresholding operation such that instead of matching
+   pixels inside of some known color bounds pixels are matched that are outside
+   of the known color bounds.
 
 .. function:: tf.load(path, [load_to_fb=False])
 
@@ -193,30 +224,63 @@ Methods
 
 .. method:: tf_model.len()
 
-   Returns the size in bytes of the `tf_model`.
+   Returns the size in bytes of the model.
 
-.. method:: tf_model.height()
+.. method:: tf_model.ram()
+
+   Returns the model's required free RAM in bytes.
+
+.. method:: tf_model.input_height()
 
    Returns the input height of the model. You can use this to size your input
    image height appropriately.
 
-.. method:: tf_model.width()
+.. method:: tf_model.input_width()
 
    Returns the input width of the model. You can use this to size your input
    image width appropriately.
 
-.. method:: tf_model.channels()
+.. method:: tf_model.input_channels()
 
-   Returns the number of color channels in the model. 1 for grayscale
-   and 3 for RGB.
+   Returns the number of input color channels in the model.
 
-.. method:: tf_model.signed()
+.. method:: tf_model.input_datatype()
 
-   Returns True if the model input is signed and False if unsigned.
+   Returns the model's input datatype (this is a string of "uint8", "int8", or "float").
 
-.. method:: tf_model.is_float()
+.. method:: tf_model.input_scale()
 
-   Returns True if the model input is floating point and False if not floating point.
+   Returns the input scale for the model.
+
+.. method:: tf_model.input_zero_point()
+
+   Returns the output zero point for the model.
+
+.. method:: tf_model.output_height()
+
+   Returns the output height of the model. You can use this to size your output
+   image height appropriately.
+
+.. method:: tf_model.output_width()
+
+   Returns the output width of the model. You can use this to size your output
+   image width appropriately.
+
+.. method:: tf_model.output_channels()
+
+   Returns the number of output color channels in the model.
+
+.. method:: tf_model.output_datatype()
+
+   Returns the model's output datatype (this is a string of "uint8", "int8", or "float").
+
+.. method:: tf_model.output_scale()
+
+   Returns the output scale for the model.
+
+.. method:: tf_model.output_zero_point()
+
+   Returns the output zero point for the model.
 
 .. method:: tf_model.classify(img, [roi, [min_scale=1.0, [scale_mul=0.5, [x_overlap=0, [y_overlap=0]]]]])
 
@@ -257,3 +321,29 @@ Methods
    ``roi`` is the region-of-interest rectangle tuple (x, y, w, h). If not
    specified, it is equal to the image rectangle. Only pixels within the
    ``roi`` are operated on.
+
+.. method:: tf_model.detect(img, [roi, [thresholds, [invert]]])
+
+   Executes the TensorFlow Lite image segmentation model on the ``img``
+   object and returns a list of `image.blob` objects for each segmentation
+   class output. E.g. if you have an image that's segmented into two classes
+   this method will return a list of two lists of blobs that match the requested
+   thresholds.
+
+   ``roi`` is the region-of-interest rectangle tuple (x, y, w, h). If not
+   specified, it is equal to the image rectangle. Only pixels within the
+   ``roi`` are operated on.
+
+   ``thresholds`` must be a list of tuples
+   ``[(lo, hi), (lo, hi), ..., (lo, hi)]`` defining the ranges of color you
+   want to track. You may pass up to 32 threshold tuples in one call. Each tuple
+   needs to contain two values - a min grayscale value and a max grayscale value.
+   Only pixel regions that fall between these thresholds will be considered.
+   For easy usage this function will automatically fix swapped min and max values.
+   If the tuple is too short the rest of the thresholds are assumed to be at maximum
+   range. If no thresholds are specified they are assumed to be (128, 255) which
+   will detect "active" pixel regions in the segmented images. 
+
+   ``invert`` inverts the thresholding operation such that instead of matching
+   pixels inside of some known color bounds pixels are matched that are outside
+   of the known color bounds.

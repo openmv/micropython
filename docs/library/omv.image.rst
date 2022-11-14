@@ -1527,6 +1527,33 @@ or to memory. This class provides fast read/write random access for loading/stor
    storage buffer is not allowed to grow in size after being allocated. Use a ``bpp`` value of
    0 for binary images, 1 for grayscale images, and 2 for rgb565 images.
 
+   .. method:: type()
+
+      Returns if the `ImageIO` object is a `FILE_STREAM` or `MEMORY_STREAM`.
+
+   .. method:: is_closed()
+
+      Returns if the `ImageIO` object is closed and can no longer be used.
+
+   .. method:: count()
+
+      Returns the number of frames stored.
+
+   .. method:: offset()
+
+      Returns the image index offset.
+
+   .. method:: version()
+
+      Returns the version of the object if it's `FILE_STREAM`.
+      `MEMORY_STREAM` versions are ``none``.
+
+   .. method:: buffer_size()
+
+      Returns the size allocated by the object for a frame in a single buffer.
+
+      ``buffer_size() * count() == size()``
+
    .. method:: size()
 
       Returns the number of bytes on disk or memory used by the ImageIO object.
@@ -1565,12 +1592,24 @@ or to memory. This class provides fast read/write random access for loading/stor
 
       Seeks to the image slot number ``offset`` in the ImageIO object.
 
-      You may use this along with write and read to implement an image fifo.
+      Works for on disk or in-memory objects.
+
+   .. method:: sync()
+
+      Writes out all data pending for on-disk ImageIO objects.
 
    .. method:: close()
 
       Closes the ImageIO object. For in-memory objects this free's the allocated space and for
       on-disk files this closes the file and writes out all meta-data.
+
+   .. data:: FILE_STREAM
+
+      ImageIO object was opened on a file.
+
+   .. data:: MEMORY_STREAM
+
+      iamgeIO object was opened in memory.
 
 class Image -- Image object
 ---------------------------
@@ -1807,8 +1846,6 @@ The image object is the basic object for machine vision operations.
 
       Returns the image object so you can call another method using ``.`` notation.
 
-      Not supported on compressed images.
-
    .. method:: image.to_grayscale([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None, [copy=False]]]]]]]]]]])
 
       Converts an image to a grayscale image (8-bits per pixel). If ``copy`` is False
@@ -1869,8 +1906,6 @@ The image object is the basic object for machine vision operations.
       ``y_size`` to maintain the aspect-ratio.
 
       Returns the image object so you can call another method using ``.`` notation.
-
-      Not supported on compressed images.
 
    .. method:: image.to_rgb565([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None, [copy=False]]]]]]]]]]])
 
@@ -1933,8 +1968,6 @@ The image object is the basic object for machine vision operations.
 
       Returns the image object so you can call another method using ``.`` notation.
 
-      Not supported on compressed images.
-
    .. method:: image.to_rainbow([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=sensor.PALETTE_RAINBOW, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None, [copy=False]]]]]]]]]]])
 
       Converts an image to an RGB565 rainbow image (16-bits per pixel). If ``copy`` is False
@@ -1996,7 +2029,188 @@ The image object is the basic object for machine vision operations.
 
       Returns the image object so you can call another method using ``.`` notation.
 
-      Not supported on compressed images.
+   .. method:: image.to_ironbow([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=sensor.PALETTE_IRONBOW, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None, [copy=False]]]]]]]]]]])
+
+      Converts an image to an RGB565 ironbow image (16-bits per pixel). If ``copy`` is False
+      this method will try to modify the image in-place. If ``copy`` is True then
+      this method will return a new image copy allocated on the heap.
+
+      ``copy`` may also be another image object, which in this case this method will try to
+      re-use that image objects storage space and will return a new image object that uses
+      the previous image objects storage space. After doing this do not use any references
+      to the old image object anymore as they will be stale.
+
+      ``x_scale`` controls how much the drawn image is scaled by in the x direction (float). If this
+      value is negative the image will be flipped horizontally.
+
+      ``y_scale`` controls how much the drawn image is scaled by in the y direction (float). If this
+      value is negative the image will be flipped vertically.
+
+      ``roi`` is the region-of-interest rectangle tuple (x, y, w, h) of the source image to draw. This
+      allows you to extract just the pixels in the ROI to scale and draw on the destination image.
+
+      ``rgb_channel`` is the RGB channel (0=R, G=1, B=2) to extract from an RGB565 image (if passed)
+      and to render onto the destination image. For example, if you pass ``rgb_channel=1`` this will
+      extract the green channel of the source RGB565 image and draw that in grayscale on the
+      destination image.
+
+      ``alpha`` controls how much of the source image to blend into the destination image. A value of
+      256 draws an opaque source image while a value lower than 256 produces a blend between the source
+      and destination image. 0 results in no modification to the destination image.
+
+      ``color_palette`` if not ``-1`` can be `sensor.PALETTE_RAINBOW`, `sensor.PALETTE_IRONBOW`, or
+      a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
+      whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
+
+      ``alpha_palette`` if not ``-1`` can be a 256 pixel in total GRAYSCALE image to use as a alpha
+      palette which modulates the ``alpha`` value of the source image being drawn at a pixel pixel
+      level allowing you to precisely control the alpha value of pixels based on their grayscale value.
+      A pixel value of 255 in the alpha lookup table is opaque which anything less than 255 becomes
+      more transparent until 0. This is applied after ``rgb_channel`` extraction if used.
+
+      ``hint`` can be a logical OR of the flags:
+
+         * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
+         * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
+         * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
+         * `image.CENTER`: Center the image image being draw on (x, y).
+         * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
+         * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
+         * `image.BLACK_BACKGROUND`: Assume the destination image is black. This speeds up drawing.
+
+      ``x_size`` may be passed if ``x_scale`` is not passed to specify the size of the image to draw
+      and ``x_scale`` will automatically be determined passed on the input image size. If neither
+      ``y_scale`` or ``y_size`` are specified then ``y_scale`` internally will be set to be equal to
+      ``x_size`` to maintain the aspect-ratio.
+
+      ``y_size`` may be passed if ``y_scale`` is not passed to specify the size of the image to draw
+      and ``y_scale`` will automatically be determined passed on the input image size. If neither
+      ``x_scale`` or ``x_size`` are specified then ``x_scale`` internally will be set to be equal to
+      ``y_size`` to maintain the aspect-ratio.
+
+      Returns the image object so you can call another method using ``.`` notation.
+
+   .. method:: image.to_jpeg([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None, [copy=False]]]]]]]]]]])
+
+      Converts an image to a JPEG image. If ``copy`` is False
+      this method will try to modify the image in-place. If ``copy`` is True then
+      this method will return a new image copy allocated on the heap.
+
+      ``copy`` may also be another image object, which in this case this method will try to
+      re-use that image objects storage space and will return a new image object that uses
+      the previous image objects storage space. After doing this do not use any references
+      to the old image object anymore as they will be stale.
+
+      ``x_scale`` controls how much the drawn image is scaled by in the x direction (float). If this
+      value is negative the image will be flipped horizontally.
+
+      ``y_scale`` controls how much the drawn image is scaled by in the y direction (float). If this
+      value is negative the image will be flipped vertically.
+
+      ``roi`` is the region-of-interest rectangle tuple (x, y, w, h) of the source image to draw. This
+      allows you to extract just the pixels in the ROI to scale and draw on the destination image.
+
+      ``rgb_channel`` is the RGB channel (0=R, G=1, B=2) to extract from an RGB565 image (if passed)
+      and to render onto the destination image. For example, if you pass ``rgb_channel=1`` this will
+      extract the green channel of the source RGB565 image and draw that in grayscale on the
+      destination image.
+
+      ``alpha`` controls how much of the source image to blend into the destination image. A value of
+      256 draws an opaque source image while a value lower than 256 produces a blend between the source
+      and destination image. 0 results in no modification to the destination image.
+
+      ``color_palette`` if not ``-1`` can be `sensor.PALETTE_RAINBOW`, `sensor.PALETTE_IRONBOW`, or
+      a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
+      whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
+
+      ``alpha_palette`` if not ``-1`` can be a 256 pixel in total GRAYSCALE image to use as a alpha
+      palette which modulates the ``alpha`` value of the source image being drawn at a pixel pixel
+      level allowing you to precisely control the alpha value of pixels based on their grayscale value.
+      A pixel value of 255 in the alpha lookup table is opaque which anything less than 255 becomes
+      more transparent until 0. This is applied after ``rgb_channel`` extraction if used.
+
+      ``hint`` can be a logical OR of the flags:
+
+         * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
+         * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
+         * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
+         * `image.CENTER`: Center the image image being draw on (x, y).
+         * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
+         * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
+         * `image.BLACK_BACKGROUND`: Assume the destination image is black. This speeds up drawing.
+
+      ``x_size`` may be passed if ``x_scale`` is not passed to specify the size of the image to draw
+      and ``x_scale`` will automatically be determined passed on the input image size. If neither
+      ``y_scale`` or ``y_size`` are specified then ``y_scale`` internally will be set to be equal to
+      ``x_size`` to maintain the aspect-ratio.
+
+      ``y_size`` may be passed if ``y_scale`` is not passed to specify the size of the image to draw
+      and ``y_scale`` will automatically be determined passed on the input image size. If neither
+      ``x_scale`` or ``x_size`` are specified then ``x_scale`` internally will be set to be equal to
+      ``y_size`` to maintain the aspect-ratio.
+
+      Returns the image object so you can call another method using ``.`` notation.
+
+   .. method:: image.to_png([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [x_size=None, [y_size=None, [copy=False]]]]]]]]]]])
+
+      Converts an image to a PNG image. If ``copy`` is False
+      this method will try to modify the image in-place. If ``copy`` is True then
+      this method will return a new image copy allocated on the heap.
+
+      ``copy`` may also be another image object, which in this case this method will try to
+      re-use that image objects storage space and will return a new image object that uses
+      the previous image objects storage space. After doing this do not use any references
+      to the old image object anymore as they will be stale.
+
+      ``x_scale`` controls how much the drawn image is scaled by in the x direction (float). If this
+      value is negative the image will be flipped horizontally.
+
+      ``y_scale`` controls how much the drawn image is scaled by in the y direction (float). If this
+      value is negative the image will be flipped vertically.
+
+      ``roi`` is the region-of-interest rectangle tuple (x, y, w, h) of the source image to draw. This
+      allows you to extract just the pixels in the ROI to scale and draw on the destination image.
+
+      ``rgb_channel`` is the RGB channel (0=R, G=1, B=2) to extract from an RGB565 image (if passed)
+      and to render onto the destination image. For example, if you pass ``rgb_channel=1`` this will
+      extract the green channel of the source RGB565 image and draw that in grayscale on the
+      destination image.
+
+      ``alpha`` controls how much of the source image to blend into the destination image. A value of
+      256 draws an opaque source image while a value lower than 256 produces a blend between the source
+      and destination image. 0 results in no modification to the destination image.
+
+      ``color_palette`` if not ``-1`` can be `sensor.PALETTE_RAINBOW`, `sensor.PALETTE_IRONBOW`, or
+      a 256 pixel in total RGB565 image to use as a color lookup table on the grayscale value of
+      whatever the source image is. This is applied after ``rgb_channel`` extraction if used.
+
+      ``alpha_palette`` if not ``-1`` can be a 256 pixel in total GRAYSCALE image to use as a alpha
+      palette which modulates the ``alpha`` value of the source image being drawn at a pixel pixel
+      level allowing you to precisely control the alpha value of pixels based on their grayscale value.
+      A pixel value of 255 in the alpha lookup table is opaque which anything less than 255 becomes
+      more transparent until 0. This is applied after ``rgb_channel`` extraction if used.
+
+      ``hint`` can be a logical OR of the flags:
+
+         * `image.AREA`: Use area scaling when downscaling versus the default of nearest neighbor.
+         * `image.BILINEAR`: Use bilinear scaling versus the default of nearest neighbor scaling.
+         * `image.BICUBIC`: Use bicubic scaling versus the default of nearest neighbor scaling.
+         * `image.CENTER`: Center the image image being draw on (x, y).
+         * `image.EXTRACT_RGB_CHANNEL_FIRST`: Do rgb_channel extraction before scaling.
+         * `image.APPLY_COLOR_PALETTE_FIRST`: Apply color palette before scaling.
+         * `image.BLACK_BACKGROUND`: Assume the destination image is black. This speeds up drawing.
+
+      ``x_size`` may be passed if ``x_scale`` is not passed to specify the size of the image to draw
+      and ``x_scale`` will automatically be determined passed on the input image size. If neither
+      ``y_scale`` or ``y_size`` are specified then ``y_scale`` internally will be set to be equal to
+      ``x_size`` to maintain the aspect-ratio.
+
+      ``y_size`` may be passed if ``y_scale`` is not passed to specify the size of the image to draw
+      and ``y_scale`` will automatically be determined passed on the input image size. If neither
+      ``x_scale`` or ``x_size`` are specified then ``x_scale`` internally will be set to be equal to
+      ``y_size`` to maintain the aspect-ratio.
+
+      Returns the image object so you can call another method using ``.`` notation.
 
    .. method:: image.compress([quality=50])
 
@@ -3846,8 +4060,6 @@ The image object is the basic object for machine vision operations.
       This method uses the LSD library (also used by OpenCV) to find line segements
       in the image. It's somewhat slow but very accurate and lines don't jump around.
 
-      Not supported on compressed images or bayer images.
-
       This method is not available on the OpenMV Cam M4.
 
    .. method:: image.find_circles([roi, [x_stride=2, [y_stride=1, [threshold=2000, [x_margin=10, [y_margin=10, [r_margin=10, [r_min=2, [r_max, [r_step=2]]]]]]]]]])
@@ -3888,8 +4100,6 @@ The image object is the basic object for machine vision operations.
 
       ``r_step`` controls how to step the radius detection by. Defaults to 2.
 
-      Not supported on compressed images or bayer images.
-
       This method is not available on the OpenMV Cam M4.
 
    .. method:: image.find_rects([roi=Auto, [threshold=10000]])
@@ -3907,8 +4117,6 @@ The image object is the basic object for machine vision operations.
       sobel operator across all pixels on the edges of the rectangle and summing
       their values) less than ``threshold`` are filtered out of the returned list.
       The correct value of ``threshold`` is depended on your application/scene.
-
-      Not supported on compressed images or bayer images.
 
       This method is not available on the OpenMV Cam M4.
 
@@ -3929,8 +4137,6 @@ The image object is the basic object for machine vision operations.
       ``roi`` is the region-of-interest rectangle tuple (x, y, w, h). If not
       specified, it is equal to the image rectangle. Only pixels within the
       ``roi`` are operated on.
-
-      Not supported on compressed images or bayer images.
 
       This method is not available on the OpenMV Cam M4.
 
@@ -4018,8 +4224,6 @@ The image object is the basic object for machine vision operations.
       as you like. But, any values above 240 or so do not result in much increase
       in the detection rate.
 
-      Not supported on compressed images or bayer images.
-
       This method is not available on the OpenMV Cam M4.
 
    .. method:: image.find_barcodes([roi])
@@ -4057,8 +4261,6 @@ The image object is the basic object for machine vision operations.
       ``roi`` is the region-of-interest rectangle tuple (x, y, w, h). If not
       specified, it is equal to the image rectangle. Only pixels within the
       ``roi`` are operated on.
-
-      Not supported on compressed images or bayer images.
 
       This method is not available on the OpenMV Cam M4.
 
@@ -4233,6 +4435,37 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
+   .. method:: stero_disparity([reversed=False, [max_disparity=64, [threshold=64]]])
+
+      Takes a double wide grayscale image that contains the output of two camera sensors
+      side-by-side and replaces one of the images int he double wide image with the stero-disparity
+      image where each pixel reprsents depth. E.g. if you have two 320x240 cameras then this method
+      takes a 640x240 image.
+
+      ``reversed`` By default the left image is compared to the right image and the right image
+      is then replaced. Pass true to compare the right image to the left image and replace the left
+      image.
+
+      .. note::
+
+         The algorithm only works comparing left->right or right->left. If your camrea setup does
+         not match this then you will get useless results.
+
+      ``max_disparity`` is the maximum distance to search for a matching pixel block using the
+      sum-of-absolute differences algorith. Larger values take exponentially longer to search with
+      but result in higher quality images. Lower values make the algorithm run faster but may
+      result in nonsense output.
+
+      ``threshold`` if the sum-of-absolute differences between two blocks is less than or equal
+      to this threshold they are considered to be matching.
+
+      This method is only available on the Arduino Portenta.
+
+      .. note::
+
+         Even with our best SIMD effort this algorithm is not real-time on the Cortex-M7 processor.
+         This is just a toy example algorithm showing off stero-disparity.
+
 Constants
 ---------
 
@@ -4256,9 +4489,20 @@ Constants
    to BAYER so that you can capture images but no image processing methods
    will be operational.
 
+.. data:: image.YUV422
+
+   A pixel format that is very easy to jpeg compress. Each pixel is stored as a grayscale
+   8-bit Y value followed by alternating 8-bit U/V color values that are shared between two
+   Y values (8-bits Y1, 8-bits U, 8-bits Y2, 8-bits V, etc.). Only some image processing
+   methods work with YUV422.
+
 .. data:: image.JPEG
 
    A JPEG image.
+
+.. data:: image.PNG
+
+   A PNG image.
 
 .. data:: image.AREA
 

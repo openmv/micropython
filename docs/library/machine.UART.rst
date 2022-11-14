@@ -75,9 +75,21 @@ Methods
            CTS input pin signals that the receiver is running low on buffer space.
          - ``UART.RTS | UART.CTS`` will enable both, for full hardware flow control.
 
+   .. note::
+     It is possible to call ``init()`` multiple times on the same object in
+     order to reconfigure  UART on the fly. That allows using single UART
+     peripheral to serve different devices attached to different GPIO pins.
+     Only one device can be served at a time in that case.
+     Also do not call ``deinit()`` as it will prevent calling ``init()``
+     again.
+
 .. method:: UART.deinit()
 
    Turn off the UART bus.
+
+   .. note::
+     You will not be able to call ``init()`` on the object after ``deinit()``.
+     A new instance needs to be created in that case.
 
 .. method:: UART.any()
 
@@ -124,3 +136,14 @@ Methods
 
    Send a break condition on the bus. This drives the bus low for a duration
    longer than required for a normal transmission of a character.
+
+.. method:: UART.flush()
+
+   Waits until all data has been sent. In case of a timeout, an exception is raised. The timeout
+   duration depends on the tx buffer size and the baud rate. Unless flow control is enabled, a timeout
+   should not occur.
+
+.. method:: UART.txdone()
+
+   Tells whether all data has been sent or no data transfer is happening. In this case,
+   it returns ``True``. If a data transmission is ongoing it returns ``False``.

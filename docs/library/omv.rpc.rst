@@ -256,18 +256,17 @@ Control another ``rpc`` device over CAN.
 Constructors
 ~~~~~~~~~~~~
 
-.. class:: rpc.rpc_can_master(message_if=0x7FF, bit_rate=250000, sampling_point=75):
+.. class:: rpc.rpc_can_master(message_if=0x7FF, bit_rate=250000, sample_point=75, can_bus=2):
 
    Creates a CAN ``rpc`` master. This interface can move up to 1 Mb/s.
 
    * message_id - CAN message to use for data transport on the can bus (11-bit).
    * bit_rate - CAN bit rate.
-   * sampling_point - Tseg1/Tseg2 ratio. Typically 75%. (50.0, 62.5, 75, 87.5, etc.)
+   * sample_point - Tseg1/Tseg2 ratio. Typically 75%. (50.0, 62.5, 75, 87.5, etc.)
+   * can_bus - CAN Bus number to use
 
    NOTE: Master and slave message ids and can bit rates must match. Connect master can high to slave
    can high and master can low to slave can lo. The can bus must be terminated with 120 ohms.
-
-   This uses CAN2 on the STM32.
 
 class rpc_can_slave - CAN Slave Interface
 -----------------------------------------
@@ -277,18 +276,17 @@ Be controlled by another ``rpc`` device over CAN.
 Constructors
 ~~~~~~~~~~~~
 
-.. class:: rpc.rpc_can_slave(message_id=0x7FF, bit_rate=250000, sampling_point=75):
+.. class:: rpc.rpc_can_slave(message_id=0x7FF, bit_rate=250000, sample_point=75, can_bus=2):
 
    Creates a CAN ``rpc`` slave. This interface can move up to 1 Mb/s.
 
    * message_id - CAN message to use for data transport on the can bus (11-bit).
    * bit_rate - CAN bit rate.
-   * sampling_point - Tseg1/Tseg2 ratio. Typically 75%. (50.0, 62.5, 75, 87.5, etc.)
+   * sample_point - Tseg1/Tseg2 ratio. Typically 75%. (50.0, 62.5, 75, 87.5, etc.)
+   * can_bus - CAN Bus number to use
 
    NOTE: Master and slave message ids and can bit rates must match. Connect master can high to slave
    can high and master can low to slave can lo. The can bus must be terminated with 120 ohms.
-
-   This uses CAN2 on the STM32.
 
 class rpc_i2c_master - I2C Master Interface
 -------------------------------------------
@@ -298,17 +296,16 @@ Control another ``rpc`` device over I2C.
 Constructors
 ~~~~~~~~~~~~
 
-.. class:: rpc.rpc_i2c_master(slave_addr=0x12, rate=100000)
+.. class:: rpc.rpc_i2c_master(slave_addr=0x12, rate=100000, i2c_bus=2)
 
    Creates a I2C ``rpc`` master. This interface can move up to 1 Mb/s.
 
    * slave_addr - I2C address.
    * rate - I2C Bus Clock Frequency.
+   * i2c_bus - I2C bus number to use.
 
    NOTE: Master and slave addresses must match. Connect master scl to slave scl and master sda
    to slave sda. You must use external pull ups. Finally, both devices must share a ground.
-
-   This uses I2C2 on the STM32.
 
 class rpc_i2c_slave - I2C Slave Interface
 -----------------------------------------
@@ -318,16 +315,15 @@ Be controlled by another ``rpc`` device over I2C.
 Constructors
 ~~~~~~~~~~~~
 
-.. class:: rpc.rpc_i2c_slave(slave_addr=0x12)
+.. class:: rpc.rpc_i2c_slave(slave_addr=0x12, i2c_bus=2)
 
    Creates a I2C ``rpc`` slave. This interface can move up to 1 Mb/s.
 
    * slave_addr - I2C address.
+   * i2c_bus - I2C bus number to use.
 
    NOTE: Master and slave addresses must match. Connect master scl to slave scl and master sda
    to slave sda. You must use external pull ups. Finally, both devices must share a ground.
-
-   This uses I2C2 on the STM32.
 
 class rpc_spi_master - SPI Master Interface
 -------------------------------------------
@@ -337,7 +333,7 @@ Control another ``rpc`` device over SPI.
 Constructors
 ~~~~~~~~~~~~
 
-.. class:: rpc.rpc_spi_master(cs_pin="P3", freq=10000000, clk_polarity=1, clk_phase=0)
+.. class:: rpc.rpc_spi_master(cs_pin="P3", freq=10000000, clk_polarity=1, clk_phase=0, spi_bus=2)
 
    Creates a SPI ``rpc`` master. This interface can move up to 80 Mb/s.
 
@@ -345,61 +341,57 @@ Constructors
    * freq - SPI Bus Clock Frequency.
    * clk_polarity - Idle clock level (0 or 1).
    * clk_phase - Sample data on the first (0) or second edge (1) of the clock.
+   * spi_bus - SPI bus number to use.
 
    NOTE: Master and slave settings much match. Connect CS, SCLK, MOSI, MISO to CS, SCLK, MOSI, MISO.
    Finally, both devices must share a common ground.
-
-   This uses SPI2 on the STM32.
 
 class rpc_spi_slave - SPI Slave Interface
 -----------------------------------------
 
 Be controlled by another ``rpc`` device over SPI.
 
-.. class:: rpc.rpc_spi_slave(cs_pin="P3", clk_polarity=1, clk_phase=0)
+.. class:: rpc.rpc_spi_slave(cs_pin="P3", clk_polarity=1, clk_phase=0, spi_bus=2)
 
    Creates a SPI ``rpc`` slave. This interface can move up to 80 Mb/s.
 
    * cs_pin - Slave Select Pin.
    * clk_polarity - Idle clock level (0 or 1).
    * clk_phase - Sample data on the first (0) or second edge (1) of the clock.
+   * spi_bus - SPI bus number to use.
 
    NOTE: Master and slave settings much match. Connect CS, SCLK, MOSI, MISO to CS, SCLK, MOSI, MISO.
    Finally, both devices must share a common ground.
-
-   This uses SPI2 on the STM32.
 
 class rpc_uart_master - UART Master Interface
 ---------------------------------------------
 
 Control another ``rpc`` device over Async Serial (UART).
 
-.. class:: rpc.rpc_uart_master(baudrate=115200)
+.. class:: rpc.rpc_uart_master(baudrate=115200, uart_port=3)
 
    Creates a UART ``rpc`` master. This interface can move up to 7.5 Mb/s.
 
    * baudrate - Serial Baudrate.
+   * uart_port - UART port to use.
 
    NOTE: Master and slave baud rates must match. Connect master tx to slave rx and master rx to
    slave tx. Finally, both devices must share a common ground.
-
-   This uses UART3 on the STM32.
 
 class rpc_uart_slave - UART Slave Interface
 -------------------------------------------
 
 Be controlled by another ``rpc`` device over Async Serial (UART).
 
-.. class:: rpc.rpc_uart_slave(baudrate=115200)
+.. class:: rpc.rpc_uart_slave(baudrate=115200, uart_port=3)
 
    Creates a UART ``rpc`` slave. This interface can move up to 7.5 Mb/s.
 
    * baudrate - Serial Baudrate.
+   * uart_port - UART port to use.
 
    NOTE: Master and slave baud rates must match. Connect master tx to slave rx and master rx to
    slave tx. Finally, both devices must share a common ground.
-
-   This uses UART3 on the STM32.
 
 class rpc_usb_vcp_master - USB VCP Master Interface
 ---------------------------------------------------

@@ -168,6 +168,7 @@ Functions
       * `sensor.GRAYSCALE`: 8-bits per pixel.
       * `sensor.RGB565`: 16-bits per pixel.
       * `sensor.BAYER`: 8-bits per pixel bayer pattern.
+      * `sensor.YUV422`: 16-bits per pixel (8-bits Y1, 8-bits U, 8-bits Y2, 8-bits V, etc.)
       * `sensor.JPEG`: Compressed JPEG data. Only for the OV2640/OV5640.
 
    If you are trying to take JPEG images with the OV2640 or OV5640 camera modules at high
@@ -514,14 +515,14 @@ Functions
    * `sensor.IOCTL_LEPTON_RUN_COMMAND` - Pass this enum to execute a FLIR Lepton SDK command. You need to pass an additional 16-bit value after the enum as the command to execute.
    * `sensor.IOCTL_LEPTON_SET_ATTRIBUTE` - Pass this enum to set a FLIR Lepton SDK attribute.
       * The first argument is the 16-bit attribute ID to set (set the FLIR Lepton SDK).
-      * The second argument is a MicroPython byte array of bytes to write (should be a multiple of 16-bits). Create the byte array using `struct` following the FLIR Lepton SDK.
+      * The second argument is a MicroPython byte array of bytes to write (should be a multiple of 16-bits). Create the byte array using ``struct`` following the FLIR Lepton SDK.
    * `sensor.IOCTL_LEPTON_GET_ATTRIBUTE` - Pass this enum to get a FLIR Lepton SDK attribute.
       * The first argument is the 16-bit attribute ID to set (set the FLIR Lepton SDK).
-      * Returns a MicroPython byte array of the attribute. Use `struct` to deserialize the byte array following the FLIR Lepton SDK.
+      * Returns a MicroPython byte array of the attribute. Use ``struct`` to deserialize the byte array following the FLIR Lepton SDK.
    * `sensor.IOCTL_LEPTON_GET_FPA_TEMPERATURE` - Pass this enum to get the FLIR Lepton FPA Temp in celsius.
    * `sensor.IOCTL_LEPTON_GET_AUX_TEMPERATURE` - Pass this enum to get the FLIR Lepton AUX Temp in celsius.
    * `sensor.IOCTL_LEPTON_SET_MEASUREMENT_MODE` - Pass this followed by True or False to turn off automatic gain control on the FLIR Lepton and force it to output an image where each pixel value represents an exact temperature value in celsius. A second True enables high temperature mode enabling measurements up to 500C on the Lepton 3.5, False is the default low temperature mode.
-   * `sensor.IOCTL_LEPTON_GET_MEASUREMENT_MODE` - Pass this to get a tuple for (measurment-mode-enabled, high-temp-enabled).
+   * `sensor.IOCTL_LEPTON_GET_MEASUREMENT_MODE` - Pass this to get a tuple for (measurement-mode-enabled, high-temp-enabled).
    * `sensor.IOCTL_LEPTON_SET_MEASUREMENT_RANGE` - Pass this when measurement mode is enabled to set the temperature range in celsius for the mapping operation. The temperature image returned by the FLIR Lepton will then be clamped between these min and max values and then scaled to values between 0 to 255. To map a pixel value back to a temperature (on a grayscale image) do: ((pixel * (max_temp_in_celsius - min_temp_in_celsius)) / 255.0) + min_temp_in_celsius.
       * The first arugment should be the min temperature in celsius.
       * The second argument should be the max temperature in celsius. If the arguments are reversed the library will automatically swap them for you.
@@ -581,8 +582,15 @@ Constants
 
    RAW BAYER image pixel format. If you try to make the frame size too big
    to fit in the frame buffer your OpenMV Cam will set the pixel format
-   to BAYER so that you can capture images but no image processing methods
+   to BAYER so that you can capture images but only some image processing methods
    will be operational.
+
+.. data:: sensor.YUV422
+
+   A pixel format that is very easy to jpeg compress. Each pixel is stored as a grayscale
+   8-bit Y value followed by alternating 8-bit U/V color values that are shared between two
+   Y values (8-bits Y1, 8-bits U, 8-bits Y2, 8-bits V, etc.). Only some image processing
+   methods work with YUV422.
 
 .. data:: sensor.JPEG
 
@@ -610,19 +618,35 @@ Constants
 
    `sensor.get_id()` returns this for the OV9650 camera.
 
-.. data:: sensor.MT9M114
+.. data:: sensor.MT9V022
 
-   `sensor.get_id()` returns this for the MT9M114 camera.
+   `sensor.get_id()` returns this for the MT9V022 camera.
+
+.. data:: sensor.MT9V024
+
+   `sensor.get_id()` returns this for the MT9V024 camera.
+
+.. data:: sensor.MT9V032
+
+   `sensor.get_id()` returns this for the MT9V032 camera.
 
 .. data:: sensor.MT9V034
 
    `sensor.get_id()` returns this for the MT9V034 camera.
+
+.. data:: sensor.MT9M114
+
+   `sensor.get_id()` returns this for the MT9M114 camera.
 
 .. data:: sensor.LEPTON
 
    `sensor.get_id()` returns this for the LEPTON1/2/3 cameras.
 
 .. data:: sensor.HM01B0
+
+   `sensor.get_id()` returns this for the HM01B0 camera.
+
+.. data:: sensor.HM0360
 
    `sensor.get_id()` returns this for the HM01B0 camera.
 
@@ -633,6 +657,10 @@ Constants
 .. data:: sensor.PAJ6100
 
    `sensor.get_id()` returns this for the PAJ6100 camera.
+
+.. data:: sensor.FROGEYE2020
+
+   `sensor.get_id()` returns this for the FROGEYE2020 camera.
 
 .. data:: sensor.QQCIF
 

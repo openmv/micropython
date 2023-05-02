@@ -11,22 +11,22 @@ Response class
 
 .. class:: Response(s)
 
-The Response class object contains the server's response to the HTTP request.
+   The Response class object contains the server's response to the HTTP request.
 
-Methods
-~~~~~~~
+   Methods
+   ~~~~~~~
 
-.. decorator:: headers
+   .. decorator:: headers
 
-    Returns the headers.
+      Returns the headers.
 
-.. decorator:: content
+   .. decorator:: content
 
-    Returns the content of the response, in bytes.
+      Returns the content of the response, in bytes.
 
-.. method:: json()
+   .. method:: json()
 
-    Return response json encoded content and convert to dict type.
+      Return response json encoded content and convert to dict type.
 
 Functions
 ---------

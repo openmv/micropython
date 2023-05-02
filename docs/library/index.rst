@@ -50,7 +50,7 @@ module and are intended to be a drop-in replacement for the standard Python
 library.
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 1
 
    array.rst
    binascii.rst
@@ -85,7 +85,7 @@ Functionality specific to the MicroPython implementation is available in
 the following libraries.
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 1
 
    bluetooth.rst
    btree.rst
@@ -106,7 +106,7 @@ Libraries specific to the OpenMV Cam
 The following libraries are specific to the OpenMV Cam.
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 1
 
    pyb.rst
    stm.rst

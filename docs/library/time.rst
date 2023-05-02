@@ -248,3 +248,35 @@ Functions
 
     Similar to `time()` but returns nanoseconds since the Epoch, as an integer (usually
     a big integer, so will allocate on the heap).
+
+Constructors
+------------
+
+.. class:: clock()
+
+   Returns a clock object.
+
+   Methods
+   -------
+
+   .. method:: tick()
+
+      Starts tracking elapsed time.
+
+   .. method:: fps()
+
+      Stops tracking the elapsed time and returns the current FPS
+      (frames per second).
+
+      Always call ``tick`` first before calling this function.
+
+   .. method:: avg()
+
+      Stops tracking the elapsed time and returns the current average elapsed time
+      in milliseconds.
+
+      Always call ``tick`` first before calling this function.
+
+   .. method:: reset()
+
+      Resets the clock object.

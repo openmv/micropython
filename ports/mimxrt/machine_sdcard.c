@@ -48,7 +48,7 @@ STATIC const mp_arg_t sdcard_init_allowed_args[] = {
 };
 
 
-STATIC void machine_sdcard_init_helper(mimxrt_sdcard_obj_t *self) {
+void machine_sdcard_init_helper(mimxrt_sdcard_obj_t *self) {
     sdcard_init(self, 198000000UL);  // Initialize SDCard Host with 198MHz base clock
     sdcard_init_pins(self);
 

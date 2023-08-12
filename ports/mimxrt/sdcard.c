@@ -745,8 +745,22 @@ void sdcard_init_pins(mimxrt_sdcard_obj_t *card) {
     // speed and strength optimized for clock frequency < 100MHz
     const mimxrt_sdcard_obj_pins_t *pins = card->pins;
 
+    #if USDHC_PULL_UPS_ON_BOARD
+    uint32_t pin_pull = PIN_PULL_DISABLED;
+    #else
+    uint32_t pin_pull = PIN_PULL_UP_47K;
+    #endif
+
+    #ifdef USDHC_CLK_PIN_DRIVE
+    uint32_t clk_pin_drive = USDHC_CLK_PIN_DRIVE;
+    #else
+    uint32_t clk_pin_drive = PIN_DRIVE_6;
+    #endif
+
     uint32_t default_config = pin_generate_config(
-        PIN_PULL_UP_47K, PIN_MODE_SKIP, PIN_DRIVE_6, card->pins->clk.pin->configRegister);
+        pin_pull, PIN_MODE_SKIP, PIN_DRIVE_6, card->pins->clk.pin->configRegister);
+    uint32_t clock_config = pin_generate_config(
+        PIN_PULL_UP_47K, PIN_MODE_SKIP, clk_pin_drive, card->pins->clk.pin->configRegister);
     #if USDHC_DATA3_PULL_DOWN_ON_BOARD
     // Pull down on the board -> must not enable internal PD.
     uint32_t no_cd_config = pin_generate_config(
@@ -756,7 +770,7 @@ void sdcard_init_pins(mimxrt_sdcard_obj_t *card) {
         PIN_PULL_DOWN_100K, PIN_MODE_SKIP, PIN_DRIVE_6, card->pins->data3.pin->configRegister);
     #endif // USDHC_DATA3_PULL_DOWN_ON_BOARD
 
-    sdcard_init_pin(card->pins->clk.pin, card->pins->clk.af_idx, default_config);  // USDHC1_CLK
+    sdcard_init_pin(card->pins->clk.pin, card->pins->clk.af_idx, clock_config);  // USDHC1_CLK
     sdcard_init_pin(card->pins->cmd.pin, card->pins->cmd.af_idx, default_config);  // USDHC1_CMD
     sdcard_init_pin(card->pins->data0.pin, card->pins->data0.af_idx, default_config);  // USDHC1_DATA0
     sdcard_init_pin(card->pins->data1.pin, card->pins->data1.af_idx, default_config);  // USDHC1_DATA1

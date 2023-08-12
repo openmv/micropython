@@ -146,6 +146,10 @@ extern void mimxrt_hal_bootloader(void);
         .data3 = { GPIO_SD_B0_05_USDHC1_DATA3 }, \
     }
 
+// Override the default USDHC pin config.
+#define USDHC_PULL_UPS_ON_BOARD (1)
+#define USDHC_CLK_PIN_DRIVE     (PIN_DRIVE_4)
+
 // --- SEMC --- //
 #define MIMXRT_IOMUXC_SEMC_DATA00 IOMUXC_GPIO_EMC_00_SEMC_DATA00
 #define MIMXRT_IOMUXC_SEMC_DATA01 IOMUXC_GPIO_EMC_01_SEMC_DATA01

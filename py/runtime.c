@@ -692,7 +692,12 @@ mp_obj_t mp_call_function_n_kw(mp_obj_t fun_in, size_t n_args, size_t n_kw, cons
 
     // do the call
     if (MP_OBJ_TYPE_HAS_SLOT(type, call)) {
-        return MP_OBJ_TYPE_GET_SLOT(type, call)(fun_in, n_args, n_kw, args);
+        extern void fb_alloc_mark();
+        extern void fb_alloc_free_till_mark();
+        fb_alloc_mark();
+        mp_obj_t result = MP_OBJ_TYPE_GET_SLOT(type, call)(fun_in, n_args, n_kw, args);
+        fb_alloc_free_till_mark();
+        return result;
     }
 
     #if MICROPY_ERROR_REPORTING <= MICROPY_ERROR_REPORTING_TERSE

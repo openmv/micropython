@@ -30,6 +30,8 @@
 #include "py/mphal.h"
 #include "py/gc.h"
 
+typedef mp_uint_t time_t;
+
 // Functions for external libs like axTLS, BerkeleyDB, etc.
 
 void *malloc(size_t size) {

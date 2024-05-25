@@ -9,31 +9,31 @@ The ``image`` module is used for machine vision.
 Functions
 ---------
 
-.. function:: binary_to_grayscale(binary_image_value)
+.. function:: binary_to_grayscale(binary_image_value:Union[0,1]) -> int
 
    Returns a converted binary value (0-1) to a grayscale value (0-255).
 
-.. function:: binary_to_rgb(binary_image_value)
+.. function:: binary_to_rgb(binary_image_value:Union[0,1]) -> Tuple[int, int, int]
 
    Returns a converted binary value (0-1) to a 3 value RGB888 tuple.
 
-.. function:: binary_to_lab(binary_image_value)
+.. function:: binary_to_lab(binary_image_value:Union[0,1]) -> Tuple[int, int, int]
 
    Returns a converted binary value (0-1) to a 3 value LAB tuple.
 
    L goes between 0 and 100 and A/B go from -128 to 128.
 
-.. function:: binary_to_yuv(binary_image_value)
+.. function:: binary_to_yuv(binary_image_value:Union[0,1]) -> Tuple[int, int, int]
 
    Returns a converted binary value (0-1) to a 3 value YUV tuple.
 
    Y goes between 0 and 255 and U/V go from -128 to 128.
 
-.. function:: grayscale_to_binary(grayscale_value)
+.. function:: grayscale_to_binary(grayscale_value:int) -> Union[0,1]
 
    Returns a converted grayscale value (0-255) to a binary value (0-1).
 
-.. function:: grayscale_to_rgb(grayscale_value)
+.. function:: grayscale_to_rgb(grayscale_value:int) -> Tuple[int, int, int]
 
    Returns a converted grayscale value to a 3 value RGB888 tuple.
 
@@ -43,7 +43,7 @@ Functions
       so this method won't return the exact values as a pure RGB888 system would.
       However, it's true to how the image lib works internally.
 
-.. function:: grayscale_to_lab(grayscale_value)
+.. function:: grayscale_to_lab(grayscale_value:int) -> Tuple[int, int, int]
 
    Returns a converted grayscale value to a 3 value LAB tuple.
 
@@ -55,7 +55,7 @@ Functions
       so this method won't return the exact values as a pure LAB system would.
       However, it's true to how the image lib works internally.
 
-.. function:: grayscale_to_yuv(grayscale_value)
+.. function:: grayscale_to_yuv(grayscale_value:int) -> Tuple[int, int, int]
 
    Returns a converted grayscale value to a 3 value YUV tuple.
 
@@ -67,7 +67,7 @@ Functions
       so this method won't return the exact values as a pure YUV system would.
       However, it's true to how the image lib works internally.
 
-.. function:: rgb_to_binary(rgb_tuple)
+.. function:: rgb_to_binary(rgb_tuple:Tuple[int, int, int]) -> Union[0,1]
 
    Returns a converted 3 value RGB888 tuple to a center range thresholded binary value (0-1).
 
@@ -77,7 +77,7 @@ Functions
       so this method won't return the exact values as a pure RGB888 system would.
       However, it's true to how the image lib works internally.
 
-.. function:: rgb_to_grayscale(rgb_tuple)
+.. function:: rgb_to_grayscale(rgb_tuple:Tuple[int, int, int]) -> int
 
    Returns a converted 3 value RGB888 tuple to a grayscale value (0-255).
 
@@ -87,7 +87,7 @@ Functions
       so this method won't return the exact values as a pure RGB888 system would.
       However, it's true to how the image lib works internally.
 
-.. function:: rgb_to_lab(rgb_tuple)
+.. function:: rgb_to_lab(rgb_tuple:Tuple[int, int, int]) -> Tuple[int, int, int]
 
    Returns a converted 3 value RGB888 tuple to a 3 value LAB tuple.
 
@@ -99,7 +99,7 @@ Functions
       so this method won't return the exact values as a pure RGB888 system would.
       However, it's true to how the image lib works internally.
 
-.. function:: rgb_to_yuv(rgb_tuple)
+.. function:: rgb_to_yuv(rgb_tuple:Tuple[int, int, int]) -> Tuple[int, int, int]
 
    Returns a converted 3 value RGB888 tuple to a 3 value YUV tuple.
 
@@ -111,7 +111,7 @@ Functions
       so this method won't return the exact values as a pure RGB888 system would.
       However, it's true to how the image lib works internally.
 
-.. function:: lab_to_binary(lab_tuple)
+.. function:: lab_to_binary(lab_tuple:Tuple[int, int, int]) -> Union[0,1]
 
    Returns a converted 3 value LAB tuple to a center range thresholded binary value (0-1).
 
@@ -121,7 +121,7 @@ Functions
       so this method won't return the exact values as a pure LAB system would.
       However, it's true to how the image lib works internally.
 
-.. function:: lab_to_grayscale(lab_tuple)
+.. function:: lab_to_grayscale(lab_tuple:Tuple[int, int, int]) -> int
 
    Returns a converted 3 value LAB tuple to a grayscale value (0-255).
 
@@ -131,7 +131,7 @@ Functions
       so this method won't return the exact values as a pure LAB system would.
       However, it's true to how the image lib works internally.
 
-.. function:: lab_to_rgb(lab_tuple)
+.. function:: lab_to_rgb(lab_tuple:Tuple[int, int, int]) -> Tuple[int, int, int]
 
    Returns a converted 3 value LAB tuple to a 3 value RGB888 tuple.
 
@@ -141,7 +141,7 @@ Functions
       so this method won't return the exact values as a pure LAB system would.
       However, it's true to how the image lib works internally.
 
-.. function:: lab_to_yuv(lab_tuple)
+.. function:: lab_to_yuv(lab_tuple:Tuple[int, int, int]) -> Tuple[int, int, int]
 
    Returns a converted 3 value LAB tuple to a 3 value YUV tuple.
 
@@ -153,7 +153,7 @@ Functions
       so this method won't return the exact values as a pure LAB system would.
       However, it's true to how the image lib works internally.
 
-.. function:: yuv_to_binary(yuv_tuple)
+.. function:: yuv_to_binary(yuv_tuple:Tuple[int, int, int]) -> Union[0,1]
 
    Returns a converted 3 value YUV tuple to a center range thresholded binary value (0-1).
 
@@ -163,7 +163,7 @@ Functions
       so this method won't return the exact values as a pure YUV system would.
       However, it's true to how the image lib works internally.
 
-.. function:: yuv_to_grayscale(yuv_tuple)
+.. function:: yuv_to_grayscale(yuv_tuple:Tuple[int, int, int]) -> int
 
    Returns a converted 3 value YUV tuple to a grayscale value (0-255).
 
@@ -173,7 +173,7 @@ Functions
       so this method won't return the exact values as a pure YUV system would.
       However, it's true to how the image lib works internally.
 
-.. function:: yuv_to_rgb(lab_tuple)
+.. function:: yuv_to_rgb(lab_tuple:Tuple[int, int, int]) -> Tuple[int, int, int]
 
    Returns a converted 3 value YUV tuple to a 3 value RGB888 tuple.
 
@@ -183,7 +183,7 @@ Functions
       so this method won't return the exact values as a pure YUV system would.
       However, it's true to how the image lib works internally.
 
-.. function:: yuv_to_lab(yuv_tuple)
+.. function:: yuv_to_lab(yuv_tuple:Tuple[int, int, int]) -> Tuple[int, int, int]
 
    Returns a converted 3 value YUV tuple to a 3 value LAB tuple.
 
@@ -195,19 +195,19 @@ Functions
       so this method won't return the exact values as a pure YUV system would.
       However, it's true to how the image lib works internally.
 
-.. function:: load_decriptor(path)
+.. function:: load_decriptor(path:str)
 
    Loads a descriptor object from disk.
 
    ``path`` is the path to the descriptor file to load.
 
-.. function:: save_descriptor(path, descriptor)
+.. function:: save_descriptor(path:str, descriptor)
 
    Saves the descriptor object ``descriptor`` to disk.
 
    ``path`` is the path to the descriptor file to save.
 
-.. function:: match_descriptor(descritor0, descriptor1, [threshold=70, [filter_outliers=False]])
+.. function:: match_descriptor(descritor0, descriptor1, threshold=70, filter_outliers=False)
 
    For LBP descriptors this function returns an integer representing the
    difference between the two descriptors. You may then threshold/compare this
@@ -229,7 +229,7 @@ class HaarCascade -- Feature Descriptor
 The Haar Cascade feature descriptor is used for the `Image.find_features()`
 method. It doesn't have any methods itself for you to call.
 
-.. class:: HaarCascade(path, [stages=Auto])
+.. class:: HaarCascade(path:str, stages:Optional[int]=None)
 
    Loads a Haar Cascade into memory from a Haar Cascade binary file formatted
    for your OpenMV Cam. If you pass "frontalface" instead of a path then this
@@ -286,31 +286,31 @@ are normalized so that all bins in a channel sum to 1.
 
    Please call `Image.get_histogram()` to create this object.
 
-   .. method:: bins()
+   .. method:: bins() -> List[float]
 
       Returns a list of floats for the grayscale histogram.
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: l_bins()
+   .. method:: l_bins() -> List[float]
 
       Returns a list of floats for the RGB565 histogram LAB L channel.
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: a_bins()
+   .. method:: a_bins() -> List[float]
 
       Returns a list of floats for the RGB565 histogram LAB A channel.
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: b_bins()
+   .. method:: b_bins() -> List[float]
 
       Returns a list of floats for the RGB565 histogram LAB B channel.
 
       You may also get this value doing ``[2]`` on the object.
 
-   .. method:: get_percentile(percentile)
+   .. method:: get_percentile(percentile) -> percentile
 
       Computes the CDF of the histogram channels and returns a `image.percentile`
       object with the values of the histogram at the passed in ``percentile`` (0.0
@@ -320,14 +320,14 @@ are normalized so that all bins in a channel sum to 1.
       0.1) and max (with 0.9) of a color distribution without outlier effects
       ruining your results for adaptive color tracking.
 
-   .. method:: get_threshold()
+   .. method:: get_threshold() -> threshold
 
       Uses Otsu's Method to compute the optimal threshold values that split the
       histogram into two halves for each channel of the histogram. This method
       returns a `image.threshold` object. This method is particularly useful for
       determining optimal `Image.binary()` thresholds.
 
-   .. method:: get_statistics()
+   .. method:: get_statistics() -> statistics
 
       Computes the mean, median, mode, standard deviation, min, max, lower
       quartile, and upper quartile of each color channel in the histogram and
@@ -351,25 +351,25 @@ methods.
 
    Please call `histogram.get_percentile()` to create this object.
 
-   .. method:: value()
+   .. method:: value() -> int
 
       Return the grayscale percentile value (between 0 and 255).
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: l_value()
+   .. method:: l_value() -> int
 
       Return the RGB565 LAB L channel percentile value (between 0 and 100).
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: a_value()
+   .. method:: a_value() -> int
 
       Return the RGB565 LAB A channel percentile value (between -128 and 127).
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: b_value()
+   .. method:: b_value() -> int
 
       Return the RGB565 LAB B channel percentile value (between -128 and 127).
 
@@ -390,25 +390,25 @@ methods.
 
    Please call `histogram.get_threshold()` to create this object.
 
-   .. method:: value()
+   .. method:: value() -> int
 
       Return the grayscale threshold value (between 0 and 255).
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: l_value()
+   .. method:: l_value() -> int
 
       Return the RGB565 LAB L channel threshold value (between 0 and 100).
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: a_value()
+   .. method:: a_value() -> int
 
       Return the RGB565 LAB A channel threshold value (between -128 and 127).
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: b_value()
+   .. method:: b_value() -> int
 
       Return the RGB565 LAB B channel threshold value (between -128 and 127).
 
@@ -430,193 +430,193 @@ methods.
 
    Please call `histogram.get_statistics()` or `Image.get_statistics()` to create this object.
 
-   .. method:: mean()
+   .. method:: mean() -> int
 
       Returns the grayscale mean (0-255) (int).
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: median()
+   .. method:: median() -> int
 
       Returns the grayscale median (0-255) (int).
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: mode()
+   .. method:: mode() -> int
 
       Returns the grayscale mode (0-255) (int).
 
       You may also get this value doing ``[2]`` on the object.
 
-   .. method:: stdev()
+   .. method:: stdev() -> int
 
       Returns the grayscale standard deviation (0-255) (int).
 
       You may also get this value doing ``[3]`` on the object.
 
-   .. method:: min()
+   .. method:: min() -> int
 
       Returns the grayscale min (0-255) (int).
 
       You may also get this value doing ``[4]`` on the object.
 
-   .. method:: max()
+   .. method:: max() -> int
 
       Returns the grayscale max (0-255) (int).
 
       You may also get this value doing ``[5]`` on the object.
 
-   .. method:: lq()
+   .. method:: lq() -> int
 
       Returns the grayscale lower quartile (0-255) (int).
 
       You may also get this value doing ``[6]`` on the object.
 
-   .. method:: uq()
+   .. method:: uq() -> int
 
       Returns the grayscale upper quartile (0-255) (int).
 
       You may also get this value doing ``[7]`` on the object.
 
-   .. method:: l_mean()
+   .. method:: l_mean() -> int
 
       Returns the RGB565 LAB L mean (0-255) (int).
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: l_median()
+   .. method:: l_median() -> int
 
       Returns the RGB565 LAB L median (0-255) (int).
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: l_mode()
+   .. method:: l_mode() -> int
 
       Returns the RGB565 LAB L mode (0-255) (int).
 
       You may also get this value doing ``[2]`` on the object.
 
-   .. method:: l_stdev()
+   .. method:: l_stdev() -> int
 
       Returns the RGB565 LAB L standard deviation (0-255) (int).
 
       You may also get this value doing ``[3]`` on the object.
 
-   .. method:: l_min()
+   .. method:: l_min() -> int
 
       Returns the RGB565 LAB L min (0-255) (int).
 
       You may also get this value doing ``[4]`` on the object.
 
-   .. method:: l_max()
+   .. method:: l_max() -> int
 
       Returns the RGB565 LAB L max (0-255) (int).
 
       You may also get this value doing ``[5]`` on the object.
 
-   .. method:: l_lq()
+   .. method:: l_lq() -> int
 
       Returns the RGB565 LAB L lower quartile (0-255) (int).
 
       You may also get this value doing ``[6]`` on the object.
 
-   .. method:: l_uq()
+   .. method:: l_uq() -> int
 
       Returns the RGB565 LAB L upper quartile (0-255) (int).
 
       You may also get this value doing ``[7]`` on the object.
 
-   .. method:: a_mean()
+   .. method:: a_mean() -> int
 
       Returns the RGB565 LAB A mean (0-255) (int).
 
       You may also get this value doing ``[8]`` on the object.
 
-   .. method:: a_median()
+   .. method:: a_median() -> int
 
       Returns the RGB565 LAB A median (0-255) (int).
 
       You may also get this value doing ``[9]`` on the object.
 
-   .. method:: a_mode()
+   .. method:: a_mode() -> int
 
       Returns the RGB565 LAB A mode (0-255) (int).
 
       You may also get this value doing ``[10]`` on the object.
 
-   .. method:: a_stdev()
+   .. method:: a_stdev() -> int
 
       Returns the RGB565 LAB A standard deviation (0-255) (int).
 
       You may also get this value doing ``[11]`` on the object.
 
-   .. method:: a_min()
+   .. method:: a_min() -> int
 
       Returns the RGB565 LAB A min (0-255) (int).
 
       You may also get this value doing ``[12]`` on the object.
 
-   .. method:: a_max()
+   .. method:: a_max() -> int
 
       Returns the RGB565 LAB A max (0-255) (int).
 
       You may also get this value doing ``[13]`` on the object.
 
-   .. method:: a_lq()
+   .. method:: a_lq() -> int
 
       Returns the RGB565 LAB A lower quartile (0-255) (int).
 
       You may also get this value doing ``[14]`` on the object.
 
-   .. method:: a_uq()
+   .. method:: a_uq() -> int
 
       Returns the RGB565 LAB A upper quartile (0-255) (int).
 
       You may also get this value doing ``[15]`` on the object.
 
-   .. method:: b_mean()
+   .. method:: b_mean() -> int
 
       Returns the RGB565 LAB B mean (0-255) (int).
 
       You may also get this value doing ``[16]`` on the object.
 
-   .. method:: b_median()
+   .. method:: b_median() -> int
 
       Returns the RGB565 LAB B median (0-255) (int).
 
       You may also get this value doing ``[17]`` on the object.
 
-   .. method:: b_mode()
+   .. method:: b_mode() -> int
 
       Returns the RGB565 LAB B mode (0-255) (int).
 
       You may also get this value doing ``[18]`` on the object.
 
-   .. method:: b_stdev()
+   .. method:: b_stdev() -> int
 
       Returns the RGB565 LAB B standard deviation (0-255) (int).
 
       You may also get this value doing ``[19]`` on the object.
 
-   .. method:: b_min()
+   .. method:: b_min() -> int
 
       Returns the RGB565 LAB B min (0-255) (int).
 
       You may also get this value doing ``[20]`` on the object.
 
-   .. method:: b_max()
+   .. method:: b_max() -> int
 
       Returns the RGB565 LAB B max (0-255) (int).
 
       You may also get this value doing ``[21]`` on the object.
 
-   .. method:: b_lq()
+   .. method:: b_lq() -> int
 
       Returns the RGB565 LAB B lower quartile (0-255) (int).
 
       You may also get this value doing ``[22]`` on the object.
 
-   .. method:: b_uq()
+   .. method:: b_uq() -> int
 
       Returns the RGB565 LAB B upper quartile (0-255) (int).
 
@@ -631,73 +631,73 @@ The blob object is returned by `Image.find_blobs()`.
 
    Please call `Image.find_blobs()` to create this object.
 
-   .. method:: corners()
+   .. method:: corners() -> List[Tuple[int, int]]
 
       Returns a list of 4 (x,y) tuples of the 4 corners of the object. Corners are
       always returned in sorted clock-wise order starting from the top left.
 
-   .. method:: min_corners()
+   .. method:: min_corners() -> List[Tuple[int, int]]
 
       Returns a list of 4 (x,y) tuples of the 4 corners than bound the min area
       rectangle of the blob. Unlike `blob.corners()` the min area rectangle corners
       do not necessarily lie on the blob.
 
-   .. method:: rect()
+   .. method:: rect() -> Tuple[int, int, int, int]
 
       Returns a rectangle tuple (x, y, w, h) for use with other `image` methods
       like `Image.draw_rectangle()` of the blob's bounding box.
 
-   .. method:: x()
+   .. method:: x() -> int
 
       Returns the blob's bounding box x coordinate (int).
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: y()
+   .. method:: y() -> int
 
       Returns the blob's bounding box y coordinate (int).
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: w()
+   .. method:: w() -> int
 
       Returns the blob's bounding box w coordinate (int).
 
       You may also get this value doing ``[2]`` on the object.
 
-   .. method:: h()
+   .. method:: h() -> int
 
       Returns the blob's bounding box h coordinate (int).
 
       You may also get this value doing ``[3]`` on the object.
 
-   .. method:: pixels()
+   .. method:: pixels() -> int
 
       Returns the number of pixels that are part of this blob (int).
 
       You may also get this value doing ``[4]`` on the object.
 
-   .. method:: cx()
+   .. method:: cx() -> int
 
       Returns the centroid x position of the blob (int).
 
       You may also get this value doing ``[5]`` on the object.
 
-   .. method:: cxf()
+   .. method:: cxf() -> int
 
       Returns the centroid x position of the blob (float).
 
-   .. method:: cy()
+   .. method:: cy() -> int
 
       Returns the centroid y position of the blob (int).
 
       You may also get this value doing ``[6]`` on the object.
 
-   .. method:: cyf()
+   .. method:: cyf() -> int
 
       Returns the centroid y position of the blob (float).
 
-   .. method:: rotation()
+   .. method:: rotation() -> float
 
       Returns the rotation of the blob in radians (float). If the blob is like
       a pencil or pen this value will be unique for 0-180 degrees. If the blob
@@ -705,16 +705,16 @@ The blob object is returned by `Image.find_blobs()`.
 
       You may also get this value doing ``[7]`` on the object.
 
-   .. method:: rotation_deg()
+   .. method:: rotation_deg() -> float
 
       Returns the rotation of the blob in degrees.
 
-   .. method:: rotation_rad()
+   .. method:: rotation_rad() -> float
 
       Returns the rotation of the blob in radians. This method is more descriptive
       than just `blob.rotation()`.
 
-   .. method:: code()
+   .. method:: code() -> int
 
       Returns a 32-bit binary number with a bit set in it for each color threshold
       that's part of this blob. For example, if you passed `Image.find_blobs()`
@@ -726,79 +726,79 @@ The blob object is returned by `Image.find_blobs()`.
 
       You may also get this value doing ``[8]`` on the object.
 
-   .. method:: count()
+   .. method:: count() -> int
 
       Returns the number of blobs merged into this blob. This is 1 unless you
       called `Image.find_blobs()` with ``merge=True``.
 
       You may also get this value doing ``[9]`` on the object.
 
-   .. method:: perimeter()
+   .. method:: perimeter() -> int
 
       Returns the number of pixels on this blob's perimeter.
 
-   .. method:: roundness()
+   .. method:: roundness() -> float
 
       Returns a value between 0 and 1 representing how round the object is. A circle would be a 1.
 
-   .. method:: elongation()
+   .. method:: elongation() -> float
 
       Returns a value between 0 and 1 representing how long (not round) the object is. A line would be a 1.
 
-   .. method:: area()
+   .. method:: area()  -> int
 
       Returns the area of the bounding box around the blob. (w * h).
 
-   .. method:: density()
+   .. method:: density() -> float
 
       Returns the density ratio of the blob. This is the number of pixels in the
       blob over its bounding box area. A low density ratio means in general that
       the lock on the object isn't very good. The result is between 0 and 1.
 
-   .. method:: extent()
+   .. method:: extent() -> float
 
       Alias for `blob.density()`.
 
-   .. method:: compactness()
+   .. method:: compactness() -> float
 
       Like `blob.density()`, but, uses the perimeter of the blob instead to measure
       the objects density and is thus more accurate. The result is between 0 and 1.
 
-   .. method:: solidity()
+   .. method:: solidity() -> float
 
       Like `blob.density()` but, uses the minimum area rotated rectangle versus the
       bounding rectangle to measure density. The result is between 0 and 1.
 
-   .. method:: convexity()
+   .. method:: convexity() -> float
 
       Returns a value between 0 and 1 representing how convex the object is. A square would be 1.
 
-   .. method:: x_hist_bins()
+   .. method:: x_hist_bins() -> List[float]
 
       Returns a histogram of the x axis of all columns in a blob. Bin values are
       scaled between 0 and 1.
 
-   .. method:: y_hist_bins()
+   .. method:: y_hist_bins() -> List[float]
 
       Returns a histogram of the y axis of all the rows in a blob. Bin values are
       scaled between 0 and 1.
 
-   .. method:: major_axis_line()
+   .. method:: major_axis_line() -> Tuple[int, int, int, int]
 
       Returns a line tuple (x1, y1, x2, y2) that can be drawn with `Image.draw_line()` of the major
       axis of the blob (the line going through the longest side of the min area rectangle).
 
-   .. method:: minor_axis_line()
+   .. method:: minor_axis_line() -> Tuple[int, int, int, int]
 
       Returns a line tuple (x1, y1, x2, y2) that can be drawn with `Image.draw_line()` of the minor
       axis of the blob (the line going through the shortest side of the min area rectangle).
 
-   .. method:: enclosing_circle()
+   .. method:: enclosing_circle() -> Tuple[int, int, int]
 
       Returns a circle tuple (x, y, r) that can be drawn with `Image.draw_circle()` of
       the circle that encloses the min area rectangle of a blob.
 
-   .. method:: enclosed_ellipse()
+   .. method:: enclosed_ellipse() -> Tuple[int, int, int, int, float]
 
       Returns an ellipse tuple (x, y, rx, ry, rotation) that can be drawn with `Image.draw_ellipse()`
       of the ellipse that fits inside of the min area rectangle of a blob.
@@ -812,54 +812,54 @@ The line object is returned by `Image.find_lines()`, `Image.find_line_segments()
 
    Please call `Image.find_lines()`, `Image.find_line_segments()`, or `Image.get_regression()` to create this object.
 
-   .. method:: line()
+   .. method:: line() -> Tuple[int, int, int, int]
 
       Returns a line tuple (x1, y1, x2, y2) for use with other `image` methods
       like `Image.draw_line()`.
 
-   .. method:: x1()
+   .. method:: x1() -> int
 
       Returns the line's p1 x component.
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: y1()
+   .. method:: y1() -> int
 
       Returns the line's p1 y component.
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: x2()
+   .. method:: x2() -> int
 
       Returns the line's p2 x component.
 
       You may also get this value doing ``[2]`` on the object.
 
-   .. method:: y2()
+   .. method:: y2() -> int
 
       Returns the line's p2 y component.
 
       You may also get this value doing ``[3]`` on the object.
 
-   .. method:: length()
+   .. method:: length() -> int
 
       Returns the line's length: sqrt(((x2-x1)^2) + ((y2-y1)^2).
 
       You may also get this value doing ``[4]`` on the object.
 
-   .. method:: magnitude()
+   .. method:: magnitude() -> int
 
       Returns the magnitude of the line from the hough transform.
 
       You may also get this value doing ``[5]`` on the object.
 
-   .. method:: theta()
+   .. method:: theta() -> int
 
       Returns the angle of the line from the hough transform - (0 - 179) degrees.
 
       You may also get this value doing ``[7]`` on the object.
 
-   .. method:: rho()
+   .. method:: rho() -> int
 
       Returns the the rho value for the line from the hough transform.
 
@@ -874,25 +874,25 @@ The circle object is returned by `Image.find_circles()`.
 
    Please call `Image.find_circles()` to create this object.
 
-   .. method:: x()
+   .. method:: x() -> int
 
       Returns the circle's x position.
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: y()
+   .. method:: y() -> int
 
       Returns the circle's y position.
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: r()
+   .. method:: r() -> int
 
       Returns the circle's radius.
 
       You may also get this value doing ``[2]`` on the object.
 
-   .. method:: magnitude()
+   .. method:: magnitude() -> int
 
       Returns the circle's magnitude.
 
@@ -907,41 +907,41 @@ The rect object is returned by `Image.find_rects()`.
 
    Please call `Image.find_rects()` to create this object.
 
-   .. method:: corners()
+   .. method:: corners() -> List[Tuple[int, int]]
 
       Returns a list of 4 (x,y) tuples of the 4 corners of the object. Corners are
       always returned in sorted clock-wise order starting from the top left.
 
-   .. method:: rect()
+   .. method:: rect() -> Tuple[int, int, int, int]
 
       Returns a rectangle tuple (x, y, w, h) for use with other `image` methods
       like `Image.draw_rectangle()` of the rect's bounding box.
 
-   .. method:: x()
+   .. method:: x() -> int
 
       Returns the rectangle's top left corner's x position.
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: y()
+   .. method:: y() -> int
 
       Returns the rectangle's top left corner's y position.
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: w()
+   .. method:: w() -> int
 
       Returns the rectangle's width.
 
       You may also get this value doing ``[2]`` on the object.
 
-   .. method:: h()
+   .. method:: h() -> int
 
       Returns the rectangle's height.
 
       You may also get this value doing ``[3]`` on the object.
 
-   .. method:: magnitude()
+   .. method:: magnitude() -> int
 
       Returns the rectangle's magnitude.
 
@@ -956,71 +956,71 @@ The qrcode object is returned by `Image.find_qrcodes()`.
 
    Please call `Image.find_qrcodes()` to create this object.
 
-   .. method:: corners()
+   .. method:: corners() -> List[Tuple[int, int]]
 
       Returns a list of 4 (x,y) tuples of the 4 corners of the object. Corners are
       always returned in sorted clock-wise order starting from the top left.
 
-   .. method:: rect()
+   .. method:: rect() -> Tuple[int, int, int, int]
 
       Returns a rectangle tuple (x, y, w, h) for use with other `image` methods
       like `Image.draw_rectangle()` of the qrcode's bounding box.
 
-   .. method:: x()
+   .. method:: x() -> int
 
       Returns the qrcode's bounding box x coordinate (int).
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: y()
+   .. method:: y() -> int
 
       Returns the qrcode's bounding box y coordinate (int).
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: w()
+   .. method:: w() -> int
 
       Returns the qrcode's bounding box w coordinate (int).
 
       You may also get this value doing ``[2]`` on the object.
 
-   .. method:: h()
+   .. method:: h() -> int
 
       Returns the qrcode's bounding box h coordinate (int).
 
       You may also get this value doing ``[3]`` on the object.
 
-   .. method:: payload()
+   .. method:: payload() -> str
 
       Returns the payload string of the qrcode. E.g. the URL.
 
       You may also get this value doing ``[4]`` on the object.
 
-   .. method:: version()
+   .. method:: version() -> int
 
       Returns the version number of the qrcode (int).
 
       You may also get this value doing ``[5]`` on the object.
 
-   .. method:: ecc_level()
+   .. method:: ecc_level() -> int
 
       Returns the ecc_level of the qrcode (int).
 
       You may also get this value doing ``[6]`` on the object.
 
-   .. method:: mask()
+   .. method:: mask() -> int
 
       Returns the mask of the qrcode (int).
 
       You may also get this value doing ``[7]`` on the object.
 
-   .. method:: data_type()
+   .. method:: data_type() -> int
 
       Returns the data type of the qrcode (int).
 
       You may also get this value doing ``[8]`` on the object.
 
-   .. method:: eci()
+   .. method:: eci() -> int
 
       Returns the eci of the qrcode (int). The eci stores the encoding of data
       bytes in the QR Code. If you plan to handling QR Codes that contain more
@@ -1028,22 +1028,22 @@ The qrcode object is returned by `Image.find_qrcodes()`.
 
       You may also get this value doing ``[9]`` on the object.
 
-   .. method:: is_numeric()
+   .. method:: is_numeric() -> bool
 
       Returns True if the data_type of the qrcode is numeric.
 
-   .. method:: is_alphanumeric()
+   .. method:: is_alphanumeric() -> bool
 
       Returns True if the data_type of the qrcode is alpha numeric.
 
-   .. method:: is_binary()
+   .. method:: is_binary() -> bool
 
       Returns True if the data_type of the qrcode is binary. If you are serious
       about handling all types of text you need to check the eci if this is True
       to determine the text encoding of the data. Usually, it's just standard
       ASCII, but, it could be UTF8 that has some 2-byte characters in it.
 
-   .. method:: is_kanji()
+   .. method:: is_kanji() -> bool
 
       Returns True if the data_type of the qrcode is alpha Kanji. If this is True
       then you'll need to decode the string yourself as Kanji symbols are 10-bits
@@ -1059,41 +1059,41 @@ The apriltag object is returned by `Image.find_apriltags()`.
 
    Please call `Image.find_apriltags()` to create this object.
 
-   .. method:: corners()
+   .. method:: corners() -> List[Tuple[int, int]]
 
       Returns a list of 4 (x,y) tuples of the 4 corners of the object. Corners are
       always returned in sorted clock-wise order starting from the top left.
 
-   .. method:: rect()
+   .. method:: rect() -> Tuple[int, int, int, int]
 
       Returns a rectangle tuple (x, y, w, h) for use with other `image` methods
       like `Image.draw_rectangle()` of the apriltag's bounding box.
 
-   .. method:: x()
+   .. method:: x() -> int
 
       Returns the apriltag's bounding box x coordinate (int).
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: y()
+   .. method:: y() -> int
 
       Returns the apriltag's bounding box y coordinate (int).
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: w()
+   .. method:: w() -> int
 
       Returns the apriltag's bounding box w coordinate (int).
 
       You may also get this value doing ``[2]`` on the object.
 
-   .. method:: h()
+   .. method:: h() -> int
 
       Returns the apriltag's bounding box h coordinate (int).
 
       You may also get this value doing ``[3]`` on the object.
 
-   .. method:: id()
+   .. method:: id() -> int
 
       Returns the numeric id of the apriltag.
 
@@ -1106,7 +1106,7 @@ The apriltag object is returned by `Image.find_apriltags()`.
 
       You may also get this value doing ``[4]`` on the object.
 
-   .. method:: family()
+   .. method:: family() -> int
 
       Returns the numeric family of the apriltag.
 
@@ -1119,39 +1119,39 @@ The apriltag object is returned by `Image.find_apriltags()`.
 
       You may also get this value doing ``[5]`` on the object.
 
-   .. method:: cx()
+   .. method:: cx() -> int
 
       Returns the centroid x position of the apriltag (int).
 
-   .. method:: cxf()
+   .. method:: cxf() -> float
 
       Returns the centroid x position of the apriltag (float).
 
       You may also get this value doing ``[6]`` on the object.
 
-   .. method:: cy()
+   .. method:: cy() -> int
 
       Returns the centroid y position of the apriltag (int).
 
-   .. method:: cyf()
+   .. method:: cyf() -> float
 
       Returns the centroid y position of the apriltag (float).
 
       You may also get this value doing ``[7]`` on the object.
 
-   .. method:: rotation()
+   .. method:: rotation() -> float
 
       Returns the rotation of the apriltag in radians (float).
 
       You may also get this value doing ``[8]`` on the object.
 
-   .. method:: decision_margin()
+   .. method:: decision_margin() -> float
 
       Returns the quality of the apriltag match (0.0 - 1.0) where 1.0 is the best.
 
       You may also get this value doing ``[9]`` on the object.
 
-   .. method:: hamming()
+   .. method:: hamming() -> int
 
       Returns the number of accepted bit errors for this tag.
 
@@ -1164,7 +1164,7 @@ The apriltag object is returned by `Image.find_apriltags()`.
 
       You may also get this value doing ``[10]`` on the object.
 
-   .. method:: goodness()
+   .. method:: goodness() -> float
 
       Returns the quality of the apriltag image (0.0 - 1.0) where 1.0 is the best.
 
@@ -1176,7 +1176,7 @@ The apriltag object is returned by `Image.find_apriltags()`.
 
       You may also get this value doing ``[11]`` on the object.
 
-   .. method:: x_translation()
+   .. method:: x_translation() -> float
 
       Returns the translation in unknown units from the camera in the X direction.
 
@@ -1190,7 +1190,7 @@ The apriltag object is returned by `Image.find_apriltags()`.
 
       You may also get this value doing ``[12]`` on the object.
 
-   .. method:: y_translation()
+   .. method:: y_translation() -> float
 
       Returns the translation in unknown units from the camera in the Y direction.
 
@@ -1204,7 +1204,7 @@ The apriltag object is returned by `Image.find_apriltags()`.
 
       You may also get this value doing ``[13]`` on the object.
 
-   .. method:: z_translation()
+   .. method:: z_translation() -> float
 
       Returns the translation in unknown units from the camera in the Z direction.
 
@@ -1218,21 +1218,21 @@ The apriltag object is returned by `Image.find_apriltags()`.
 
       You may also get this value doing ``[14]`` on the object.
 
-   .. method:: x_rotation()
+   .. method:: x_rotation() -> float
 
       Returns the rotation in radians of the apriltag in the X plane. E.g. moving
       the camera left-to-right while looking at the tag.
 
       You may also get this value doing ``[15]`` on the object.
 
-   .. method:: y_rotation()
+   .. method:: y_rotation() -> float
 
       Returns the rotation in radians of the apriltag in the Y plane. E.g. moving
       the camera up-to-down while looking at the tag.
 
       You may also get this value doing ``[16]`` on the object.
 
-   .. method:: z_rotation()
+   .. method:: z_rotation() -> float
 
       Returns the rotation in radians of the apriltag in the Z plane. E.g.
       rotating the camera while looking directly at the tag.
@@ -1250,71 +1250,71 @@ The datamatrix object is returned by `Image.find_datamatrices()`.
 
    Please call `Image.find_datamatrices()` to create this object.
 
-   .. method:: corners()
+   .. method:: corners() -> List[Tuple[int, int]]
 
       Returns a list of 4 (x,y) tuples of the 4 corners of the object. Corners are
       always returned in sorted clock-wise order starting from the top left.
 
-   .. method:: rect()
+   .. method:: rect() -> Tuple[int, int, int, int]
 
       Returns a rectangle tuple (x, y, w, h) for use with other `image` methods
       like `Image.draw_rectangle()` of the datamatrix's bounding box.
 
-   .. method:: x()
+   .. method:: x() -> int
 
       Returns the datamatrix's bounding box x coordinate (int).
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: y()
+   .. method:: y() -> int
 
       Returns the datamatrix's bounding box y coordinate (int).
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: w()
+   .. method:: w() -> int
 
       Returns the datamatrix's bounding box w coordinate (int).
 
       You may also get this value doing ``[2]`` on the object.
 
-   .. method:: h()
+   .. method:: h() -> int
 
       Returns the datamatrix's bounding box h coordinate (int).
 
       You may also get this value doing ``[3]`` on the object.
 
-   .. method:: payload()
+   .. method:: payload() -> str
 
       Returns the payload string of the datamatrix. E.g. The string.
 
       You may also get this value doing ``[4]`` on the object.
 
-   .. method:: rotation()
+   .. method:: rotation() -> float
 
       Returns the rotation of the datamatrix in radians (float).
 
       You may also get this value doing ``[5]`` on the object.
 
-   .. method:: rows()
+   .. method:: rows() -> int
 
       Returns the number of rows in the data matrix (int).
 
       You may also get this value doing ``[6]`` on the object.
 
-   .. method:: columns()
+   .. method:: columns() -> int
 
       Returns the number of columns in the data matrix (int).
 
       You may also get this value doing ``[7]`` on the object.
 
-   .. method:: capacity()
+   .. method:: capacity() -> int
 
       Returns how many characters could fit in this data matrix.
 
       You may also get this value doing ``[8]`` on the object.
 
-   .. method:: padding()
+   .. method:: padding() -> int
 
       Returns how many unused characters are in this data matrix.
 
@@ -1329,47 +1329,47 @@ The barcode object is returned by `Image.find_barcodes()`.
 
    Please call `Image.find_barcodes()` to create this object.
 
-   .. method:: corners()
+   .. method:: corners() -> List[Tuple[int, int]]
 
       Returns a list of 4 (x,y) tuples of the 4 corners of the object. Corners are
       always returned in sorted clock-wise order starting from the top left.
 
-   .. method:: rect()
+   .. method:: rect() -> Tuple[int, int, int, int]
 
       Returns a rectangle tuple (x, y, w, h) for use with other `image` methods
       like `Image.draw_rectangle()` of the barcode's bounding box.
 
-   .. method:: x()
+   .. method:: x() -> int
 
       Returns the barcode's bounding box x coordinate (int).
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: y()
+   .. method:: y() -> int
 
       Returns the barcode's bounding box y coordinate (int).
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: w()
+   .. method:: w() -> int
 
       Returns the barcode's bounding box w coordinate (int).
 
       You may also get this value doing ``[2]`` on the object.
 
-   .. method:: h()
+   .. method:: h() -> int
 
       Returns the barcode's bounding box h coordinate (int).
 
       You may also get this value doing ``[3]`` on the object.
 
-   .. method:: payload()
+   .. method:: payload() -> str
 
       Returns the payload string of the barcode. E.g. The number.
 
       You may also get this value doing ``[4]`` on the object.
 
-   .. method:: type()
+   .. method:: type() -> int
 
       Returns the type enumeration of the barcode (int).
 
@@ -1392,13 +1392,13 @@ The barcode object is returned by `Image.find_barcodes()`.
         * image.CODE93
         * image.CODE128
 
-   .. method:: rotation()
+   .. method:: rotation() -> float
 
       Returns the rotation of the barcode in radians (float).
 
       You may also get this value doing ``[6]`` on the object.
 
-   .. method:: quality()
+   .. method:: quality() -> int
 
       Returns the number of times this barcode was detected in the image (int).
 
@@ -1416,33 +1416,33 @@ The displacement object is returned by `Image.find_displacement()`.
 
    Please call `Image.find_displacement()` to create this object.
 
-   .. method:: x_translation()
+   .. method:: x_translation() -> float
 
       Returns the x translation in pixels between two images. This is sub pixel
       accurate so it's a float.
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: y_translation()
+   .. method:: y_translation() -> float
 
       Returns the y translation in pixels between two images. This is sub pixel
       accurate so it's a float.
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: rotation()
+   .. method:: rotation() -> float
 
       Returns the rotation in radians between two images.
 
       You may also get this value doing ``[2]`` on the object.
 
-   .. method:: scale()
+   .. method:: scale() -> float
 
       Returns the scale change between two images.
 
       You may also get this value doing ``[3]`` on the object.
 
-   .. method:: response()
+   .. method:: response() -> float
 
       Returns the quality of the results of displacement matching between two images.
       Between 0-1. A ``displacement`` object with a response less than 0.1 is likely noise.
@@ -1458,60 +1458,60 @@ The kptmatch object is returned by `image.match_descriptor()` for keypoint match
 
    Please call `image.match_descriptor()` to create this object.
 
-   .. method:: rect()
+   .. method:: rect() -> Tuple[int, int, int, int]
 
       Returns a rectangle tuple (x, y, w, h) for use with other `image` methods
       like `Image.draw_rectangle()` of the kptmatch's bounding box.
 
-   .. method:: cx()
+   .. method:: cx() -> int
 
       Returns the centroid x position of the kptmatch (int).
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: cy()
+   .. method:: cy() -> int
 
       Returns the centroid y position of the kptmatch (int).
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: x()
+   .. method:: x() -> int
 
       Returns the kptmatch's bounding box x coordinate (int).
 
       You may also get this value doing ``[2]`` on the object.
 
-   .. method:: y()
+   .. method:: y() -> int
 
       Returns the kptmatch's bounding box y coordinate (int).
 
       You may also get this value doing ``[3]`` on the object.
 
-   .. method:: w()
+   .. method:: w() -> int
 
       Returns the kptmatch's bounding box w coordinate (int).
 
       You may also get this value doing ``[4]`` on the object.
 
-   .. method:: h()
+   .. method:: h() -> int
 
       Returns the kptmatch's bounding box h coordinate (int).
 
       You may also get this value doing ``[5]`` on the object.
 
-   .. method:: count()
+   .. method:: count() -> int
 
       Returns the number of keypoints matched (int).
 
       You may also get this value doing ``[6]`` on the object.
 
-   .. method:: theta()
+   .. method:: theta() -> int
 
       Returns the estimated angle of rotation for the keypoint (int).
 
       You may also get this value doing ``[7]`` on the object.
 
-   .. method:: match()
+   .. method:: match() -> List[Tuple[int, int]]
 
       Returns the list of (x,y) tuples of matching keypoints.
 
@@ -1523,7 +1523,7 @@ class ImageIO  -- ImageIO Object
 The ImageIO object allows you to read/write OpenMV Image objects in their native form to disk
 or to memory. This class provides fast read/write random access for loading/storing images.
 
-.. class:: ImageIO(path, mode)
+.. class:: ImageIO(path:str, mode)
 
    Creates an ImageIO object.
 
@@ -1535,38 +1535,38 @@ or to memory. This class provides fast read/write random access for loading/stor
    storage buffer is not allowed to grow in size after being allocated. Use a ``bpp`` value of
    0 for binary images, 1 for grayscale images, and 2 for rgb565 images.
 
-   .. method:: type()
+   .. method:: type() -> int
 
       Returns if the `ImageIO` object is a `FILE_STREAM` or `MEMORY_STREAM`.
 
-   .. method:: is_closed()
+   .. method:: is_closed() -> bool
 
       Returns if the `ImageIO` object is closed and can no longer be used.
 
-   .. method:: count()
+   .. method:: count() -> int
 
       Returns the number of frames stored.
 
-   .. method:: offset()
+   .. method:: offset() -> int
 
       Returns the image index offset.
 
-   .. method:: version()
+   .. method:: version() -> Optional[int]
 
       Returns the version of the object if it's `FILE_STREAM`.
       `MEMORY_STREAM` versions are ``none``.
 
-   .. method:: buffer_size()
+   .. method:: buffer_size()  -> int
 
       Returns the size allocated by the object for a frame in a single buffer.
 
       ``buffer_size() * count() == size()``
 
-   .. method:: size()
+   .. method:: size() -> int
 
       Returns the number of bytes on disk or memory used by the ImageIO object.
 
-   .. method:: write(img)
+   .. method:: write(img:Image) -> ImageIO
 
       Writes a new image ``img`` to the ImageIO object. For on disk ImageIO objects the file will
       grow as new images are added. For in-memory ImageIO objects this just writes an image to the
@@ -1574,7 +1574,7 @@ or to memory. This class provides fast read/write random access for loading/stor
 
       Returns the ImageIO object.
 
-   .. method:: read([copy_to_fb=True, [loop=True, [pause=True]]])
+   .. method:: read(copy_to_fb=True, loop=True, pause=True) -> Image
 
       Returns an image object from the ImageIO object. If ``copy_to_fb`` is False then
       the new image is allocated on the MicroPython heap. However, the MicroPython heap is limited
@@ -1587,35 +1587,37 @@ or to memory. This class provides fast read/write random access for loading/stor
       ``pause`` if True causes this method to pause for a previously recorded number of milliseconds
       by write in-order to match the original frame rate that captured the image data.
 
-   .. method:: seek(offset)
+   .. method:: seek(offset) -> None
 
       Seeks to the image slot number ``offset`` in the ImageIO object.
 
       Works for on disk or in-memory objects.
 
-   .. method:: sync()
+   .. method:: sync() -> None
 
       Writes out all data pending for on-disk ImageIO objects.
 
-   .. method:: close()
+   .. method:: close() -> None
 
       Closes the ImageIO object. For in-memory objects this free's the allocated space and for
       on-disk files this closes the file and writes out all meta-data.
 
    .. data:: FILE_STREAM
+      :type: int
 
       ImageIO object was opened on a file.
 
    .. data:: MEMORY_STREAM
+      :type: int
 
-      iamgeIO object was opened in memory.
+      ImageIO object was opened in memory.
 
 class Image -- Image object
 ---------------------------
 
 The image object is the basic object for machine vision operations.
 
-.. class:: Image(path, [buffer=None, [copy_to_fb=False]])
+.. class:: Image(path:str, buffer:Optional[bytes, bytearray, memoryview]=None, copy_to_fb=False)
 
    Creates a new image object from a file at ``path``. Alternatively, you may
    pass a `width`, `height`, and either they any image format value like ``image.GRAYSCALE``
@@ -1647,25 +1649,25 @@ The image object is the basic object for machine vision operations.
    particular, if you'd like to transmit an image you can just pass it to the
    UART/SPI/I2C write functions to be transmitted automatically.
 
-   .. method:: width()
+   .. method:: width() -> int
 
       Returns the image width in pixels.
 
-   .. method:: height()
+   .. method:: height() -> int
 
       Returns the image height in pixels.
 
-   .. method:: format()
+   .. method:: format() -> int
 
       Returns `image.GRAYSCALE` for grayscale images, `image.RGB565` for RGB565
       images, `image.BAYER` for bayer pattern images, and `image.JPEG` for JPEG
       images.
 
-   .. method:: size()
+   .. method:: size() -> int
 
       Returns the image size in bytes.
 
-   .. method:: bytearray()
+   .. method:: bytearray() -> bytearray
 
       Returns a `bytearray` object that points to the image data for byte-level read/write access.
 
@@ -1675,7 +1677,7 @@ The image object is the basic object for machine vision operations.
          that requires a `bytes` like object. This is read-only access.
          Call `bytearray()` to get read/write access.
 
-   .. method:: get_pixel(x, y, [rgbtuple])
+   .. method:: get_pixel(x:int, y:int, rgbtuple:Optional[bool]=None) -> Union[int, Tuple[int, int, int]]
 
       For grayscale images: Returns the grayscale pixel value at location (x, y).
       For RGB565 images: Returns the RGB888 pixel tuple (r, g, b) at location (x, y).
@@ -1700,7 +1702,7 @@ The image object is the basic object for machine vision operations.
          odd rows. Each pixel is 8-bits. If you call this method with ``rgbtuple`` set then `Image.get_pixel()`
          will debayer the source image at that pixel location and return a valid RGB888 tuple for the pixel location.
 
-   .. method:: set_pixel(x, y, pixel)
+   .. method:: set_pixel(x:int, y:int, pixel:Union[int, Tuple[int, int, int]]) -> Image
 
       For grayscale images: Sets the pixel at location (x, y) to the grayscale value ``pixel``.
       For RGB565 images: Sets the pixel at location (x, y) to the RGB888 tuple (r, g, b) ``pixel``.
@@ -1724,7 +1726,7 @@ The image object is the basic object for machine vision operations.
          odd rows. Each pixel is 8-bits. If you call this method with an RGB888 tuple the grayscale
          value of that RGB888 tuple is extracted and set to the pixel location.
 
-   .. method:: mean_pool(x_div, y_div)
+   .. method:: mean_pool(x_div:int, y_div:int) -> Image
 
       Finds the mean of ``x_div`` * ``y_div`` squares in the image and returns
       the modified image composed of the mean of each square.
@@ -1733,7 +1735,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: mean_pooled(x_div, y_div)
+   .. method:: mean_pooled(x_div:int, y_div:int) -> Image
 
       Finds the mean of ``x_div`` * ``y_div`` squares in the image and returns
       a new image composed of the mean of each square.
@@ -1742,7 +1744,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: midpoint_pool(x_div, y_div, [bias=0.5])
+   .. method:: midpoint_pool(x_div:int, y_div:int, bias=0.5) -> Image
 
       Finds the midpoint of ``x_div`` * ``y_div`` squares in the image and returns
       the modified image composed of the midpoint of each square.
@@ -1754,7 +1756,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: midpoint_pooled(x_div, y_div, [bias=0.5])
+   .. method:: midpoint_pooled(x_div:int, y_div:int, bias=0.5) -> Image
 
       Finds the midpoint of ``x_div`` * ``y_div`` squares in the image and returns
       a new image composed of the midpoint of each square.
@@ -1766,7 +1768,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: to_bitmap([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [copy=False]]]]]]]]])
+   .. method:: to_bitmap(x_scale=1.0, y_scale=1.0, roi:Optional[Tuple[int,int,int,int]]=None, rgb_channel=-1, alpha=256, color_palette=None, alpha_palette=None, hint=0, copy=False) -> Image
 
       Converts an image to a bitmap image (1 bit per pixel). If ``copy`` is False
       this method will try to modify the image in-place. If ``copy`` is True then
@@ -1840,7 +1842,7 @@ The image object is the basic object for machine vision operations.
 
       Returns the image object so you can call another method using ``.`` notation.
 
-   .. method:: to_grayscale([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [copy=False]]]]]]]]])
+   .. method:: to_grayscale(x_scale=1.0, y_scale=1.0, roi:Optional[Tuple[int,int,int,int]]=None, rgb_channel=-1, alpha=256, color_palette=None, alpha_palette=None, hint=0, copy=False) -> Image
 
       Converts an image to a grayscale image (8-bits per pixel). If ``copy`` is False
       this method will try to modify the image in-place. If ``copy`` is True then
@@ -1901,7 +1903,7 @@ The image object is the basic object for machine vision operations.
 
       Returns the image object so you can call another method using ``.`` notation.
 
-   .. method:: to_rgb565([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [copy=False]]]]]]]]])
+   .. method:: to_rgb565(x_scale=1.0, y_scale=1.0, roi:Optional[Tuple[int,int,int,int]]=None, rgb_channel=-1, alpha=256, color_palette=None, alpha_palette=None, hint=0, copy=False) -> Image
 
       Converts an image to an RGB565 image (16-bits per pixel). If ``copy`` is False
       this method will try to modify the image in-place. If ``copy`` is True then
@@ -1962,7 +1964,7 @@ The image object is the basic object for machine vision operations.
 
       Returns the image object so you can call another method using ``.`` notation.
 
-   .. method:: to_rainbow([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=image.PALETTE_RAINBOW, [alpha_palette=None, [hint=0, [copy=False]]]]]]]]])
+   .. method:: to_rainbow(x_scale=1.0, y_scale=1.0, roi:Optional[Tuple[int,int,int,int]]=None, rgb_channel=-1, alpha=256, color_palette=PALETTE_RAINBOW, alpha_palette=None, hint=0, copy=False) -> Image
 
       Converts an image to an RGB565 rainbow image (16-bits per pixel). If ``copy`` is False
       this method will try to modify the image in-place. If ``copy`` is True then
@@ -2023,7 +2025,7 @@ The image object is the basic object for machine vision operations.
 
       Returns the image object so you can call another method using ``.`` notation.
 
-   .. method:: to_ironbow([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=image.PALETTE_IRONBOW, [alpha_palette=None, [hint=0, [copy=False]]]]]]]]])
+   .. method:: to_ironbow(x_scale=1.0, y_scale=1.0, roi:Optional[Tuple[int,int,int,int]]=None, rgb_channel=-1, alpha=256, color_palette=PALETTE_IRONBOW, alpha_palette=None, hint=0, copy=False) -> Image
 
       Converts an image to an RGB565 ironbow image (16-bits per pixel). If ``copy`` is False
       this method will try to modify the image in-place. If ``copy`` is True then
@@ -2084,7 +2086,7 @@ The image object is the basic object for machine vision operations.
 
       Returns the image object so you can call another method using ``.`` notation.
 
-   .. method:: to_jpeg([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [copy=False]]]]]]]]])
+   .. method:: to_jpeg(x_scale=1.0, y_scale=1.0, roi:Optional[Tuple[int,int,int,int]]=None, rgb_channel=-1, alpha=256, color_palette=None, alpha_palette=None, hint=0, copy=False) -> Image
 
       Converts an image to a JPEG image. If ``copy`` is False
       this method will try to modify the image in-place. If ``copy`` is True then
@@ -2145,7 +2147,7 @@ The image object is the basic object for machine vision operations.
 
       Returns the image object so you can call another method using ``.`` notation.
 
-   .. method:: to_png([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [copy=False]]]]]]]]])
+   .. method:: to_png(x_scale=1.0, y_scale=1.0, roi:Optional[Tuple[int,int,int,int]]=None, rgb_channel=-1, alpha=256, color_palette=None, alpha_palette=None, hint=0, copy=False) -> Image
 
       Converts an image to a PNG image. If ``copy`` is False
       this method will try to modify the image in-place. If ``copy`` is True then
@@ -2206,7 +2208,7 @@ The image object is the basic object for machine vision operations.
 
       Returns the image object so you can call another method using ``.`` notation.
 
-   .. method:: compress([quality=90])
+   .. method:: compress(quality=90) -> Image
 
       JPEG compresses the image in place. Use this method versus `Image.compressed()`
       to save heap space and to use a higher ``quality`` for compression at the
@@ -2218,7 +2220,7 @@ The image object is the basic object for machine vision operations.
 
       Returns the compressed image if called on a compressed image.
 
-   .. method:: compress_for_ide([quality=90])
+   .. method:: compress_for_ide(quality=90) -> Image
 
       JPEG compresses the image in place. Use this method versus `Image.compressed()`
       to save heap space and to use a higher ``quality`` for compression at the
@@ -2239,7 +2241,7 @@ The image object is the basic object for machine vision operations.
       Returns the image compressed for the IDE if called on a compressed image.
       Do not call this on an image already compressed for the IDE.
 
-   .. method:: compressed([quality=90])
+   .. method:: compressed(quality=90) -> Image
 
       Returns a JPEG compressed image - the original image is untouched. However,
       this method requires a somewhat large allocation of heap space so the image
@@ -2250,7 +2252,7 @@ The image object is the basic object for machine vision operations.
 
       Returns a compressed image copy if called on a compressed image.
 
-   .. method:: compressed_for_ide([quality=90])
+   .. method:: compressed_for_ide(quality=90) -> Image
 
       Returns a JPEG compressed image - the original image is untouched. However,
       this method requires a somewhat large allocation of heap space so the image
@@ -2270,7 +2272,7 @@ The image object is the basic object for machine vision operations.
       Returns a image compressed for the IDE copy if called on a compressed image.
       Do not call this on an image already compressed for the IDE.
 
-   .. method: image.jpeg_encode_for_ide()
+   .. method: image.jpeg_encode_for_ide() -> Image
 
       This formats the JPEG data for transmission to OpenMV IDE to display by
       encoding every 6-bits as a byte valued between 128-191. This is done to
@@ -2285,7 +2287,7 @@ The image object is the basic object for machine vision operations.
 
       Only works on JPEG images.
 
-   .. method: image.jpeg_encoded_for_ide()
+   .. method: image.jpeg_encoded_for_ide() -> Image
 
       This formats the JPEG data for transmission to OpenMV IDE to display by
       encoding every 6-bits as a byte valued between 128-191. This is done to
@@ -2300,7 +2302,7 @@ The image object is the basic object for machine vision operations.
 
       Only works on JPEG images.
 
-   .. method:: copy([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [copy_to_fb=False]]]]]]]]])
+   .. method:: copy(x_scale=1.0, y_scale=1.0, roi:Optional[Tuple[int,int,int,int]]=None, rgb_channel=-1, alpha=256, color_palette=None, alpha_palette=None, hint=0, copy_to_fb=False) -> Image
 
       Creates a deep copy of the image object. If ``copy_to_fb`` is False then
       the new image is allocated on the MicroPython heap. However, the MicroPython heap is limited
@@ -2359,7 +2361,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images.
 
-   .. method:: crop([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [copy=False]]]]]]]]])
+   .. method:: crop(x_scale=1.0, y_scale=1.0, roi:Optional[Tuple[int,int,int,int]]=None, rgb_channel=-1, alpha=256, color_palette=None, alpha_palette=None, hint=0, copy=False) -> Image
 
       Modifies an image in-place without changing the underlying image type. If ``copy`` is False
       this method will try to modify the image in-place. If ``copy`` is True then
@@ -2422,7 +2424,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images.
 
-   .. method:: scale([x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0, [copy=False]]]]]]]]])
+   .. method:: scale(x_scale=1.0, y_scale=1.0, roi:Optional[Tuple[int,int,int,int]]=None, rgb_channel=-1, alpha=256, color_palette=None, alpha_palette=None, hint=0, copy=False) -> Image
 
       Modifies an image in-place without changing the underlying image type. If ``copy`` is False
       this method will try to modify the image in-place. If ``copy`` is True then
@@ -2485,7 +2487,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images.
 
-   .. method:: save(path, [roi, [quality=50]])
+   .. method:: save(path:str, roi:Optional[Tuple[int,int,int,int]]=None, quality=50) -> Image
 
       Saves a copy of the image to the filesystem at ``path``.
 
@@ -2501,11 +2503,11 @@ The image object is the basic object for machine vision operations.
 
       Returns the image object so you can call another method using ``.`` notation.
 
-   .. method:: flush()
+   .. method:: flush() -> None
 
       Updates the frame buffer in the IDE with the image in the frame buffer on the camera.
 
-   .. method:: clear([mask])
+   .. method:: clear(mask:Optional[Image]=None) -> Image
 
       Sets all pixels in the image to zero (very fast).
 
@@ -2518,7 +2520,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images.
 
-   .. method:: draw_line(x0, y0, x1, y1, [color, [thickness=1]])
+   .. method:: draw_line(x0:int, y0:int, x1:int, y1:int, color:Optional[int,Tuple[int,int,int]]=None, thickness=1) -> Image
 
       Draws a line from (x0, y0) to (x1, y1) on the image. You may either
       pass x0, y0, x1, y1 separately or as a tuple (x0, y0, x1, y1).
@@ -2533,7 +2535,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: draw_rectangle(x, y, w, h, [color, [thickness=1, [fill=False]]])
+   .. method:: draw_rectangle(x:int, y:int, w:int, h:int, color:Optional[int,Tuple[int,int,int]]=None, thickness=1, fill=False) -> Image
 
       Draws a rectangle on the image. You may either pass x, y, w, h separately
       or as a tuple (x, y, w, h).
@@ -2550,7 +2552,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: draw_circle(x, y, radius, [color, [thickness=1, [fill=False]]])
+   .. method:: draw_circle(x:int, y:int, radius:int, color:Optional[int,Tuple[int,int,int]]=None, thickness=1, fill=False) -> Image
 
       Draws a circle on the image. You may either pass x, y, radius separately or
       as a tuple (x, y, radius).
@@ -2567,7 +2569,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: draw_ellipse(cx, cy, rx, ry, rotation, [color, [thickness=1, [fill=False]]])
+   .. method:: draw_ellipse(cx:int, cy:int, rx:int, ry:int, rotation:int, color:Optional[int,Tuple[int,int,int]]=None, thickness=1, fill=False) -> Image
 
       Draws an ellipse on the image. You may either pass cx, cy, rx, ry, and the
       rotation (in degrees) separately or as a tuple (cx, yc, rx, ry, rotation).
@@ -2584,7 +2586,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: draw_string(x, y, text, [color, [scale=1, [x_spacing=0, [y_spacing=0, [mono_space=True, [char_rotation=0, [char_hmirror=False, [char_vflip=False, [string_rotation=0, [string_hmirror=False, [string_vflip=False]]]]]]]]]]])
+   .. method:: draw_string(x:int, y:int, text:str, color:Optional[int,Tuple[int,int,int]]=None, scale=1, x_spacing=0, y_spacing=0, mono_space=True, char_rotation=0, char_hmirror=False, char_vflip=False, string_rotation=0, string_hmirror=False, string_vflip=False) -> Image
 
       Draws 8x10 text starting at location (x, y) in the image. You may either pass
       x, y separately or as a tuple (x, y).
@@ -2627,7 +2629,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: draw_cross(x, y, [color, [size=5, [thickness=1]]])
+   .. method:: draw_cross(x:int, y:int, color:Optional[int,Tuple[int,int,int]]=None, size=5, thickness=1) -> Image
 
       Draws a cross at location x, y. You may either pass x, y separately or as a
       tuple (x, y).
@@ -2644,7 +2646,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: draw_arrow(x0, y0, x1, y1, [color, [thickness=1]])
+   .. method:: draw_arrow(x0:int, y0:int, x1:int, y1:int, color:Optional[int,Tuple[int,int,int]]=None, thickness=1) -> Image
 
       Draws an arrow from (x0, y0) to (x1, y1) on the image. You may
       either pass x0, y0, x1, y1 separately or as a tuple (x0, y0, x1, y1).
@@ -2659,7 +2661,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: draw_edges(image, corners, [color, [size=0, [thickness=1, [fill=False]]]])
+   .. method:: draw_edges(image:Image, corners, color:Optional[int,Tuple[int,int,int]]=None, size=0, thickness=1, fill=False) -> Image
 
       Draws line edges between a corner list returned by methods like `blob.corners`. Coners is
       a four valued tuple of two valued x/y tuples. E.g. [(x1,y1),(x2,y2),(x3,y3),(x4,y4)].
@@ -2678,7 +2680,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: draw_image(image, x, y, [x_scale=1.0, [y_scale=1.0, [roi=None, [rgb_channel=-1, [alpha=256, [color_palette=None, [alpha_palette=None, [hint=0]]]]]]]])
+   .. method:: draw_image(image:Image, x:int, y:int, x_scale=1.0, y_scale=1.0, roi:Optional[Tuple[int,int,int,int]]=None, rgb_channel=-1, alpha=256, color_palette=None, alpha_palette=None, hint=0) -> Image
 
       Draws an ``image`` whose top-left corner starts at location x, y. You may either pass x, y
       separately or as a tuple (x, y). This method automatically handles rendering the image passed
@@ -2740,7 +2742,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images.
 
-   .. method:: draw_keypoints(keypoints, [color, [size=10, [thickness=1, [fill=False]]]])
+   .. method:: draw_keypoints(keypoints, color:Optional[int,Tuple[int,int,int]]=None, size=10, thickness=1, fill=False) -> Image
 
       Draws the keypoints of a keypoints object on the image. You may also pass a
       list of three value tuples containing the (x, y, rotation_angle_in_degrees) to
@@ -2761,7 +2763,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: flood_fill(x, y, [seed_threshold=0.05, [floating_threshold=0.05, [color, [invert=False, [clear_background=False, [mask=None]]]]]])
+   .. method:: flood_fill(x:int, y:int, seed_threshold=0.05, floating_threshold=0.05, color:Optional[int,Tuple[int,int,int]]=None, invert=False, clear_background=False, mask:Optional[Image]=None) -> Image
 
       Flood fills a region of the image starting from location x, y. You may either
       pass x, y separately or as a tuple (x, y).
@@ -2793,7 +2795,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: mask_rectange([x, y, w, h])
+   .. method:: mask_rectange(x:int, y:int, w:int, h:int) -> Image
 
       Zeros a rectangular part of the image. If no arguments are supplied this
       method zeros the center of the image.
@@ -2802,7 +2804,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: mask_circle([x, y, radius])
+   .. method:: mask_circle(x:int, y:int, radius:int) -> Image
 
       Zeros a circular part of the image. If no arguments are supplied this
       method zeros the center of the image.
@@ -2811,7 +2813,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: mask_ellipse([x, y, radius_x, radius_y, rotation_angle_in_degrees])
+   .. method:: mask_ellipse(x:int, y:int, radius_x:int, radius_y:int, rotation_angle_in_degrees:int) -> Image
 
       Zeros an ellipsed shaped part of the image. If no arguments are supplied this
       method zeros the center of the image.
@@ -2820,7 +2822,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: binary(thresholds, [invert=False, [zero=False, [mask=None, [to_bitmap=False, [copy=False]]]]])
+   .. method:: binary(thresholds:List[Tuple[int,int]], invert=False, zero=False, mask:Optional[Image]=None, to_bitmap=False, copy=False) -> Image
 
       Sets all pixels in the image to black or white depending on if the pixel
       is inside of a threshold in the threshold list ``thresholds`` or not.
@@ -2887,7 +2889,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: invert()
+   .. method:: invert() -> Image
 
       Flips (binary inverts) all pixels values in a binary image very quickly.
 
@@ -2895,7 +2897,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: b_and(image, [mask=None])
+   .. method:: b_and(image:Image, mask:Optional[Image]=None) -> Image
 
       Logically ANDs this image with another image.
 
@@ -2913,7 +2915,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: b_nand(image, [mask=None])
+   .. method:: b_nand(image:Image, mask:Optional[Image]=None) -> Image
 
       Logically NANDs this image with another image.
 
@@ -2931,7 +2933,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: b_or(image, [mask=None])
+   .. method:: b_or(image:Image, mask:Optional[Image]=None) -> Image
 
       Logically ORs this image with another image.
 
@@ -2949,7 +2951,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: b_nor(image, [mask=None])
+   .. method:: b_nor(image:Image, mask:Optional[Image]=None) -> Image
 
       Logically NORs this image with another image.
 
@@ -2967,7 +2969,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: b_xor(image, [mask=None])
+   .. method:: b_xor(image:Image, mask:Optional[Image]=None) -> Image
 
       Logically XORs this image with another image.
 
@@ -2985,7 +2987,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: b_xnor(image, [mask=None])
+   .. method:: b_xnor(image:Image, mask:Optional[Image]=None) -> Image
 
       Logically XNORs this image with another image.
 
@@ -3003,7 +3005,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: erode(size, [threshold, [mask=None]])
+   .. method:: erode(size:int, threshold:Optional[int]=None, mask:Optional[Image]=None) -> Image
 
       Removes pixels from the edges of segmented areas.
 
@@ -3024,7 +3026,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: dilate(size, [threshold, [mask=None]])
+   .. method:: dilate(size:int, threshold:Optional[int]=None, mask:Optional[Image]=None) -> Image
 
       Adds pixels to the edges of segmented areas.
 
@@ -3046,7 +3048,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: open(size, [threshold, [mask=None]])
+   .. method:: open(size:int, threshold:Optional[int]=None, mask:Optional[Image]=None) -> Image
 
       Performs erosion and dilation on an image in order. Please see `Image.erode()`
       and `Image.dilate()` for more information.
@@ -3060,7 +3062,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: close(size, [threshold, [mask=None]])
+   .. method:: close(size:int, threshold:Optional[int]=None, mask:Optional[Image]=None) -> Image
 
       Performs dilation and erosion on an image in order. Please see `Image.dilate()`
       and `Image.erode()` for more information.
@@ -3074,7 +3076,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: top_hat(size, [threshold, [mask=None]])
+   .. method:: top_hat(size:int, threshold:Optional[int]=None, mask:Optional[Image]=None) -> Image
 
       Returns the image difference of the image and `Image.open()`'ed image.
 
@@ -3085,7 +3087,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: black_hat(size, [threshold, [mask=None]])
+   .. method:: black_hat(size:int, threshold:Optional[int]=None, mask:Optional[Image]=None) -> Image
 
       Returns the image difference of the image and `Image.close()`'ed image.
 
@@ -3096,7 +3098,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: awb(max=False)
+   .. method:: awb(max=False) -> Image
 
       Performs automatic white balance on the image using the gray-world algorithm. This method
       operates on RAW Bayer Images so that you can improve image quality before converting
@@ -3109,7 +3111,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images.
 
-   .. method:: ccm(matrix)
+   .. method:: ccm(matrix) -> Image
 
       Multiples the passed floating-point color-correction-matrix with the image. Matrices may be in the form of::
 
@@ -3138,7 +3140,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: gamma([gamma=1.0, [contrast=1.0, [brightness=0.0])
+   .. method:: gamma(gamma=1.0, contrast=1.0, brightness=0.0) -> Image
 
       Quickly changes the image gamma, contrast, and brightness.
 
@@ -3161,11 +3163,11 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images.
 
-   .. method:: gamma_corr([gamma=1.0, [contrast=1.0, [brightness=0.0])
+   .. method:: gamma_corr(gamma=1.0, contrast=1.0, brightness=0.0) -> Image
 
       Alias for `Image.gamma`.
 
-   .. method:: negate()
+   .. method:: negate() -> Image
 
       Flips (numerically inverts) all pixels values in an image very quickly. E.g.
       for GRAYSCALE images this method changes all pixels from ``pixel`` to ``255 - pixel``.
@@ -3174,7 +3176,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: replace(image, [hmirror=False, [vflip=False, [transpose=False, [mask=None]]]])
+   .. method:: replace(image:Image, hmirror=False, vflip=False, transpose=False, mask:Optional[Image]=None) -> Image
 
       Replaces all pixels in the image object with a new image.
 
@@ -3214,15 +3216,15 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: assign(image, [hmirror=False, [vflip=False, [transpose=False, [mask=None]]]])
+   .. method:: assign(image:Image, hmirror=False, vflip=False, transpose=False, mask:Optional[Image]=None) -> Image
 
       Alias for `Image.replace`.
 
-   .. method:: set(image, [hmirror=False, [vflip=False, [transpose=False, [mask=None]]]])
+   .. method:: set(image:Image, hmirror=False, vflip=False, transpose=False, mask:Optional[Image]=None) -> Image
 
       Alias for `Image.replace`.
 
-   .. method:: add(image, [mask=None])
+   .. method:: add(image:Image, mask:Optional[Image]=None) -> Image
 
       Adds an image pixel-wise to this one.
 
@@ -3240,7 +3242,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: sub(image, [reverse=False, [mask=None]])
+   .. method:: sub(image:Image, reverse=False, mask:Optional[Image]=None) -> Image
 
       Subtracts an image pixel-wise to this one.
 
@@ -3261,7 +3263,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: min(image, [mask=None])
+   .. method:: min(image:Image, mask:Optional[Image]=None) -> Image
 
       Returns the minimum image of two images pixel-wise.
 
@@ -3279,7 +3281,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: max(image, [mask=None])
+   .. method:: max(image:Image, mask:Optional[Image]=None) -> Image
 
       Returns the maximum image of two images pixel-wise.
 
@@ -3297,7 +3299,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: difference(image, [mask=None])
+   .. method:: difference(image:Image, mask:Optional[Image]=None) -> Image
 
       Returns the absolute difference image between two images (e.g. ||a-b||).
 
@@ -3315,7 +3317,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: blend(image, [alpha=128, [mask=None]])
+   .. method:: blend(image:Image, alpha=128, mask:Optional[Image]=None) -> Image
 
       Alpha blends two images with each other.
 
@@ -3338,7 +3340,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: histeq([adaptive=False, [clip_limit=-1, [mask=None]]])
+   .. method:: histeq(adaptive=False, clip_limit=-1, mask:Optional[Image]=None) -> Image
 
       Runs the histogram equalization algorithm on the image. Histogram
       equalization normalizes the contrast and brightness in the image.
@@ -3360,7 +3362,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: mean(size, [threshold=False, [offset=0, [invert=False, [mask=None]]]]])
+   .. method:: mean(size:int, threshold=False, offset=0, invert=False, mask:Optional[Image]=None) -> Image
 
       Standard mean blurring filter using a box filter.
 
@@ -3385,7 +3387,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: median(size, [percentile=0.5, [threshold=False, [offset=0, [invert=False, [mask=None]]]]])
+   .. method:: median(size:int, percentile=0.5, threshold=False, offset=0, invert=False, mask:Optional[Image]=None) -> Image
 
       Runs the median filter on the image. The median filter is the best filter
       for smoothing surfaces while preserving edges but it is very slow.
@@ -3416,7 +3418,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: mode(size, [threshold=False, [offset=0, [invert=False, [mask=None]]]]])
+   .. method:: mode(size:int, threshold=False, offset=0, invert=False, mask:Optional[Image]=None) -> Image
 
       Runs the mode filter on the image by replacing each pixel with the mode of
       their neighbors. This method works great on grayscale images. However, on
@@ -3444,7 +3446,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: midpoint(size, [bias=0.5, [threshold=False, [offset=0, [invert=False, [mask=None]]]]])
+   .. method:: midpoint(size:int, bias=0.5, threshold=False, offset=0, invert=False, mask:Optional[Image]=None) -> Image
 
       Runs the midpoint filter on the image. This filter finds the midpoint
       ((max-min)/2) of each pixel neighborhood in the image.
@@ -3473,7 +3475,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: morph(size, kernel, [mul, [add=0, [threshold=False, [offset=0, [invert=False, [mask=None]]]]]])
+   .. method:: morph(size:int, kernel, mul:Optional[int]=None, add=0, threshold=False, offset=0, invert=False, mask:Optional[Image]=None) -> Image
 
       Convolves the image by a filter kernel. This allows you to do general purpose
       convolutions on an image.
@@ -3510,7 +3512,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: gaussian(size, [unsharp=False, [mul, [add=0, [threshold=False, [offset=0, [invert=False, [mask=None]]]]]]])
+   .. method:: gaussian(size:int, unsharp=False, mul:Optional[int]=None, add=0, threshold=False, offset=0, invert=False, mask:Optional[Image]=None) -> Image
 
       Convolves the image by a smoothing guassian kernel.
 
@@ -3546,7 +3548,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: laplacian(size, [sharpen=False, [mul, [add=0, [threshold=False, [offset=0, [invert=False, [mask=None]]]]]]])
+   .. method:: laplacian(size:int, sharpen=False, mul:Optional[int]=None, add=0, threshold=False, offset=0, invert=False, mask:Optional[Image]=None) -> Image
 
       Convolves the image by a edge detecting laplacian kernel.
 
@@ -3584,7 +3586,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: bilateral(size, [color_sigma=0.1, [space_sigma=1, [threshold=False, [offset=0, [invert=False, [mask=None]]]]]])
+   .. method:: bilateral(size:int, color_sigma=0.1, space_sigma=1, threshold=False, offset=0, invert=False, mask:Optional[Image]=None) -> Image
 
       Convolves the image by a bilateral filter. The bilateral filter smooths the
       image while keeping edges in the image.
@@ -3616,7 +3618,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: linpolar([reverse=False])
+   .. method:: linpolar(reverse=False) -> Image
 
       Re-project's and image from cartessian coordinates to linear polar coordinates.
 
@@ -3628,7 +3630,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: logpolar([reverse=False])
+   .. method:: logpolar(reverse=False) -> Image
 
       Re-project's and image from cartessian coordinates to log polar coordinates.
 
@@ -3641,7 +3643,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: lens_corr([strength=1.8, [zoom=1.0, [x_corr=0.0, [y_corr=0.0]]]])
+   .. method:: lens_corr(strength=1.8, zoom=1.0, x_corr=0.0, y_corr=0.0) -> Image
 
       Performs lens correction to un-fisheye the image due to the lens distortion.
 
@@ -3659,7 +3661,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: img.rotation_corr([x_rotation=0.0, [y_rotation=0.0, [z_rotation=0.0, [x_translation=0.0, [y_translation=0.0, [zoom=1.0, [fov=60.0, [corners]]]]]]]])
+   .. method:: rotation_corr(x_rotation=0.0, y_rotation=0.0, z_rotation=0.0, x_translation=0.0, y_translation=0.0, zoom=1.0, fov=60.0, corners:Optional[List[Tuple[int,int]]]=None) -> Image
 
       Corrects perspective issues in the image by doing a 3D rotation of the frame buffer.
 
@@ -3704,7 +3706,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: get_histogram([thresholds, [invert=False, [roi, [bins, [l_bins, [a_bins, [b_bins, [difference]]]]]]]])
+   .. method:: get_histogram(thresholds:Optional[List[Tuple[int,int]]]=None, invert=False, roi:Optional[Tuple[int,int,int,int]]=None, bins=256, l_bins=256, a_bins=256, b_bins=256, difference:Optional[Image]=None) -> histogram
 
       Computes the normalized histogram on all color channels for an ``roi`` and
       returns a `image.histogram` object. Please see the `image.histogram` object for more
@@ -3764,7 +3766,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: get_statistics([thresholds, [invert=False, [roi, [bins, [l_bins, [a_bins, [b_bins, [difference]]]]]]]])
+   .. method:: get_statistics(thresholds:Optional[List[Tuple[int,int]]]=None, invert=False, roi:Optional[Tuple[int,int,int,int]]=None, bins=256, l_bins=256, a_bins=256, b_bins=256, difference:Optional[Image]=None) -> statistics
 
       Computes the mean, median, mode, standard deviation, min, max, lower
       quartile, and upper quartile for all color channels for an ``roi`` and
@@ -3828,7 +3830,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: get_regression(thresholds, [invert=False, [roi, [x_stride=2, [y_stride=1, [area_threshold=10, [pixels_threshold=10, [robust=False]]]]]]])
+   .. method:: get_regression(thresholds:List[Tuple[int,int]], invert=False, roi:Optional[Tuple[int,int,int,int]]=None, x_stride=2, y_stride=1, area_threshold=10, pixels_threshold=10, robust=False) -> line
 
       Computes a linear regression on all the thresholded pixels in the image. The
       linear regression is computed using least-squares normally which is fast but
@@ -3888,7 +3890,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: find_blobs(thresholds, [invert=False, [roi, [x_stride=2, [y_stride=1, [area_threshold=10, [pixels_threshold=10, [merge=False, [margin=0, [threshold_cb=None, [merge_cb=None, [x_hist_bins_max=0, [y_hist_bins_max=0]]]]]]]]]]]])
+   .. method:: find_blobs(thresholds:List[Tuple[int,int]], invert=False, roi:Optional[Tuple[int,int,int,int]]=None, x_stride=2, y_stride=1, area_threshold=10, pixels_threshold=10, merge=False, margin=0, threshold_cb=None, merge_cb=None, x_hist_bins_max=0, y_hist_bins_max=0) -> List[blob]
 
       Finds all blobs (connected pixel regions that pass a threshold test) in the
       image and returns a list of `image.blob` objects which describe each blob.
@@ -3984,7 +3986,7 @@ The image object is the basic object for machine vision operations.
 
       Not supported on compressed images or bayer images.
 
-   .. method:: find_lines([roi, [x_stride=2, [y_stride=1, [threshold=1000, [theta_margin=25, [rho_margin=25]]]]]])
+   .. method:: find_lines(roi:Optional[Tuple[int,int,int,int]]=None, x_stride=2, y_stride=1, threshold=1000, theta_margin=25, rho_margin=25) -> List[line]
 
       Finds all infinite lines in the image using the hough transform. Returns a list
       of `image.line` objects.
@@ -4020,7 +4022,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: find_line_segments([roi, [merge_distance=0, [max_theta_difference=15]]])
+   .. method:: find_line_segments(roi:Optional[Tuple[int,int,int,int]]=None, merge_distance=0, max_theta_difference=15) -> List[line]
 
       Finds line segments in the image using the hough transform. Returns a list
       of `image.line` objects .
@@ -4040,7 +4042,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: find_circles([roi, [x_stride=2, [y_stride=1, [threshold=2000, [x_margin=10, [y_margin=10, [r_margin=10, [r_min=2, [r_max, [r_step=2]]]]]]]]]])
+   .. method:: find_circles(roi:Optional[Tuple[int,int,int,int]]=None, x_stride=2, y_stride=1, threshold=2000, x_margin=10, y_margin=10, r_margin=10, r_min=2, r_max:Optional[int]=None, r_step=2) -> List[circle]
 
       Finds circles in the image using the hough transform. Returns a list of
       `image.circle` objects.
@@ -4080,7 +4082,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: find_rects([roi=Auto, [threshold=10000]])
+   .. method:: find_rects(roi:Optional[Tuple[int,int,int,int]]=None, threshold=10000) -> List[rect]
 
       Find rectangles in the image using the same quad detection algorithm used to
       find apriltags. Works best of rectangles that have good contrast against the
@@ -4098,7 +4100,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: find_qrcodes([roi])
+   .. method:: find_qrcodes(roi:Optional[Tuple[int,int,int,int]]=None) -> List[qrcode]
 
       Finds all qrcodes within the ``roi`` and returns a list of `image.qrcode`
       objects. Please see the `image.qrcode` object for more information.
@@ -4118,7 +4120,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: find_apriltags([roi, [families=image.TAG36H11, [fx, [fy, [cx, [cy]]]]]])
+   .. method:: find_apriltags(roi:Optional[Tuple[int,int,int,int]]=None, families=TAG36H11, fx=0.0, fy=0.0, cx:Optional[int]=None, cy:Optional[int]=None) -> List[apriltag]
 
       Finds all apriltags within the ``roi`` and returns a list of `image.apriltag`
       objects. Please see the `image.apriltag` object for more information.
@@ -4175,7 +4177,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: find_datamatrices([roi, [effort=200]])
+   .. method:: find_datamatrices(roi:Optional[Tuple[int,int,int,int]]=None, effort=200) -> List[datamatrix]
 
       Finds all datamatrices within the ``roi`` and returns a list of `image.datamatrix`
       objects. Please see the `image.datamatrix` object for more information.
@@ -4204,7 +4206,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: find_barcodes([roi])
+   .. method:: find_barcodes(roi:Optional[Tuple[int,int,int,int]]=None) -> List[barcode]
 
       Finds all 1D barcodes within the ``roi`` and returns a list of `image.barcode`
       objects. Please see the `image.barcode` object for more information.
@@ -4242,7 +4244,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: find_displacement(template, [roi, [template_roi, [logpolar=False]]])
+   .. method:: find_displacement(template:Image, roi:Optional[Tuple[int,int,int,int]]=None, template_roi:Optional[Tuple[int,int,int,int]]=None, logpolar=False) -> List[displacement]
 
       Find the translation offset of the this image from the template. This
       method can be used to do optical flow. This method returns a `image.displacement`
@@ -4273,7 +4275,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: find_template(template, threshold, [roi, [step=2, [search=image.SEARCH_EX]]])
+   .. method:: find_template(template:Image, threshold:float, roi:Optional[Tuple[int,int,int,int]]=None, step=2, search=SEARCH_EX) -> Tuple[int,int,int,int]
 
       Tries to find the first location in the image where template matches using
       Normalized Cross Correlation. Returns a bounding box tuple (x, y, w, h) for
@@ -4302,7 +4304,7 @@ The image object is the basic object for machine vision operations.
 
       Only works on grayscale images.
 
-   .. method:: find_features(cascade, [threshold=0.5, [scale=1.5, [roi]]])
+   .. method:: find_features(cascade, threshold=0.5, scale=1.5, roi:Optional[Tuple[int,int,int,int]]=None) -> List[Tuple[int,int,int,int]]
 
       This method searches the image for all areas that match the passed in Haar
       Cascade and returns a list of bounding box rectangles tuples (x, y, w, h)
@@ -4323,7 +4325,7 @@ The image object is the basic object for machine vision operations.
       specified, it is equal to the image rectangle. Only pixels within the
       ``roi`` are operated on.
 
-   .. method:: find_eye(roi)
+   .. method:: find_eye(roi:Tuple[int,int,int,int]) -> Tuple[int,int]
 
       Searches for the pupil in a region-of-interest (x, y, w, h) tuple around an
       eye. Returns a tuple with the (x, y) location of the pupil in the image.
@@ -4341,7 +4343,7 @@ The image object is the basic object for machine vision operations.
 
       Only works on grayscale images.
 
-   .. method:: find_lbp(roi)
+   .. method:: find_lbp(roi:Tuple[int,int,int,int])
 
       Extracts LBP (local-binary-patterns) keypoints from the region-of-interest
       (x, y, w, h) tuple. You can then use then use the `image.match_descriptor()`
@@ -4353,7 +4355,7 @@ The image object is the basic object for machine vision operations.
 
       Only works on grayscale images.
 
-   .. method:: find_keypoints([roi, [threshold=20, [normalized=False, [scale_factor=1.5, [max_keypoints=100, [corner_detector=image.CORNER_AGAST]]]]]])
+   .. method:: find_keypoints(roi:Optional[Tuple[int,int,int,int]]=None, threshold=20, normalized=False, scale_factor=1.5, max_keypoints=100, corner_detector=CORNER_AGAST)
 
       Extracts ORB keypoints from the region-of-interest (x, y, w, h) tuple. You
       can then use then use the `image.match_descriptor()` function to compare
@@ -4387,7 +4389,7 @@ The image object is the basic object for machine vision operations.
 
       Only works on grayscale images.
 
-   .. method:: find_edges(edge_type, [threshold])
+   .. method:: find_edges(edge_type, threshold=(100, 200))
 
       Turns the image to black and white leaving only the edges as white pixels.
 
@@ -4400,7 +4402,7 @@ The image object is the basic object for machine vision operations.
 
       Only works on grayscale images.
 
-   .. method:: find_hog([roi, [size=8]])
+   .. method:: find_hog(roi:Optional[Tuple[int,int,int,int]]=None, size=8)
 
       Replaces the pixels in the ROI with HOG (histogram of orientated graidients)
       lines.
@@ -4413,7 +4415,7 @@ The image object is the basic object for machine vision operations.
 
       This method is not available on the OpenMV Cam M4.
 
-   .. method:: stero_disparity([reversed=False, [max_disparity=64, [threshold=64]]])
+   .. method:: stero_disparity(reversed=False, max_disparity=64, threshold=64)
 
       Takes a double wide grayscale image that contains the output of two camera sensors
       side-by-side and replaces one of the images int he double wide image with the stero-disparity
@@ -4448,19 +4450,23 @@ Constants
 ---------
 
 .. data:: BINARY
+   :type: int
 
    BINARY (bitmap) pixel format. Each pixel is 1-bit.
 
 .. data:: GRAYSCALE
+   :type: int
 
    GRAYSCALE pixel format. Each pixel is 8-bits, 1-byte.
 
 .. data:: RGB565
+   :type: int
 
    RGB565 pixel format. Each pixel is 16-bits, 2-bytes. 5-bits are used for red,
    6-bits are used for green, and 5-bits are used for blue.
 
 .. data:: BAYER
+   :type: int
 
    RAW BAYER image pixel format. If you try to make the frame size too big
    to fit in the frame buffer your OpenMV Cam will set the pixel format
@@ -4468,6 +4474,7 @@ Constants
    will be operational.
 
 .. data:: YUV422
+   :type: int
 
    A pixel format that is very easy to jpeg compress. Each pixel is stored as a grayscale
    8-bit Y value followed by alternating 8-bit U/V color values that are shared between two
@@ -4475,28 +4482,34 @@ Constants
    methods work with YUV422.
 
 .. data:: JPEG
+   :type: int
 
    A JPEG image.
 
 .. data:: PNG
+   :type: int
 
    A PNG image.
 
 .. data:: PALETTE_RAINBOW
+   :type: int
 
    Default OpenMV Cam color palette for thermal images using a smooth color wheel.
 
 .. data:: PALETTE_IRONBOW
+   :type: int
 
    Makes images look like the FLIR Lepton thermal images using a very non-linear color palette.
 
 .. data:: AREA
+   :type: int
 
    Use area scaling when downscaling an image (Nearest Neighbor is used for upscaling).
 
    You should use area scaling when downscaling for the highest visual quality.
 
 .. data:: BILINEAR
+   :type: int
 
    Use bilinear scaling when upscaling an image. This produces a good quality scaled image output
    and is fast.
@@ -4505,6 +4518,7 @@ Constants
    image. Use `image.AREA` for the higest quality downscaling if speed is not an issue.
 
 .. data:: BICUBIC
+   :type: int
 
    Use bicubic scaling when upscaling an image. This produces a high quality scaled image output,
    but is slow.
@@ -4513,33 +4527,40 @@ Constants
    image. Use `image.AREA` for the higest quality downscaling if speed is not an issue.
 
 .. data:: VFLIP
+   :type: int
 
    Vertically flip the image being drawn by `draw_image`.
 
 .. data:: HMIRROR
+   :type: int
 
    Horizontally mirror the image being drawn by `draw_image`.
 
 .. data:: TRANSPOSE
+   :type: int
 
    Transpose (swap x/y) the image being draw by `draw_image`.
 
 .. data:: CENTER
+   :type: int
 
    Center the image being drawn to the center of the image/canvas it's being drawn on. Any x/y
    offsets passed will move the image being drawn from the center by that amount.
 
 .. data:: EXTRACT_RGB_CHANNEL_FIRST
+   :type: int
 
    When extracting an RGB channel from an RGB image using `draw_image` extract the channel first
    before scaling versus afterwards to prevent any artifacts.
 
 .. data:: APPLY_COLOR_PALETTE_FIRST
+   :type: int
 
    When applying a color lookup table to an image using `draw_image` apply the color look table
    first before scaling versus afterwards to prevent any artifacts.
 
 .. data:: SCALE_ASPECT_KEEP
+   :type: int
 
    Scale the image being drawn to fit inside of the image/canvas being drawn on while maintaining
    the aspect ratio. Unless the image aspect ratios match the image being drawn will not completley
@@ -4547,143 +4568,177 @@ Constants
    the scaled image.
 
 .. data:: SCALE_ASPECT_EXPAND
+   :type: int
 
    Scale the image being drawn to fill image/canvas being drawn on while maintaining
    the aspect ratio. Unless the image aspect ratios match the image being drawn will be cropped.
    Any x_scale/y_scale values passed will additionally scale the scaled image.
 
 .. data:: SCALE_ASPECT_IGNORE
+   :type: int
 
    Scale the image being drawn to fill the image/canvas being drawn on. This does not maintain
    the aspect ratio of the image being drawn. Any x_scale/y_scale values passed will additionally
    scale the scaled image.
 
 .. data:: ROTATE_90
+   :type: int
 
    Rotate the image by 90 degrees (this is just `image.VFLIP` ORed with `image.TRANSPOSE`).
 
 .. data:: ROTATE_180
+   :type: int
 
    Rotate the image by 180 degrees (this is just `image.HMIRROR` ORed with `image.VFLIP`).
 
 .. data:: ROTATE_270
+   :type: int
 
    Rotate the image by 270 degrees (this is just `image.HMIRROR` ORed with `image.TRANSPOSE`).
 
 .. data:: BLACK_BACKGROUND
+   :type: int
 
    Speeds up `draw_image` when drawing on a black destination image when using alpha effects that
    require reading both source and destination pixels. This skips reading the destination pixel.
 
 .. data:: SEARCH_EX
+   :type: int
 
    Exhaustive template matching search.
 
 .. data:: SEARCH_DS
+   :type: int
 
    Faster template matching search.
 
 .. data:: EDGE_CANNY
+   :type: int
 
    Use the canny edge detection algorithm for doing edge detection on an image.
 
 .. data:: EDGE_SIMPLE
+   :type: int
 
    Use a simple thresholded high pass filter algorithm for doing edge detection
    on an image.
 
 .. data:: CORNER_FAST
+   :type: int
 
    Faster and less accurate corner detection algorithm for ORB keypoints.
 
 .. data:: CORNER_AGAST
+   :type: int
 
    Slower and more accurate corner detection algorithm for ORB keypoints.
 
 .. data:: TAG16H5
+   :type: int
 
    TAG1H5 tag family bit mask enum. Used for AprilTags.
 
 .. data:: TAG25H7
+   :type: int
 
    TAG25H7 tag family bit mask enum. Used for AprilTags.
 
 .. data:: TAG25H9
+   :type: int
 
    TAG25H9 tag family bit mask enum. Used for AprilTags.
 
 .. data:: TAG36H10
+   :type: int
 
    TAG36H10 tag family bit mask enum. Used for AprilTags.
 
 .. data:: TAG36H11
+   :type: int
 
    TAG36H11 tag family bit mask enum. Used for AprilTags.
 
 .. data:: ARTOOLKIT
+   :type: int
 
    ARTOOLKIT tag family bit mask enum. Used for AprilTags.
 
 .. data:: EAN2
+   :type: int
 
    EAN2 barcode type enum.
 
 .. data:: EAN5
+   :type: int
 
    EAN5 barcode type enum.
 
 .. data:: EAN8
+   :type: int
 
    EAN8 barcode type enum.
 
 .. data:: UPCE
+   :type: int
 
    UPCE barcode type enum.
 
 .. data:: ISBN10
+   :type: int
 
    ISBN10 barcode type enum.
 
 .. data:: UPCA
+   :type: int
 
    UPCA barcode type enum.
 
 .. data:: EAN13
+   :type: int
 
    EAN13 barcode type enum.
 
 .. data:: ISBN13
+   :type: int
 
    ISBN13 barcode type enum.
 
 .. data:: I25
+   :type: int
 
    I25 barcode type enum.
 
 .. data:: DATABAR
+   :type: int
 
    DATABAR barcode type enum.
 
 .. data:: DATABAR_EXP
+   :type: int
 
    DATABAR_EXP barcode type enum.
 
 .. data:: CODABAR
+   :type: int
 
    CODABAR barcode type enum.
 
 .. data:: CODE39
+   :type: int
 
    CODE39 barcode type enum.
 
 .. data:: PDF417
+   :type: int
 
    PDF417 barcode type enum - Future (e.g. doesn't work right now).
 
 .. data:: CODE93
+   :type: int
 
    CODE93 barcode type enum.
 
 .. data:: CODE128
+   :type: int
 
    CODE128 barcode type enum.

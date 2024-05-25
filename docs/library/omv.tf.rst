@@ -44,7 +44,7 @@ However, this significantly limits the model size on all OpenMV Cams.
 Functions
 ---------
 
-.. function:: classify(path, img, [roi, [min_scale=1.0, [scale_mul=0.5, [x_overlap=0, [y_overlap=0]]]]])
+.. function:: classify(path:str, img:image.Image, roi:Optional[Tuple[int,int,int,int]], min_scale=1.0, scale_mul=0.5, x_overlap=0, y_overlap=0)
 
    Executes the TensorFlow Lite image classification model on the ``img``
    object and returns a list of `tf_classification` objects. This method
@@ -80,7 +80,7 @@ Functions
    area of the sliding window. A value of zero means no overlap. A value of
    0.95 would mean 95% overlap.
 
-.. function:: segment(path, img, [roi])
+.. function:: segment(path:str, img:image.Image, roi:Optional[Tuple[int,int,int,int]]=None)
 
    Executes the TensorFlow Lite image segmentation model on the ``img``
    object and returns a list of grayscale `image` objects for each
@@ -95,7 +95,7 @@ Functions
    specified, it is equal to the image rectangle. Only pixels within the
    ``roi`` are operated on.
 
-.. function:: detect(path, img, [roi, [thresholds, [invert]]])
+.. function:: detect(path:str, img:image.Image, roi:Optional[Tuple[int,int,int,int]]=None, thresholds:Optional[List[Tuple[int,int]]]=None, invert=False)
 
    Executes the TensorFlow Lite image segmentation model on the ``img``
    object and returns a list of `image.blob` objects for each segmentation
@@ -126,7 +126,7 @@ Functions
    pixels inside of some known color bounds pixels are matched that are outside
    of the known color bounds.
 
-.. function:: regression(path, array)
+.. function:: regression(path:str, array)
 
    Executes the TensorFlow Lite regression model on the passed array of floats and returns
    a new array of floats as the result. This method accepts 1D/2D/3D arrays which must match
@@ -137,7 +137,7 @@ Functions
    one function call to save from having to load the model in the
    MicroPython heap.
 
-.. function:: load(path, [load_to_fb=False])
+.. function:: load(path:str, load_to_fb=False)
 
    ``path`` a path to a ``.tflite`` model to load into memory on the MicroPython heap by default.
 
@@ -155,7 +155,7 @@ Functions
 
    Returns a `tf_model` object which can operate on an image.
 
-.. function:: free_from_fb()
+.. function:: free_from_fb() -> None
 
    Deallocates a previously allocated `tf_model` object created with ``load_to_fb`` set to True.
 
@@ -176,30 +176,30 @@ Constructors
    Methods
    ~~~~~~~
 
-   .. method:: rect()
+   .. method:: rect() -> Tuple[int, int, int, int]
 
       Returns a rectangle tuple (x, y, w, h) for use with `image` methods
       like `Image.draw_rectangle()` of the tf_classification's bounding box.
 
-   .. method:: x()
+   .. method:: x() -> int
 
       Returns the tf_classification's bounding box x coordinate (int).
 
       You may also get this value doing ``[0]`` on the object.
 
-   .. method:: y()
+   .. method:: y() -> int
 
       Returns the tf_classification's bounding box y coordinate (int).
 
       You may also get this value doing ``[1]`` on the object.
 
-   .. method:: w()
+   .. method:: w() -> int
 
       Returns the tf_classification's bounding box w coordinate (int).
 
       You may also get this value doing ``[2]`` on the object.
 
-   .. method:: h()
+   .. method:: h() -> int
 
       Returns the tf_classification's bounding box h coordinate (int).
 
@@ -233,67 +233,67 @@ Constructors
    Methods
    ~~~~~~~
 
-   .. method:: len()
+   .. method:: len() -> int
 
       Returns the size in bytes of the model.
 
-   .. method:: ram()
+   .. method:: ram() -> int
 
       Returns the model's required free RAM in bytes.
 
-   .. method:: input_height()
+   .. method:: input_height() -> int
 
       Returns the input height of the model. You can use this to size your input
       image height appropriately.
 
-   .. method:: input_width()
+   .. method:: input_width() -> int
 
       Returns the input width of the model. You can use this to size your input
       image width appropriately.
 
-   .. method:: input_channels()
+   .. method:: input_channels() -> int
 
       Returns the number of input color channels in the model.
 
-   .. method:: input_datatype()
+   .. method:: input_datatype() -> str
 
       Returns the model's input datatype (this is a string of "uint8", "int8", or "float").
 
-   .. method:: input_scale()
+   .. method:: input_scale() -> float
 
       Returns the input scale for the model.
 
-   .. method:: input_zero_point()
+   .. method:: input_zero_point() -> int
 
       Returns the output zero point for the model.
 
-   .. method:: output_height()
+   .. method:: output_height() -> int
 
       Returns the output height of the model. You can use this to size your output
       image height appropriately.
 
-   .. method:: output_width()
+   .. method:: output_width() -> int
 
       Returns the output width of the model. You can use this to size your output
       image width appropriately.
 
-   .. method:: output_channels()
+   .. method:: output_channels() -> int
 
       Returns the number of output color channels in the model.
 
-   .. method:: output_datatype()
+   .. method:: output_datatype() -> str
 
       Returns the model's output datatype (this is a string of "uint8", "int8", or "float").
 
-   .. method:: output_scale()
+   .. method:: output_scale() -> float
 
       Returns the output scale for the model.
 
-   .. method:: output_zero_point()
+   .. method:: output_zero_point() -> int
 
       Returns the output zero point for the model.
 
-   .. method:: classify(img, [roi, [min_scale=1.0, [scale_mul=0.5, [x_overlap=0, [y_overlap=0]]]]])
+   .. method:: classify(img:image.Image, roi:Optional[Tuple[int,int,int,int]]=None, min_scale=1.0, scale_mul=0.5, x_overlap=0, y_overlap=0)
 
       Executes the TensorFlow Lite image classification model on the ``img``
       object and returns a list of `tf_classification` objects. This method
@@ -323,7 +323,7 @@ Constructors
       area of the sliding window. A value of zero means no overlap. A value of
       0.95 would mean 95% overlap.
 
-   .. method:: segment(img, [roi])
+   .. method:: segment(img:image.Image, roi:Optional[Tuple[int,int,int,int]]=None])
 
       Executes the TensorFlow Lite image segmentation model on the ``img``
       object and returns a list of grayscale `image` objects for each
@@ -333,7 +333,7 @@ Constructors
       specified, it is equal to the image rectangle. Only pixels within the
       ``roi`` are operated on.
 
-   .. method:: detect(img, [roi, [thresholds, [invert]]])
+   .. method:: detect(img:image.Image, roi:Optional[Tuple[int,int,int,int]]=None, thresholds:Optional[List[Tuple[int,int]]]=None, invert=False)
 
       Executes the TensorFlow Lite image segmentation model on the ``img``
       object and returns a list of `image.blob` objects for each segmentation

@@ -23,7 +23,7 @@ Constructors
       `MicroSpeech` will compute the FFT of the audio samples and keep a sliding window internally
       of the FFT the last 100ms or so of audio samples received as features for voice recognition.
 
-   .. method:: listen(tf_model, [threshold=0.9, [timeout=1000, [filter=None]]])
+   .. method:: listen(tf_model, threshold=0.9, timeout=1000, filter=None)
 
       Executes the tensor flow lite model ``tf_model``, which should be a path to a tensor flow lite
       model on disk, on the audio stream.

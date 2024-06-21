@@ -157,6 +157,8 @@ extern const dma_descr_t dma_SPI_SUBGHZ_RX;
 #define DMA_BUFFER(p)       ((((uint32_t)p & 3) == 0) && ((uint32_t) p > 0x10010000))
 #elif defined(STM32H7)
 #define DMA_BUFFER(p)       ((((uint32_t)p & 3) == 0) && ((uint32_t) p > 0x20020000))
+#elif defined(STM32N6)
+#define DMA_BUFFER(p)       (((uint32_t)p & 3) == 0)
 #else
 #error Unsupported processor
 #endif

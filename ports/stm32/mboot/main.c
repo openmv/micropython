@@ -373,7 +373,7 @@ void SystemClock_Config(void) {
 #elif defined(STM32G0)
 #define AHBxENR IOPENR
 #define AHBxENR_GPIOAEN_Pos RCC_IOPENR_GPIOAEN_Pos
-#elif defined(STM32H7)
+#elif defined(STM32H7) || defined(STM32N6)
 #define AHBxENR AHB4ENR
 #define AHBxENR_GPIOAEN_Pos RCC_AHB4ENR_GPIOAEN_Pos
 #elif defined(STM32H5) || defined(STM32WB)
@@ -408,7 +408,6 @@ void mp_hal_pin_config_speed(uint32_t port_pin, uint32_t speed) {
 /******************************************************************************/
 // FLASH
 
-#define FLASH_START (FLASH_BASE)
 
 #if defined(STM32G0) || defined(STM32H5)
 #define FLASH_END (FLASH_BASE + FLASH_SIZE - 1)
@@ -424,6 +423,8 @@ void mp_hal_pin_config_speed(uint32_t port_pin, uint32_t speed) {
 #define MBOOT_SPIFLASH2_LAYOUT ""
 #endif
 
+#if 0
+#define FLASH_START (FLASH_BASE)
 #if defined(STM32F4) \
     || defined(STM32F722xx) \
     || defined(STM32F723xx) \
@@ -539,13 +540,18 @@ static int mboot_flash_write(uint32_t addr, const uint8_t *src8, size_t len) {
 
     return 0;
 }
+#endif
+#define FLASH_LAYOUT_STR MBOOT_SPIFLASH_LAYOUT MBOOT_SPIFLASH2_LAYOUT
 
 /******************************************************************************/
 // Writable address space interface
 
 static int do_mass_erase(void) {
+    #if 0
     // TODO spiflash erase ?
     return mboot_flash_mass_erase();
+    #endif
+    return -1;
 }
 
 #if defined(MBOOT_SPIFLASH_ADDR) || defined(MBOOT_SPIFLASH2_ADDR)
@@ -580,8 +586,14 @@ int hw_page_erase(uint32_t addr, uint32_t *next_addr) {
             addr - MBOOT_SPIFLASH2_ADDR, MBOOT_SPIFLASH2_ERASE_BLOCKS_PER_PAGE);
     } else
     #endif
+    #if 0
     {
         ret = mboot_flash_page_erase(addr, next_addr);
+    }
+    #endif
+    {
+        dfu_context.status = DFU_STATUS_ERROR_ADDRESS;
+        dfu_context.error = MBOOT_ERROR_STR_INVALID_ADDRESS_IDX;
     }
 
     mboot_state_change(MBOOT_STATE_ERASE_END, ret);
@@ -634,9 +646,12 @@ int hw_write(uint32_t addr, const uint8_t *src8, size_t len) {
         ret = mp_spiflash_write(MBOOT_SPIFLASH2_SPIFLASH, addr - MBOOT_SPIFLASH2_ADDR, len, src8);
     } else
     #endif
+    #if 0
     if (flash_is_valid_addr(addr)) {
         ret = mboot_flash_write(addr, src8, len);
-    } else {
+    } else
+    #endif
+    {
         dfu_context.status = DFU_STATUS_ERROR_ADDRESS;
         dfu_context.error = MBOOT_ERROR_STR_INVALID_ADDRESS_IDX;
     }
@@ -1409,7 +1424,9 @@ NORETURN static __attribute__((naked)) void branch_to_application(uint32_t r0, u
     MP_UNREACHABLE;
 }
 
+void xspi_flash_init(void);
 static void try_enter_application(int reset_mode) {
+    xspi_flash_init();
     uint32_t msp = *(volatile uint32_t *)APPLICATION_ADDR;
     if ((msp & APP_VALIDITY_BITS) != 0) {
         // Application is invalid.
@@ -1465,7 +1482,7 @@ void stm32_main(uint32_t initial_r0) {
     // Make sure IRQ vector table points to flash where this bootloader lives.
     SCB->VTOR = MBOOT_VTOR;
 
-    #if __CORTEX_M != 33
+    #if __CORTEX_M != 33 && __CORTEX_M != 55
     // Enable 8-byte stack alignment for IRQ handlers, in accord with EABI
     SCB->CCR |= SCB_CCR_STKALIGN_Msk;
     #endif
@@ -1702,6 +1719,12 @@ void USB_UCPD1_2_IRQHandler(void) {
 
 void USB_DRD_FS_IRQHandler(void) {
     HAL_PCD_IRQHandler(&pcd_fs_handle);
+}
+
+#elif defined(STM32N6)
+
+void OTG1_IRQHandler(void) {
+    HAL_PCD_IRQHandler(&pcd_hs_handle);
 }
 
 #elif defined(STM32WB)

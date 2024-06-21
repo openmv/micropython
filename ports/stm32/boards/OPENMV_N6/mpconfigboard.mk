@@ -1,0 +1,8 @@
+MCU_SERIES = n6
+CMSIS_MCU = STM32N657xx
+STM32_N6_HEADER_VERSION = 2.3
+AF_FILE = boards/stm32n657_af.csv
+LD_FILES = boards/stm32n657x0.ld boards/common_bl.ld
+SYSTEM_FILE = $(STM32LIB_CMSIS_BASE)/Source/Templates/system_stm32$(MCU_SERIES)xx_ns.o
+DKEL = $(CUBE_PROG_BASE)/bin/ExternalLoader/MX25UM51245G_STM32N6570-NUCLEO.stldr
+TEXT0_ADDR = 0x70080000

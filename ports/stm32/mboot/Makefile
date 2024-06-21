@@ -169,8 +169,6 @@ SRC_HAL += $(addprefix $(STM32LIB_HAL_BASE)/Src/stm32$(MCU_SERIES)xx_,\
 	hal.c \
 	hal_cortex.c \
 	hal_dma.c \
-	hal_flash.c \
-	hal_flash_ex.c \
 	hal_pcd.c \
 	hal_pcd_ex.c \
 	hal_pwr_ex.c \
@@ -178,6 +176,13 @@ SRC_HAL += $(addprefix $(STM32LIB_HAL_BASE)/Src/stm32$(MCU_SERIES)xx_,\
 	hal_rcc_ex.c \
 	ll_usb.c \
 	)
+
+ifeq ($(MCU_SERIES),$(filter $(MCU_SERIES),f4 f7 g0 h5 h7 wb))
+SRC_HAL += $(addprefix $(STM32LIB_HAL_BASE)/Src/stm32$(MCU_SERIES)xx_,\
+	hal_flash.c \
+	hal_flash_ex.c \
+	)
+endif
 
 ifeq ($(MCU_SERIES),$(filter $(MCU_SERIES),f4 f7 h7))
 SRC_HAL += $(addprefix $(STM32LIB_HAL_BASE)/Src/stm32$(MCU_SERIES)xx_,\
@@ -204,7 +209,7 @@ all: $(TOP)/lib/stm32lib/README.md $(BUILD)/firmware.dfu $(BUILD)/firmware.hex
 # For convenience, automatically fetch required submodules if they don't exist
 $(TOP)/lib/stm32lib/README.md:
 	$(ECHO) "stm32lib submodule not found, fetching it now..."
-	(cd $(TOP) && git submodule update --init lib/stm32lib)
+	#(cd $(TOP) && git submodule update --init lib/stm32lib)
 
 .PHONY: deploy deploy-stlink
 
@@ -216,9 +221,12 @@ deploy-stlink: $(BUILD)/firmware.dfu
 	$(ECHO) "Writing $< to the board via ST-LINK"
 	$(Q)$(STFLASH) write $(BUILD)/firmware.bin $(MBOOT_TEXT0_ADDR)
 
-$(BUILD)/firmware.dfu: $(BUILD)/firmware.elf
+$(BUILD)/firmware.bin: $(BUILD)/firmware.elf
 	$(ECHO) "Create $@"
 	$(Q)$(OBJCOPY) -O binary -j .isr_vector -j .text -j .data -j .mboot_version_text $^ $(BUILD)/firmware.bin
+
+$(BUILD)/firmware.dfu: $(BUILD)/firmware.bin
+	$(ECHO) "Create $@"
 	$(Q)$(PYTHON) $(DFU) -b $(MBOOT_TEXT0_ADDR):$(BUILD)/firmware.bin $@
 
 $(BUILD)/firmware.hex: $(BUILD)/firmware.elf
@@ -229,6 +237,13 @@ $(BUILD)/firmware.elf: $(OBJ)
 	$(ECHO) "LINK $@"
 	$(Q)$(LD) $(LDFLAGS) -o $@ $^ $(LIBS)
 	$(Q)$(SIZE) $@
+
+$(BUILD)/firmware-trusted.bin: $(BUILD)/firmware.bin
+	/bin/rm -f $@
+	$(CUBE_PROG_BASE)/bin/STM32MP_SigningTool_CLI -bin $^ -nk -of 0x80000000 -t fsbl -o $@ -hv 2.3 #-dump $@
+
+deploy-n6: $(BUILD)/firmware-trusted.bin
+	$(CUBE_PROG_BASE)/bin/STM32_Programmer.sh -c port=SWD mode=HOTPLUG ap=1 -el $(DKEL) -w $^ 0x70000000 -hardRst
 
 #########################################
 # Rules to generate header files

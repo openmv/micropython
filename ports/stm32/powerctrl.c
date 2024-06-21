@@ -46,7 +46,7 @@ static uint32_t __attribute__((unused)) micropy_hw_hse_value = HSE_VALUE;
 static uint32_t __attribute__((unused)) micropy_hw_clk_pllm = MICROPY_HW_CLK_PLLM;
 #endif
 
-#if defined(STM32H5) || defined(STM32H7)
+#if defined(STM32H5) || defined(STM32H7) || defined(STM32N6)
 #define RCC_SR          RSR
 #if defined(STM32H747xx)
 #define RCC_SR_SFTRSTF  RCC_RSR_SFT2RSTF
@@ -169,6 +169,7 @@ void powerctrl_check_enter_bootloader(void) {
     #endif
 }
 
+#if 0
 #if !defined(STM32F0) && !defined(STM32L0) && !defined(STM32WB) && !defined(STM32WL)
 
 typedef struct _sysclk_scaling_table_entry_t {
@@ -781,10 +782,12 @@ static void powerctrl_low_power_exit_wb55() {
 
 #endif // !defined(STM32F0) && !defined(STM32G0) && !defined(STM32L0) && !defined(STM32L1) && !defined(STM32L4)
 
+#endif
 void powerctrl_enter_stop_mode(void) {
     // Disable IRQs so that the IRQ that wakes the device from stop mode is not
     // executed until after the clocks are reconfigured
     uint32_t irq_state = disable_irq();
+#if 0
 
     #if defined(STM32H7) || \
     defined(STM32F427xx) || defined(STM32F437xx) || \
@@ -1016,6 +1019,7 @@ void powerctrl_enter_stop_mode(void) {
     // Enable SysTick Interrupt
     SysTick->CTRL |= SysTick_CTRL_TICKINT_Msk;
     #endif
+#endif
 
     // Enable IRQs now that all clocks are reconfigured
     enable_irq(irq_state);
@@ -1044,6 +1048,7 @@ NORETURN void powerctrl_enter_standby_mode(void) {
     mp_bluetooth_deinit();
     #endif
 
+#if 0
     // We need to clear the PWR wake-up-flag before entering standby, since
     // the flag may have been set by a previous wake-up event.  Furthermore,
     // we need to disable the wake-up sources while clearing this flag, so
@@ -1140,6 +1145,7 @@ NORETURN void powerctrl_enter_standby_mode(void) {
     #if defined(STM32WB)
     powerctrl_low_power_prep_wb55();
     #endif
+#endif
 
     // enter standby mode
     HAL_PWR_EnterSTANDBYMode();

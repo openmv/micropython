@@ -31,6 +31,8 @@
 
 #include "py/mperrno.h"
 #include "py/mphal.h"
+#ifdef MICROPY_PY_MACHINE_UART
+
 #include "shared/runtime/interrupt_char.h"
 #include "shared/runtime/mpirq.h"
 #include "uart.h"
@@ -401,6 +403,8 @@ static bool mp_machine_uart_txdone(machine_uart_obj_t *self) {
 static void mp_machine_uart_sendbreak(machine_uart_obj_t *self) {
     #if defined(STM32F0) || defined(STM32F7) || defined(STM32G0) || defined(STM32G4) || defined(STM32H5) || defined(STM32H7) || defined(STM32L0) || defined(STM32L4) || defined(STM32WB) || defined(STM32WL)
     self->uartx->RQR = USART_RQR_SBKRQ; // write-only register
+    #elif defined(STM32N6)
+    self->uartx->RQR = USART_RQR_SBKRQ; // write-only register
     #else
     self->uartx->CR1 |= USART_CR1_SBK;
     #endif
@@ -555,3 +559,4 @@ static mp_uint_t mp_machine_uart_ioctl(mp_obj_t self_in, mp_uint_t request, uint
     }
     return ret;
 }
+#endif

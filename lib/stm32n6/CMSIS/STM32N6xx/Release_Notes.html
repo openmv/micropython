@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Release Notes for STM32N6xx CMSIS</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <link rel="stylesheet" href="_htmresc/mini-st_2020.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+  <link rel="icon" type="image/x-icon" href="_htmresc/favicon.png" />
+</head>
+<body>
+<div class="row">
+<div class="col-sm-12 col-lg-4">
+<center>
+<h1 id="release-notes-for-stm32n6xx-cmsis">Release Notes for <mark>STM32N6xx CMSIS</mark></h1>
+<p>Copyright © 2023 STMicroelectronics<br />
+</p>
+<a href="https://www.st.com" class="logo"><img src="_htmresc/st_logo_2020.png" alt="ST logo" /></a>
+</center>
+<h1 id="purpose">Purpose</h1>
+<p>This driver provides the CMSIS device for the STM32N6xx product. This covers</p>
+<ul>
+<li>STM32N657xx, STM32N655xx, STM32N647xx and STM32N645xx devices</li>
+</ul>
+<p>This driver is composed of the description of the registers under “Include” directory.</p>
+<p>Various template files are provided to easily build an application. They can be adapted to fit applications requirements.</p>
+<ul>
+<li>Templates/system_stm32n6xx.c contains the initialization code referred as SystemInit.</li>
+<li>Startup files are provided as example for EWARM©, MDK-ARM©, STM32CubeIDE©.</li>
+<li>Linker files are provided as example for EWARM©, MDK-ARM©, STM32CubeIDE©.</li>
+</ul>
+</div>
+<div class="col-sm-12 col-lg-8">
+<h1 id="update-history">Update history</h1>
+<div class="collapse">
+<input type="checkbox" id="collapse-section11" checked aria-hidden="true"> <label for="collapse-section11" checked aria-hidden="true"><strong>V1.0.0RC1 / 20-September-2024</strong></label>
+<div>
+<h2 id="main-changes">Main Changes</h2>
+<h3 id="first-official-release-candidate-for-stm32n6xx-cmsis-supporting-stm32n657xx-stm32n655xx-stm32n647xx-and-stm32n645xx-devices">First official release candidate for <strong>STM32N6xx</strong> CMSIS supporting <strong>STM32N657xx</strong>, <strong>STM32N655xx</strong>, <strong>STM32N647xx</strong> and <strong>STM32N645xx</strong> devices</h3>
+<h2 id="contents">Contents</h2>
+<ul>
+<li>Changes compared with V0.5.1 release
+<ul>
+<li>Correct STM32N6xx_AXISRAM2_fsbl.ld files to fix CubeIDE warning reporting a LOAD segment with RWX permissions</li>
+<li>Add IAR and KEIL scatter files to manage external memory manager configurations</li>
+<li>Correct Non-Cacheable area definition in KEIL and CubeIDE scatter files</li>
+<li>Correct IS_UART_LIN_INSTANCE() macro for secure and non-secure environments</li>
+<li>Add IS_HCD_ALL_INSTANCE(), IS_PCD_ALL_INSTANCE() and IS_USBPHYC_ALL_INSTANCE() macros for non-secure environments</li>
+<li>Correct comments describing USB_OTG_HS_GCCFG register bits USB_OTG_GCCFG_VBVALOVAL and USB_OTG_GCCFG_VBVALEXTOEN</li>
+<li>Update LTDC bitfields and LTDC_TypeDef structure</li>
+</ul></li>
+</ul>
+<h2 id="known-limitations">Known Limitations</h2>
+<p>None</p>
+<h2 id="development-toolchains-and-compilers">Development Toolchains and Compilers</h2>
+<ul>
+<li>IAR Embedded Workbench for ARM (EWARM) toolchain V9.40.1</li>
+<li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.39</li>
+<li>STM32CubeIDE 1.15.1.24-N6-A2 alpha2</li>
+</ul>
+<h2 id="notes">Notes</h2>
+<p>None</p>
+</div>
+</div>
+<div class="collapse">
+<input type="checkbox" id="collapse-section10"  aria-hidden="true"> <label for="collapse-section10" checked aria-hidden="true"><strong>V0.5.1 / 26-July-2024</strong></label>
+<div>
+<h2 id="main-changes-1">Main Changes</h2>
+<h3 id="patch-release-for-stm32n6xx-cmsis-supporting-stm32n657xx-stm32n655xx-stm32n647xx-and-stm32n645xx-devices">Patch release for <strong>STM32N6xx</strong> CMSIS supporting <strong>STM32N657xx</strong>, <strong>STM32N655xx</strong>, <strong>STM32N647xx</strong> and <strong>STM32N645xx</strong> devices</h3>
+<h2 id="contents-1">Contents</h2>
+<ul>
+<li>Changes compared with V0.5.0 release
+<ul>
+<li>Fix SYSCFG clocking issue in SystemInit()</li>
+<li>Disable TIM2 and GPIOG in SystemInit() to decrease power consumption after bootROM execution</li>
+</ul></li>
+</ul>
+<h2 id="known-limitations-1">Known Limitations</h2>
+<ul>
+<li>CMSIS devices files are delivered “as is” and have not been fully validated</li>
+</ul>
+<h2 id="development-toolchains-and-compilers-1">Development Toolchains and Compilers</h2>
+<ul>
+<li>IAR Embedded Workbench for ARM (EWARM) toolchain V9.40.1</li>
+<li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.39</li>
+<li>STM32CubeIDE 1.15.1.24-N6-A2 alpha2</li>
+</ul>
+<h2 id="notes-1">Notes</h2>
+<p>Enable <strong><span style="color:red">STM32N6XX_SI_CUT1_1</span></strong> compilation switch when using Cut1.1 samples.</p>
+</div>
+</div>
+<div class="collapse">
+<input type="checkbox" id="collapse-section9" aria-hidden="true"> <label for="collapse-section9" checked aria-hidden="true"><strong>V0.5.0 / 28-June-2024</strong></label>
+<div>
+<h2 id="main-changes-2">Main Changes</h2>
+<h3 id="second-beta-release-for-stm32n6xx-cmsis-supporting-stm32n657xx-stm32n655xx-stm32n647xx-and-stm32n645xx-devices">Second beta release for <strong>STM32N6xx</strong> CMSIS supporting <strong>STM32N657xx</strong>, <strong>STM32N655xx</strong>, <strong>STM32N647xx</strong> and <strong>STM32N645xx</strong> devices</h3>
+<h2 id="contents-2">Contents</h2>
+<ul>
+<li>Changes compared with V0.4.1 release
+<ul>
+<li>Correct ETH_MTLESTECR_OVHD definition and ETH_MTLQxICSR_ABPSIS_Msk comment</li>
+<li>Correct USB2_HS_PHYC_BASE_NS and USB2_HS_PHYC_BASE_S definitions</li>
+<li>Correct LTDC_LxBFCR_BOR mask value</li>
+<li>Correct DBGMCU_TypeDef structure definition</li>
+<li>Add USART_CR1_M_MSK and USART_CR1_M_Pos definitions</li>
+<li>Update SystemInit() and startup files to ensure support of Cut1.1 and Cut2.0 samples</li>
+<li>Update SystemInit() in invalidating cache before activating lookup (for Cut1.1 samples only)</li>
+<li>Align all scatter files with same heap and stack sizes definition</li>
+</ul></li>
+</ul>
+<h2 id="known-limitations-2">Known Limitations</h2>
+<ul>
+<li>CMSIS devices files are delivered “as is” and have not been fully validated</li>
+</ul>
+<h2 id="development-toolchains-and-compilers-2">Development Toolchains and Compilers</h2>
+<ul>
+<li>IAR Embedded Workbench for ARM (EWARM) toolchain V9.40.1</li>
+<li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.39</li>
+<li>STM32CubeIDE 1.15.1.24-N6-A2 alpha2</li>
+</ul>
+<h2 id="notes-2">Notes</h2>
+<p>Enable <strong><span style="color:red">STM32N6XX_SI_CUT1_1</span></strong> compilation switch when using Cut1.1 samples.</p>
+</div>
+</div>
+<div class="collapse">
+<input type="checkbox" id="collapse-section8" aria-hidden="true"> <label for="collapse-section8" checked aria-hidden="true"><strong>V0.4.1 / 17-May-2024</strong></label>
+<div>
+<h2 id="main-changes-3">Main Changes</h2>
+<h3 id="patch-release-for-stm32n6xx-cmsis-devices">Patch release for <strong>STM32N6xx</strong> CMSIS devices</h3>
+<h2 id="contents-3">Contents</h2>
+<ul>
+<li>Changes compared with V0.4.0 release
+<ul>
+<li>Add NPU_BASE definition</li>
+<li>Suppress useless typedef XSPI_TypeDef HSPI_TypeDef definition</li>
+<li>Reorder structures definition in alphabetical order</li>
+</ul></li>
+</ul>
+<h2 id="known-limitations-3">Known Limitations</h2>
+<ul>
+<li>CMSIS devices files are delivered “as is” and have not been fully validated</li>
+</ul>
+<h2 id="development-toolchains-and-compilers-3">Development Toolchains and Compilers</h2>
+<ul>
+<li>IAR Embedded Workbench for ARM (EWARM) toolchain V9.40.1</li>
+<li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.39</li>
+<li>STM32CubeIDE V1.13.1 Alpha1</li>
+</ul>
+</div>
+</div>
+<div class="collapse">
+<input type="checkbox" id="collapse-section7" aria-hidden="true"> <label for="collapse-section7" checked aria-hidden="true"><strong>V0.4.0 / 26-April-2024</strong></label>
+<div>
+<h2 id="main-changes-4">Main Changes</h2>
+<h3 id="first-beta-release-for-stm32n6xx-cmsis-supporting-stm32n657xx-stm32n655xx-stm32n647xx-and-stm32n645xx-devices">First beta release for <strong>STM32N6xx</strong> CMSIS supporting <strong>STM32N657xx</strong>, <strong>STM32N655xx</strong>, <strong>STM32N647xx</strong> and <strong>STM32N645xx</strong> devices</h3>
+<h2 id="contents-4">Contents</h2>
+<ul>
+<li>Changes compared with V0.3.1 release
+<ul>
+<li>Add support of STM32N655xx and STM32N645xx devices</li>
+<li>Remove TAMP_OR BSEN bit definition</li>
+<li>Add startup and scatter files for MDK-ARM</li>
+<li>Add SYSCFG DEVICEID register definition</li>
+<li>Remove DFT attribute definitions</li>
+<li>Correct TIM_CCR1_CCRi bits definitions</li>
+<li>Correct SAES_CR_CHMOD_Msk definition</li>
+<li>Remove useless registers from CSI_TypeDef and bits definitions</li>
+<li>Add non-cacheable regions in EWARM, MDK-ARM and gcc linker files</li>
+<li>Add SRAM7 definition for STM32N655xx and STM32N645xx devices</li>
+<li>Correct SYSCFG_ICNCGCR_NPU_NOC_CG_DISABLE bit name into SYSCFG_ICNCGCR_NPU_NIC_CG_DISABLE</li>
+<li>Enable D-Cache and I-Cache lookups in SystemInit()</li>
+<li>Add definition of compilation switch NPU_PRESENT for STM32N657xx and STM32N647xx devices</li>
+<li>Update ATOMIC_SET_BIT(), ATOMIC_CLEAR_BIT(), ATOMIC_MODIFY_REG(), ATOMIC_SETH_BIT(), ATOMIC_CLEARH_BIT() and ATOMIC_MODIFYH_REG() to benefit from __LDREXH and _STREXH instructions</li>
+<li>Update LTDC registers definition</li>
+</ul></li>
+</ul>
+<h2 id="known-limitations-4">Known Limitations</h2>
+<ul>
+<li>CMSIS devices files are delivered “as is” and have not been fully validated</li>
+</ul>
+<h2 id="development-toolchains-and-compilers-4">Development Toolchains and Compilers</h2>
+<ul>
+<li>IAR Embedded Workbench for ARM (EWARM) toolchain V9.40.1</li>
+<li>RealView Microcontroller Development Kit (MDK-ARM) toolchain V5.39</li>
+<li>STM32CubeIDE V1.13.1 Alpha1</li>
+</ul>
+</div>
+</div>
+<div class="collapse">
+<input type="checkbox" id="collapse-section6"  aria-hidden="true"> <label for="collapse-section6" checked aria-hidden="true"><strong>V0.3.1 / 23-February-2024</strong></label>
+<div>
+<h2 id="main-changes-5">Main Changes</h2>
+<h3 id="patch-release-for-stm32n6xx-cmsis-devices-1">Patch release for <strong>STM32N6xx</strong> CMSIS devices</h3>
+<h2 id="contents-5">Contents</h2>
+<ul>
+<li>Changes compared with V0.3.0 release
+<ul>
+<li>Deliver MDIOS types, registers and bits definitions</li>
+<li>Correct GPU2D and IS_GPU2D_ALL_INSTANCE() macro definitions</li>
+<li>Correct SystemInit() function in reading back SYSCFG-&gt;INITSVTORCR value to make sure it is written before disabling SYSCFG clock</li>
+</ul></li>
+</ul>
+<h2 id="known-limitations-5">Known Limitations</h2>
+<ul>
+<li>CMSIS devices files are delivered “as is” and have not been fully validated</li>
+</ul>
+<h2 id="development-toolchains-and-compilers-5">Development Toolchains and Compilers</h2>
+<ul>
+<li>IAR Embedded Workbench for ARM (EWARM) toolchain V9.40.1</li>
+<li>STM32CubeIDE V1.13.1 Alpha1</li>
+</ul>
+</div>
+</div>
+<div class="collapse">
+<input type="checkbox" id="collapse-section5" aria-hidden="true"> <label for="collapse-section5" checked aria-hidden="true"><strong>V0.3.0 / 08-December-2023</strong></label>
+<div>
+<h2 id="main-changes-6">Main Changes</h2>
+<h3 id="third-alpha-release-for-stm32n6xx-cmsis-devices">Third alpha release for <strong>STM32N6xx</strong> CMSIS devices</h3>
+<h2 id="contents-6">Contents</h2>
+<ul>
+<li>CMSIS devices files for STM32N6xx for EWARM IDE</li>
+<li>Changes compared with V0.2.0 release
+<ul>
+<li>Correct partition files partition_stm32n657xx.h and partition_stm32n647xx.h to indicate proper DTS, BKP_ECC and RIFSC_TAMPER interrupt handlers</li>
+<li>Add new bits definitions I3C_BCR_BCR3, I3C_BCR_BCR4 and I3C_BCR_BCR5 to support new HAL interface ENTDAA payload</li>
+<li>Correct Misra-C:2012 warnings in system_stm32n6xx_fsbl.c and system_stm32n6xx_s.c</li>
+<li>Remove R2G references (removed from specifications)</li>
+<li>Correct FMC_SDCMR_MODE_2 bit definition</li>
+<li>Rename IAR scatter files for complete and uniform definitions to cover FSBL (First Stage Boot Loader), Load-and-Run and Execute-in-Place configurations</li>
+</ul></li>
+</ul>
+<h2 id="known-limitations-6">Known Limitations</h2>
+<ul>
+<li>CMSIS devices files are delivered “as is” and have not been fully validated</li>
+</ul>
+<h2 id="development-toolchains-and-compilers-6">Development Toolchains and Compilers</h2>
+<ul>
+<li>IAR Embedded Workbench for ARM (EWARM) toolchain V9.40.1</li>
+<li>STM32CubeIDE V1.13.1 Alpha1</li>
+</ul>
+</div>
+</div>
+<div class="collapse">
+<input type="checkbox" id="collapse-section4" aria-hidden="true"> <label for="collapse-section4" checked aria-hidden="true"><strong>V0.2.0 / 29-September-2023</strong></label>
+<div>
+<h2 id="main-changes-7">Main Changes</h2>
+<h3 id="second-alpha-release-for-stm32n6xx-cmsis-devices">Second alpha release for <strong>STM32N6xx</strong> CMSIS devices</h3>
+<h2 id="contents-7">Contents</h2>
+<ul>
+<li>CMSIS devices files for STM32N6xx for EWARM IDE</li>
+<li>Changes compared with V0.2.0RC1 release
+<ul>
+<li>Remove XSPI PCR register #define</li>
+<li>Remove BUSPERFM references</li>
+<li>Align RCC_BUSENSR_x and RCC_BUSENCR_x definitions with that of RCC_BUSENR_x</li>
+<li>Add region structures for DCMIPP ROI configuration</li>
+<li>Add RCC_HSECFGR_HSECSSBPRE_x bit values</li>
+<li>Correct startup_stm32n657xx.s and system_stm32n6xx_s.c for Cut1.1 support</li>
+<li>Add scatter files stm32n657xx_axisram2_fsbl.icf and stm32n647xx_axisram2_fsbl.icf dedicated to FSBL software</li>
+<li>Add IS_DMA_PFREQ_INSTANCE() assert macro</li>
+<li>Correct IRQn_Type update for DTS, NPU, CACHEAXI and SPDIFRX</li>
+<li>Replace CORTEX_IN_SECURE_STATE define by CPU_IN_SECURE_STATE</li>
+<li>Change RISAF instance indexation</li>
+<li>Add USBPHYC control register structure</li>
+<li>Update DTS types definitions</li>
+<li>Add FSBL Start-up and system files</li>
+<li>Add linker file templates to support XIP and LRUN configurations</li>
+<li>Add missing bits definitions for DCMIPP and pipes numbers</li>
+<li>Add ETH support</li>
+<li>Add definition of USB1_PHY_HS_S and USB1_PHY_HS_NS</li>
+<li>Add TAMP_OR register</li>
+<li>Correct VDDIOxCCCR and VDDIOxCCSR indices</li>
+</ul></li>
+</ul>
+<h2 id="known-limitations-7">Known Limitations</h2>
+<ul>
+<li>CMSIS devices files are delivered “as is” and have not been fully validated</li>
+</ul>
+<h2 id="development-toolchains-and-compilers-7">Development Toolchains and Compilers</h2>
+<ul>
+<li>IAR Embedded Workbench for ARM (EWARM) toolchain V9.40.1</li>
+<li>STM32CubeIDE V1.13.1 Alpha1</li>
+</ul>
+</div>
+</div>
+<div class="collapse">
+<input type="checkbox" id="collapse-section3" aria-hidden="true"> <label for="collapse-section3" checked aria-hidden="true"><strong>V0.2.0RC1 / 29-June-2023</strong></label>
+<div>
+<h2 id="main-changes-8">Main Changes</h2>
+<h3 id="second-release">Second release</h3>
+<p>Second alpha release candidate for <strong>STM32N6xx</strong> CMSIS devices</p>
+<h2 id="contents-8">Contents</h2>
+<ul>
+<li>CMSIS devices files for STM32N6xx for EWARM IDE</li>
+<li>Changes compared with V0.1.0 release
+<ul>
+<li>Add TIM_CR2 ADSYNC bit related definitions</li>
+<li>Add DTS registers and bits definitions</li>
+<li>Remove FPGA-related lines from SystemCoreClockUpdate() in system_stm32n6xx_s.c</li>
+<li>Add IS_DMA_LIMIT_INSTANCE() macro definition</li>
+<li>Fix exit from Standby issue in ensuring SYSCFG peripheral is clocked before writing its registers</li>
+<li>Correct IS_SAI_ALL_INSTANCE() macro definition</li>
+</ul></li>
+</ul>
+<h2 id="known-limitations-8">Known Limitations</h2>
+<ul>
+<li>CMSIS devices files are delivered “as is” and have not been fully validated</li>
+</ul>
+<h2 id="development-toolchains-and-compilers-8">Development Toolchains and Compilers</h2>
+<ul>
+<li>IAR Embedded Workbench for ARM (EWARM) toolchain V9.30.1</li>
+</ul>
+<h2 id="supported-devices-and-boards">Supported Devices and Boards</h2>
+<ul>
+<li>STM32N6xx devices</li>
+</ul>
+</div>
+</div>
+<div class="collapse">
+<input type="checkbox" id="collapse-section2" aria-hidden="true"> <label for="collapse-section2" checked aria-hidden="true"><strong>V0.1.0 / 12-May-2023</strong></label>
+<div>
+<h2 id="main-changes-9">Main Changes</h2>
+<h3 id="first-release">First release</h3>
+<p>First Alpha release for <strong>STM32N6xx</strong> CMSIS devices</p>
+<h2 id="contents-9">Contents</h2>
+<ul>
+<li>CMSIS devices files for STM32N6xx for EWARM IDE</li>
+<li>Changes compared with V0.1.0RC1 release
+<ul>
+<li>Update of SYSCFG registers and bits definition</li>
+<li>Update ATOMIC_SET_BIT() and ATOMIC_CLEAR_BIT() macros to use interrupt control for register exclusive access</li>
+<li>Add RISAF instance definitions in non-secure domain</li>
+<li>Add missing #include “stm32n6xx_hal.h” in stm32n6xx.h</li>
+<li>Remove CMCR_FCRS bit from DCMIPP bits definition</li>
+<li>Reorder GPIO PIOCFGRL/H and DELAYRL/H registers definition in array format</li>
+<li>Remove ADC injected context queues bits definition (not applicable)</li>
+<li>Add ADC internal reference voltage buffer, internal bandgap and internal path to VDDCORE bits definition</li>
+<li>Correct IS_TIM_TISEL_INSTANCE() macro</li>
+<li>Fix SystemCoreClockUpdate() for PLL bypass mode</li>
+</ul></li>
+</ul>
+<h2 id="known-limitations-9">Known Limitations</h2>
+<ul>
+<li>CMSIS devices files are delivered “as is” and have not been fully validated</li>
+</ul>
+<h2 id="development-toolchains-and-compilers-9">Development Toolchains and Compilers</h2>
+<ul>
+<li>IAR Embedded Workbench for ARM (EWARM) toolchain V9.30.1</li>
+</ul>
+<h2 id="supported-devices-and-boards-1">Supported Devices and Boards</h2>
+<ul>
+<li>STM32N6xx devices</li>
+</ul>
+</div>
+</div>
+<div class="collapse">
+<input type="checkbox" id="collapse-section1" aria-hidden="true"> <label for="collapse-section1" checked aria-hidden="true"><strong>V0.1.0RC1 / 14-April-2023</strong></label>
+<div>
+<h2 id="main-changes-10">Main Changes</h2>
+<h3 id="first-release-1">First release</h3>
+<p>First Alpha release candidate for <strong>STM32N6xx</strong> CMSIS devices</p>
+<h2 id="contents-10">Contents</h2>
+<ul>
+<li>CMSIS devices files for STM32N6xx for EWARM IDE</li>
+</ul>
+<h2 id="known-limitations-10">Known Limitations</h2>
+<ul>
+<li>CMSIS devices files are delivered “as is” and have not been fully validated</li>
+</ul>
+<h2 id="development-toolchains-and-compilers-10">Development Toolchains and Compilers</h2>
+<ul>
+<li>IAR Embedded Workbench for ARM (EWARM) toolchain V9.30.1</li>
+</ul>
+<h2 id="supported-devices-and-boards-2">Supported Devices and boards</h2>
+<ul>
+<li>STM32N6xx devices</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<footer class="sticky">
+<div class="columns">
+<div class="column" style="width:95%;">
+<p>For complete documentation on STM32 Microcontrollers</mark>, visit: <span style="font-color: blue;"><a href="http://www.st.com/stm32">www.st.com/stm32</a></span></p>
+<p><em>This release note uses up to date web standards and, for this reason, should not be opened with Internet Explorer but preferably with popular browsers such as Google Chrome, Mozilla Firefox, Opera or Microsoft Edge.</em></p>
+</div><div class="column" style="width:5%;">
+<p><abbr title="Based on template cx566953 version 2.0">Info</abbr></p>
+</div>
+</div>
+</footer>
+</body>
+</html>

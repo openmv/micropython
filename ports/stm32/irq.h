@@ -167,6 +167,8 @@ static inline void restore_irq_pri(uint32_t state) {
 
 #define IRQ_PRI_MDMA            NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 6, 0)
 
+#define IRQ_PRI_GPU             NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 6, 0)
+
 // Flash IRQ (used for flushing storage cache) must be at the same priority as
 // the USB IRQs, so that the IRQ priority can be raised to this level to disable
 // both the USB and cache flushing, when storage transfers are in progress.

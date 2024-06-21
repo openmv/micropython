@@ -118,13 +118,12 @@
 #define MICROPY_PY_MACHINE_BARE_METAL_FUNCS (1)
 #define MICROPY_PY_MACHINE_FREQ_NUM_ARGS_MAX (4)
 #define MICROPY_PY_MACHINE_BOOTLOADER (1)
+#if 0
 #define MICROPY_PY_MACHINE_ADC      (1)
 #define MICROPY_PY_MACHINE_ADC_INCLUDEFILE "ports/stm32/machine_adc.c"
 #ifndef MICROPY_PY_MACHINE_BITSTREAM
 #define MICROPY_PY_MACHINE_BITSTREAM (1)
 #endif
-#define MICROPY_PY_MACHINE_DHT_READINTO (1)
-#define MICROPY_PY_MACHINE_PULSE    (1)
 #define MICROPY_PY_MACHINE_PIN_MAKE_NEW mp_pin_make_new
 #define MICROPY_PY_MACHINE_I2C      (MICROPY_HW_ENABLE_HW_I2C)
 #define MICROPY_PY_MACHINE_SOFTI2C  (1)
@@ -135,13 +134,16 @@
 #define MICROPY_PY_MACHINE_SPI      (1)
 #define MICROPY_PY_MACHINE_SPI_MSB  (SPI_FIRSTBIT_MSB)
 #define MICROPY_PY_MACHINE_SPI_LSB  (SPI_FIRSTBIT_LSB)
+#endif
+#define MICROPY_PY_MACHINE_PULSE    (1)
+#define MICROPY_PY_MACHINE_DHT_READINTO (1)
 #define MICROPY_PY_MACHINE_SOFTSPI  (1)
 #define MICROPY_PY_MACHINE_TIMER    (1)
-#define MICROPY_PY_MACHINE_UART     (1)
-#define MICROPY_PY_MACHINE_UART_INCLUDEFILE "ports/stm32/machine_uart.c"
-#define MICROPY_PY_MACHINE_UART_IRQ (1)
-#define MICROPY_PY_MACHINE_UART_READCHAR_WRITECHAR (1)
-#define MICROPY_PY_MACHINE_UART_SENDBREAK (1)
+#define MICROPY_PY_MACHINE_UART     (0)
+//#define MICROPY_PY_MACHINE_UART_INCLUDEFILE "ports/stm32/machine_uart.c"
+//#define MICROPY_PY_MACHINE_UART_IRQ (1)
+//#define MICROPY_PY_MACHINE_UART_READCHAR_WRITECHAR (1)
+//#define MICROPY_PY_MACHINE_UART_SENDBREAK (1)
 #define MICROPY_PY_MACHINE_WDT      (1)
 #define MICROPY_PY_MACHINE_WDT_INCLUDEFILE "ports/stm32/machine_wdt.c"
 #endif
@@ -272,7 +274,6 @@ typedef long mp_off_t;
     do { \
         extern void mp_handle_pending(bool); \
         mp_handle_pending(true); \
-        __WFI(); \
     } while (0);
 
 #define MICROPY_THREAD_YIELD()

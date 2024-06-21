@@ -99,7 +99,7 @@ static uint8_t *USBD_DeviceDescriptor(USBD_HandleTypeDef *pdev, uint16_t *length
   * @retval Pointer to descriptor buffer, or NULL if idx is invalid
   */
 static uint8_t *USBD_StrDescriptor(USBD_HandleTypeDef *pdev, uint8_t idx, uint16_t *length) {
-    char str_buf[16];
+    char str_buf[17];
     const char *str = NULL;
 
     switch (idx) {
@@ -135,7 +135,6 @@ static uint8_t *USBD_StrDescriptor(USBD_HandleTypeDef *pdev, uint8_t idx, uint16
             snprintf(str_buf, sizeof(str_buf),
                 "%02X%02X%02X%02X%02X%02X",
                 id[11], id[10] + id[2], id[9], id[8] + id[0], id[7], id[6]);
-
             str = str_buf;
             break;
         }

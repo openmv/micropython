@@ -29,6 +29,7 @@
 #include "py/misc.h"
 #include "py/mphal.h"
 #include "flash.h"
+#if 0
 
 #if defined(STM32F0)
 
@@ -159,6 +160,13 @@ static const flash_layout_t flash_layout[] = {
 #define FLASH_LAYOUT_START_ADDR     (FLASH_BASE)
 #define FLASH_LAYOUT_SECTOR_SIZE    (0x20000)
 #define FLASH_LAYOUT_NUM_SECTORS    (16)
+
+#elif defined(STM32N6)
+
+#define FLASH_LAYOUT_IS_HOMOGENEOUS (1)
+#define FLASH_LAYOUT_START_ADDR     (FLASH_BASE)
+#define FLASH_LAYOUT_SECTOR_SIZE    (0)
+#define FLASH_LAYOUT_NUM_SECTORS    (0)
 
 #else
 #error Unsupported processor
@@ -340,6 +348,10 @@ int flash_erase(uint32_t flash_dest) {
     EraseInitStruct.VoltageRange = 0; // unused parameter on STM32H7A3/B3
     #endif
 
+    #elif defined(STM32N6)
+
+    return -1;
+
     #else
     #error Unsupported processor
     #endif
@@ -357,6 +369,7 @@ int flash_erase(uint32_t flash_dest) {
     #elif defined(STM32H5) || defined(STM32H7)
     EraseInitStruct.Banks = get_bank(flash_dest);
     EraseInitStruct.Sector = get_page(flash_dest);
+    #elif defined(STM32N6)
     #else
     #error Unsupported processor
     #endif
@@ -509,3 +522,4 @@ int flash_write(uint32_t flash_dest, const uint32_t *src, uint32_t num_word32) {
 
     return mp_hal_status_to_neg_errno(status);
 }
+#endif

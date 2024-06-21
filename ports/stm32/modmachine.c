@@ -117,6 +117,7 @@
 static uint32_t reset_cause;
 
 void machine_init(void) {
+#if 0
     #if defined(STM32F4)
     if (PWR->CSR & PWR_CSR_SBF) {
         // came out of standby
@@ -177,6 +178,7 @@ void machine_init(void) {
     }
     // clear RCC reset flags
     RCC->RCC_SR |= RCC_SR_RMVF;
+#endif
 }
 
 void machine_deinit(void) {
@@ -195,8 +197,9 @@ static mp_obj_t machine_info(size_t n_args, const mp_obj_t *args) {
         mp_printf(print, "ID=%02x%02x%02x%02x:%02x%02x%02x%02x:%02x%02x%02x%02x\n", id[0], id[1], id[2], id[3], id[4], id[5], id[6], id[7], id[8], id[9], id[10], id[11]);
     }
 
+    #if 0
     mp_printf(print, "DEVID=0x%04x\nREVID=0x%04x\n", (unsigned int)HAL_GetDEVID(), (unsigned int)HAL_GetREVID());
-
+    #endif
     // get and print clock speeds
     // SYSCLK=168MHz, HCLK=168MHz, PCLK1=42MHz, PCLK2=84MHz
     {
@@ -316,18 +319,25 @@ NORETURN void mp_machine_bootloader(size_t n_args, const mp_obj_t *args) {
 // get or set the MCU frequencies
 static mp_obj_t mp_machine_get_freq(void) {
     mp_obj_t tuple[] = {
+        mp_obj_new_int(HAL_RCC_GetCpuClockFreq()),
+        #if defined(STM32N6)
         mp_obj_new_int(HAL_RCC_GetSysClockFreq()),
+        #endif
         mp_obj_new_int(HAL_RCC_GetHCLKFreq()),
         mp_obj_new_int(HAL_RCC_GetPCLK1Freq()),
         #if !defined(STM32F0) && !defined(STM32G0)
         mp_obj_new_int(HAL_RCC_GetPCLK2Freq()),
+        #endif
+        #if defined(STM32N6)
+        mp_obj_new_int(HAL_RCC_GetPCLK4Freq()),
+        mp_obj_new_int(HAL_RCC_GetPCLK5Freq()),
         #endif
     };
     return mp_obj_new_tuple(MP_ARRAY_SIZE(tuple), tuple);
 }
 
 static void mp_machine_set_freq(size_t n_args, const mp_obj_t *args) {
-    #if defined(STM32F0) || defined(STM32L0) || defined(STM32L1) || defined(STM32L4) || defined(STM32G0)
+    #if defined(STM32F0) || defined(STM32L0) || defined(STM32L1) || defined(STM32L4) || defined(STM32G0) || defined(STM32N6)
     mp_raise_NotImplementedError(MP_ERROR_TEXT("machine.freq set not supported yet"));
     #else
     mp_int_t sysclk = mp_obj_get_int(args[0]);

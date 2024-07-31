@@ -34,10 +34,10 @@ size. Once the remote method finishes executing it will return a ``memory_view_o
 can also be up to 2^32-1 bytes in size. Because the argument and response are both generic byte
 containers you can pass anything through the ``rpc`` library and receive any type of response. A simple
 way to pass arguments is to use ``struct.pack()`` to create the argument and ``struct.unpack()`` to
-receieve the argument on the other side. For the response, the other side may send a string
+receive the argument on the other side. For the response, the other side may send a string
 object or json string as the result which the master can then interpret.
 
-As for errors, if you try to execute a non-existant function or method name the
+As for errors, if you try to execute a non-existent function or method name the
 ``rpc_master.call()`` method will return an empty ``bytes()`` object. If the ``rpc`` library failed to communicate with the
 slave the ``rpc`` library will return None.
 
@@ -159,12 +159,12 @@ Constructors
 
       Executes a remote call on the slave device. ``name`` is a string name of the remote function or method
       to execute. ``data`` is the ``bytes`` like object that will be sent as the argument of the remote function
-      or method to exeucte. ``send_timeout`` defines how many milliseconds to wait while trying to connect to
+      or method to execute. ``send_timeout`` defines how many milliseconds to wait while trying to connect to
       the slave and get it to execute the remote function or method. Once the master starts sending the
-      argument to the slave deivce ``send_timeout`` does not apply. The library will allow the argument to
+      argument to the slave device ``send_timeout`` does not apply. The library will allow the argument to
       take up to 5 seconds to be sent. ``recv_timeout`` defines how many milliseconds to wait after the slave
-      started executing the remote method to receive the repsonse. Note that once the master starts
-      receiving the repsonse ``recv_timeout`` does not apply. The library will allow the response to take up
+      started executing the remote method to receive the response. Note that once the master starts
+      receiving the response ``recv_timeout`` does not apply. The library will allow the response to take up
       to 5 seconds to be received.
 
       Note that a new packet that includes a copy of ``data`` will be created internally inside the ``rpc``

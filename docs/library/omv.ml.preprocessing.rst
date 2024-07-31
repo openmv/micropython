@@ -51,3 +51,5 @@ Constructors
    allows you to directly specify the range of the input data, the mean, and the standard deviation. The
    Grayscale or RGB88 image is then converted into a floating point tensor for the model to process
    based on these values.
+
+   uint16 and int16 input tensors are not supported.

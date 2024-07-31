@@ -2,7 +2,7 @@
 
 Modules
 =======
-Generated Tue 23 Jul 2024 04:46:38 UTC
+Generated Wed 31 Jul 2024 20:47:23 UTC
 
 .. Preamble section inserted into generated output
 
@@ -325,15 +325,15 @@ Sample code::
     x = random.getrandbits(64)
     print("{}".format(x))
 
-+--------------------------+--------------------------------------------+
-| CPy output:              | uPy output:                                |
-+--------------------------+--------------------------------------------+
-| ::                       | ::                                         |
-|                          |                                            |
-|     16149866429655178725 |     Traceback (most recent call last):     |
-|                          |       File "<stdin>", line 11, in <module> |
-|                          |     ValueError: bits must be 32 or less    |
-+--------------------------+--------------------------------------------+
++-------------------------+--------------------------------------------+
+| CPy output:             | uPy output:                                |
++-------------------------+--------------------------------------------+
+| ::                      | ::                                         |
+|                         |                                            |
+|     1755457232431556631 |     Traceback (most recent call last):     |
+|                         |       File "<stdin>", line 11, in <module> |
+|                         |     ValueError: bits must be 32 or less    |
++-------------------------+--------------------------------------------+
 
 .. _cpydiff_modules_random_randint:
 
@@ -358,7 +358,7 @@ Sample code::
 +-----------------------------------------------+-----------------------------------------------------------------+
 | ::                                            | ::                                                              |
 |                                               |                                                                 |
-|     x=340282366920938463463374607431768211455 |     Traceback (most recent call last):                          |
+|     x=340282366920938463463374607431768211456 |     Traceback (most recent call last):                          |
 |                                               |       File "<stdin>", line 11, in <module>                      |
 |                                               |     OverflowError: overflow converting long int to machine word |
 +-----------------------------------------------+-----------------------------------------------------------------+

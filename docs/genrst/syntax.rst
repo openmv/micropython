@@ -2,7 +2,7 @@
 
 Syntax
 ======
-Generated Tue 23 Jul 2024 04:46:38 UTC
+Generated Wed 31 Jul 2024 20:47:23 UTC
 
 .. _cpydiff_syntax_arg_unpacking:
 
@@ -91,15 +91,19 @@ Sample code::
     except SyntaxError:
         print("Should have worked")
 
-+-------------+------------------------+
-| CPy output: | uPy output:            |
-+-------------+------------------------+
-| ::          | ::                     |
-|             |                        |
-|     0       |     Should have worked |
-|     1       |     Should have worked |
-|     1       |     Should have worked |
-+-------------+------------------------+
++--------------------------------------------------------+------------------------+
+| CPy output:                                            | uPy output:            |
++--------------------------------------------------------+------------------------+
+| ::                                                     | ::                     |
+|                                                        |                        |
+|     0                                                  |     Should have worked |
+|     1                                                  |     Should have worked |
+|     1                                                  |     Should have worked |
+|     <string>:1: SyntaxWarning: invalid decimal literal |                        |
+|     <string>:1: SyntaxWarning: invalid decimal literal |                        |
+|     <string>:1: SyntaxWarning: invalid decimal literal |                        |
+|     <string>:1: SyntaxWarning: invalid decimal literal |                        |
++--------------------------------------------------------+------------------------+
 
 Unicode
 -------

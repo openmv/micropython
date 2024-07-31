@@ -137,7 +137,7 @@ Functions
 
       Creating secondary images normally requires creating them on the heap which
       has a limited amount of RAM... but, also gets fragmented making it hard to
-      grab a large contigous memory array to store an image in. With this method
+      grab a large contiguous memory array to store an image in. With this method
       you are able to allocate a very large memory array for an image instantly
       by taking space away from our frame buffer stack memory which we use for
       computer vision algorithms. That said, this also means you'll run out of
@@ -156,9 +156,9 @@ Functions
       fixed by firmware. The stack then grows down until it hits the heap.
       Next, frame buffers are stored in a secondary memory region. Memory is
       liad out with the main frame buffer on the bottom and the frame buffer
-      stack on the top. When `sensor.snapshot()` is called it fills the frame bufer
+      stack on the top. When `sensor.snapshot()` is called it fills the frame buffer
       from the bottom. The frame buffer stack is then able to use whatever is
-      left over. This memory allocation method is extremely efficent for computer
+      left over. This memory allocation method is extremely efficient for computer
       vision on microcontrollers.
 
 .. function:: set_pixformat(pixformat:int) -> None
@@ -264,7 +264,7 @@ Functions
 
    Set the camera image gainceiling. 2, 4, 8, 16, 32, 64, or 128.
 
-.. function:: set_contrast(constrast:int) -> None
+.. function:: set_contrast(contrast:int) -> None
 
    Set the camera image contrast. -3 to +3.
 
@@ -318,7 +318,7 @@ Functions
 
       Camera auto exposure algorithms are pretty conservative about how much
       they adjust the exposure value by and will generally avoid changing the
-      exposure value by much. Instead, they change the gain value alot of deal
+      exposure value by much. Instead, they change the gain value a lot to deal
       with changing lighting.
 
 .. function:: get_exposure_us() -> int
@@ -410,7 +410,7 @@ Functions
 
    `sensor.snapshot()` will automatically handle switching active frame buffers in the background.
    From your code's perspective there is only ever 1 active frame buffer even though there might
-   be more than 1 frame buffer on the system and another frame buffer reciving data in the background.
+   be more than 1 frame buffer on the system and another frame buffer receiving data in the background.
 
    If count is:
 
@@ -425,7 +425,7 @@ Functions
           In double buffer mode your OpenMV Cam will allocate two frame buffers for receiving images.
           When you call `sensor.snapshot()` one framebuffer will be used to receive the image and
           the camera driver will continue to run. When the next frame is received it will be stored
-          in the other frame bufer. In the advent you call `sensor.snapshot()` again
+          in the other frame buffer. In the advent you call `sensor.snapshot()` again
           before the first line of the next frame after is received your code will execute at the frame rate
           of the camera. Otherwise, the image will be dropped.
 
@@ -520,7 +520,7 @@ Functions
 
    * `sensor.IOCTL_SET_READOUT_WINDOW` - Pass this enum followed by a rect tuple (x, y, w, h) or a size tuple (w, h).
       * This IOCTL allows you to control the readout window of the camera sensor which dramatically improves the frame rate at the cost of field-of-view.
-      * If you pass a rect tuple (x, y, w, h) the readout window will be positoned on that rect tuple. The rect tuple's x/y position will be adjusted so the size w/h fits. Additionally, the size w/h will be adjusted to not be smaller than the ``framesize``.
+      * If you pass a rect tuple (x, y, w, h) the readout window will be positioned on that rect tuple. The rect tuple's x/y position will be adjusted so the size w/h fits. Additionally, the size w/h will be adjusted to not be smaller than the ``framesize``.
       * If you pass a size tuple (w, h) the readout window will be centered given the w/h. Additionally, the size w/h will be adjusted to not be smaller than the ``framesize``.
       * This IOCTL is extremely helpful for increasing the frame rate on higher resolution cameras like the OV2640/OV5640.
    * `sensor.IOCTL_GET_READOUT_WINDOW` - Pass this enum for `sensor.ioctl` to return the current readout window rect tuple (x, y, w, h). By default this is (0, 0, maximum_camera_sensor_pixel_width, maximum_camera_sensor_pixel_height).
@@ -551,7 +551,7 @@ Functions
    * `sensor.IOCTL_LEPTON_SET_MEASUREMENT_MODE` - Pass this followed by True or False to turn off automatic gain control on the FLIR Lepton and force it to output an image where each pixel value represents an exact temperature value in celsius. A second True enables high temperature mode enabling measurements up to 500C on the Lepton 3.5, False is the default low temperature mode.
    * `sensor.IOCTL_LEPTON_GET_MEASUREMENT_MODE` - Pass this to get a tuple for (measurement-mode-enabled, high-temp-enabled).
    * `sensor.IOCTL_LEPTON_SET_MEASUREMENT_RANGE` - Pass this when measurement mode is enabled to set the temperature range in celsius for the mapping operation. The temperature image returned by the FLIR Lepton will then be clamped between these min and max values and then scaled to values between 0 to 255. To map a pixel value back to a temperature (on a grayscale image) do: ((pixel * (max_temp_in_celsius - min_temp_in_celsius)) / 255.0) + min_temp_in_celsius.
-      * The first arugment should be the min temperature in celsius.
+      * The first argument should be the min temperature in celsius.
       * The second argument should be the max temperature in celsius. If the arguments are reversed the library will automatically swap them for you.
    * `sensor.IOCTL_LEPTON_GET_MEASUREMENT_RANGE` - Pass this to return the sorted (min, max) 2 value temperature range tuple. The default is -10C to 40C if not set yet.
    * `sensor.IOCTL_HIMAX_MD_ENABLE` - Pass this enum followed by ``True``/``False`` to enable/disable motion detection on the HM01B0. You should also enable the I/O pin (PC15 on the Arduino Portenta) attached the HM01B0 motion detection line to receive an interrupt.

@@ -25,7 +25,7 @@ Functions
    ``highpass`` is the high pass filter cut-off given the target sample frequency. This parameter
    is applicable for the Arduino Portenta H7 only.
 
-   ``samples`` is the number of samples to accumulate per callback. This is typically caluclated
+   ``samples`` is the number of samples to accumulate per callback. This is typically calculated
    based on the decimation factor and number of channels. If set to -1, the number of samples
    will be calculated automatically based on the decimation factor and number of channels.
 

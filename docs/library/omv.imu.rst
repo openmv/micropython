@@ -43,7 +43,7 @@ Functions
    Returns the rotation angle in degrees (float) of the camera module.
 
       * 0 -> Camera is standing up.
-      * 90 -> Camera is roated left.
+      * 90 -> Camera is rotated left.
       * 180 -> Camera is upside down.
       * 270 -> Camera is rotated right.
 

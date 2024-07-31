@@ -65,7 +65,7 @@ Constructors
    using this option, but, you need to be careful if you deallocate.
 
    Once a model is loaded you can execute it multiple times with different inputs using `predict()`.
-   The model will rember its internal state between calls to `predict()`.
+   The model will remember its internal state between calls to `predict()`.
 
    When deleted the model will automatically free up any memory it used from the heap or frame buffer stack.
 
@@ -78,15 +78,15 @@ Constructors
       to the number of input tensors the model supports. The method returns a list of numpy ``ndarray`` objects
       corresponding to the number of output tensors the model has.
 
-      The model input tensors can be up to 4D tensors of uint8, int8, int16, or float32 values. The passed
+      The model input tensors can be up to 4D tensors of uint8, int8, uint16, int16, or float32 values. The passed
       numpy ``ndarray`` for an input tensor is then converted to floating point and scaled/offset based on
       the input tensor's scale and zero point values before being passed to the model. For example, an ``ndarray``
       of uint8 values will be converted to float32s between 0.0-255.0, divided by the input tensor's scale, and
-      then have the input tensor's zero point added to it. The same process is done for int8 and int16 values
+      then have the input tensor's zero point added to it. The same process is done for int8, uint16, and int16 values
       whereas float32 values are passed directly to the model ignoring the scale and zero point values.
 
-      The model's output tensors can be up to 4D tensors of uint8, int8, or float32 values. For uint8
-      and int8 tensors the returned numpy ndarray is created by subtracting the output tensor's zero
+      The model's output tensors can be up to 4D tensors of uint8, int8, uint16, int16, or float32 values. For uint8,
+      int8, uint16, and int16 tensors the returned numpy ndarray is created by subtracting the output tensor's zero
       point value before multiplying by the output tensor's scale value. For float32 tensors, values are
       passed directly to the output without any scaling or offset being applied.
 
@@ -127,7 +127,7 @@ Constructors
       :type: list[str]
 
       A list of strings containing the data type of each input tensor.
-      'b', 'B', 'h', and 'f' respectively for uint8, int8, int16, and float32.
+      'B', 'b', 'H', 'h', and 'f' respectively for uint8, int8, uint16, int16, and float32.
 
    .. attribute:: input_scale
       :type: list[float]

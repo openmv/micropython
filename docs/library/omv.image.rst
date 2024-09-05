@@ -1098,41 +1098,48 @@ The apriltag object is returned by `Image.find_apriltags()`.
 
    Please call `Image.find_apriltags()` to create this object.
 
-   .. method:: corners() -> List[Tuple[int, int]]
+   Attributes
+   ~~~~~~~~~~
+
+   .. attribute:: corners
+      :type: List[Tuple[int, int]]
 
       Returns a list of 4 (x,y) tuples of the 4 corners of the object. Corners are
       always returned in sorted clock-wise order starting from the top left.
 
-   .. method:: rect() -> Tuple[int, int, int, int]
+   .. attribute:: rect
+      :type: Tuple[int, int, int, int]
 
       Returns a rectangle tuple (x, y, w, h) for use with other `image` methods
       like `Image.draw_rectangle()` of the apriltag's bounding box.
 
-   .. method:: x() -> int
+   .. attribute:: x
+      :type: int
 
       Returns the apriltag's bounding box x coordinate (int).
 
-      You may also get this value doing ``[0]`` on the object.
-
-   .. method:: y() -> int
+   .. attribute:: y
+      :type: int
 
       Returns the apriltag's bounding box y coordinate (int).
 
-      You may also get this value doing ``[1]`` on the object.
-
-   .. method:: w() -> int
+   .. attribute:: w
+      :type: int
 
       Returns the apriltag's bounding box w coordinate (int).
 
-      You may also get this value doing ``[2]`` on the object.
-
-   .. method:: h() -> int
+   .. attribute:: h
+      :type: int
 
       Returns the apriltag's bounding box h coordinate (int).
 
-      You may also get this value doing ``[3]`` on the object.
+   .. attribute:: area
+      :type: int
 
-   .. method:: id() -> int
+      Returns the area (w * h) of the apriltag (int).
+
+   .. attribute:: id
+      :type: int
 
       Returns the numeric id of the apriltag.
 
@@ -1143,9 +1150,8 @@ The apriltag object is returned by `Image.find_apriltags()`.
         * TAG36H11 -> 0 to 586
         * ARTOOLKIT -> 0 to 511
 
-      You may also get this value doing ``[4]`` on the object.
-
-   .. method:: family() -> int
+   .. attribute:: family
+      :type: int
 
       Returns the numeric family of the apriltag.
 
@@ -1156,41 +1162,50 @@ The apriltag object is returned by `Image.find_apriltags()`.
         * image.TAG36H11
         * image.ARTOOLKIT
 
-      You may also get this value doing ``[5]`` on the object.
+   .. attribute:: name
+      :type: str
 
-   .. method:: cx() -> int
+      Returns the family of the apriltag.
+
+        * "TAG16H5"
+        * "TAG25H7"
+        * "TAG25H9"
+        * "TAG36H10"
+        * "TAG36H11"
+        * "ARTOOLKIT"
+
+   .. attribute:: cx
+      :type: int
 
       Returns the centroid x position of the apriltag (int).
 
-   .. method:: cxf() -> float
+   .. attribute:: cxf
+      :type: float
 
       Returns the centroid x position of the apriltag (float).
 
-      You may also get this value doing ``[6]`` on the object.
-
-   .. method:: cy() -> int
+   .. attribute:: cy
+      :type: int
 
       Returns the centroid y position of the apriltag (int).
 
-   .. method:: cyf() -> float
+   .. attribute:: cyf
+      :type: float
 
       Returns the centroid y position of the apriltag (float).
 
-      You may also get this value doing ``[7]`` on the object.
-
-   .. method:: rotation() -> float
+   .. attribute:: rotation
+      :type: float
 
       Returns the rotation of the apriltag in radians (float).
 
-      You may also get this value doing ``[8]`` on the object.
-
-   .. method:: decision_margin() -> float
+   .. attribute:: decision_margin
+      :type: float
 
       Returns the quality of the apriltag match (0.0 - 1.0) where 1.0 is the best.
 
-      You may also get this value doing ``[9]`` on the object.
-
-   .. method:: hamming() -> int
+   .. attribute:: hamming
+      :type: int
 
       Returns the number of accepted bit errors for this tag.
 
@@ -1201,9 +1216,8 @@ The apriltag object is returned by `Image.find_apriltags()`.
         * TAG36H11 -> up to 4 bit errors may be accepted
         * ARTOOLKIT -> 0 bit errors will be accepted
 
-      You may also get this value doing ``[10]`` on the object.
-
-   .. method:: goodness() -> float
+   .. attribute:: goodness
+      :type: float
 
       Returns the quality of the apriltag image (0.0 - 1.0) where 1.0 is the best.
 
@@ -1213,9 +1227,8 @@ The apriltag object is returned by `Image.find_apriltags()`.
          refinement" in the future which will allow detection of small apriltags.
          However, this feature currently drops the frame rate to less than 1 FPS.
 
-      You may also get this value doing ``[11]`` on the object.
-
-   .. method:: x_translation() -> float
+   .. attribute:: x_translation
+      :type: float
 
       Returns the translation in unknown units from the camera in the X direction.
 
@@ -1227,9 +1240,8 @@ The apriltag object is returned by `Image.find_apriltags()`.
 
       Note that this is the left-to-right direction.
 
-      You may also get this value doing ``[12]`` on the object.
-
-   .. method:: y_translation() -> float
+   .. attribute:: y_translation
+      :type: float
 
       Returns the translation in unknown units from the camera in the Y direction.
 
@@ -1241,9 +1253,8 @@ The apriltag object is returned by `Image.find_apriltags()`.
 
       Note that this is the up-to-down direction.
 
-      You may also get this value doing ``[13]`` on the object.
-
-   .. method:: z_translation() -> float
+   .. attribute:: z_translation
+      :type: float
 
       Returns the translation in unknown units from the camera in the Z direction.
 
@@ -1255,30 +1266,25 @@ The apriltag object is returned by `Image.find_apriltags()`.
 
       Note that this is the front-to-back direction.
 
-      You may also get this value doing ``[14]`` on the object.
-
-   .. method:: x_rotation() -> float
+   .. attribute:: x_rotation
+      :type: float
 
       Returns the rotation in radians of the apriltag in the X plane. E.g. moving
       the camera left-to-right while looking at the tag.
 
-      You may also get this value doing ``[15]`` on the object.
-
-   .. method:: y_rotation() -> float
+   .. attribute:: y_rotation
+      :type: float
 
       Returns the rotation in radians of the apriltag in the Y plane. E.g. moving
       the camera up-to-down while looking at the tag.
 
-      You may also get this value doing ``[16]`` on the object.
-
-   .. method:: z_rotation() -> float
+   .. attribute:: z_rotation
+      :type: float
 
       Returns the rotation in radians of the apriltag in the Z plane. E.g.
       rotating the camera while looking directly at the tag.
 
-      Note that this is just a renamed version of `apriltag.rotation()`.
-
-      You may also get this value doing ``[17]`` on the object.
+      Note that this is just a renamed version of `apriltag.rotation`.
 
 class DataMatrix -- DataMatrix object
 -------------------------------------

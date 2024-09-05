@@ -410,27 +410,3 @@ Be controlled by another ``rpc`` device over a USB Virtual COM Port.
 .. class:: rpc_usb_vcp_slave()
 
    Creates a USB VCP ``rpc`` slave. This interface can move data at the USB speed.
-
-class rpc_network_master - Network Master Interface
----------------------------------------------------
-
-Control another ``rpc`` device over a network.
-
-.. class:: rpc_network_master(network_if, port=0x1DBA)
-
-   Creates a Network ``rpc`` master.
-
-   * network_if - Network interface created from ``network.LAN()``, ``network.WLAN()``, or etc.
-   * port - Port to route traffic to.
-
-class rpc_network_slave - Network Slave Interface
----------------------------------------------------
-
-Be controlled by another ``rpc`` device a network.
-
-.. class:: rpc_network_slave(network_if, port=0x1DBA)
-
-   Creates a Network ``rpc`` slave.
-
-   * network_if - Network interface created from ``network.LAN()``, ``network.WLAN()``, or etc.
-   * port - Port to route traffic to.

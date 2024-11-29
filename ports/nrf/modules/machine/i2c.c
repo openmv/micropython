@@ -130,6 +130,7 @@ mp_obj_t machine_hard_i2c_make_new(const mp_obj_type_t *type, size_t n_args, siz
     config.frequency = freq;
 
     config.hold_bus_uninit = false;
+    config.interrupt_priority = 7;
 
     // First reset the TWI
     nrfx_twi_uninit(&self->p_twi);

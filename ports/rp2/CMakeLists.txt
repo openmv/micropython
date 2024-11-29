@@ -156,7 +156,6 @@ set(MICROPY_SOURCE_PORT
     machine_rtc.c
     machine_spi.c
     machine_timer.c
-    main.c
     modrp2.c
     mphalport.c
     mpnetworkport.c
@@ -237,6 +236,7 @@ set(PICO_SDK_COMPONENTS
     pico_util
     tinyusb_common
     tinyusb_device
+    cmsis_core
 )
 
 if(PICO_ARM)
@@ -604,6 +604,8 @@ add_custom_command(TARGET ${MICROPY_TARGET}
     COMMAND ${PICO_COMPILER_SIZE} --format=berkeley ${PROJECT_BINARY_DIR}/${MICROPY_TARGET}.elf
     VERBATIM
 )
+
+include(${OMV_CMAKE})
 
 # Collect all the include directories and compile definitions for the pico-sdk components.
 foreach(comp ${PICO_SDK_COMPONENTS})

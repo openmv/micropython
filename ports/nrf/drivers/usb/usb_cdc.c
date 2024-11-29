@@ -139,7 +139,7 @@ void usb_cdc_sd_event_handler(uint32_t soc_evt) {
 }
 #endif
 
-void USBD_IRQHandler(void) {
+MP_WEAK void USBD_IRQHandler(void) {
     tud_int_handler(0);
 }
 

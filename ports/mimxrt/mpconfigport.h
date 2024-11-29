@@ -66,12 +66,16 @@ uint32_t trng_random_u32(void);
 #define MICROPY_STACK_CHECK_MARGIN          (1024)
 #define MICROPY_ENABLE_EMERGENCY_EXCEPTION_BUF  (1)
 #define MICROPY_LONGINT_IMPL                (MICROPY_LONGINT_IMPL_MPZ)
+#ifndef MICROPY_FLOAT_IMPL // can be configured by each board via mpconfigboard.mk
+#define MICROPY_FLOAT_IMPL                  (MICROPY_FLOAT_IMPL_FLOAT)
+#endif
 #define MICROPY_SCHEDULER_DEPTH             (8)
 #define MICROPY_SCHEDULER_STATIC_NODES      (1)
 #define MICROPY_VFS                         (1)
 #ifndef MICROPY_VFS_ROM
 #define MICROPY_VFS_ROM                     (1)
 #endif
+#define MICROPY_QSTR_EXTRA_POOL             mp_qstr_frozen_const_pool
 
 // Control over Python builtins
 #define MICROPY_PY_BUILTINS_HELP_TEXT       mimxrt_help_text
@@ -84,7 +88,6 @@ uint32_t trng_random_u32(void);
 #define MICROPY_PY_TIME_INCLUDEFILE         "ports/mimxrt/modtime.c"
 #define MICROPY_PY_OS_INCLUDEFILE           "ports/mimxrt/modos.c"
 #define MICROPY_PY_OS_DUPTERM               (3)
-#define MICROPY_PY_OS_DUPTERM_NOTIFY        (1)
 #define MICROPY_PY_OS_SYNC                  (1)
 #define MICROPY_PY_OS_UNAME                 (1)
 #define MICROPY_PY_OS_URANDOM               (1)

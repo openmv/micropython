@@ -53,7 +53,7 @@ include $(TOP)/extmod/extmod.mk
 
 # Set SDK directory based on MCU_SERIES
 MCUX_SDK_DIR = lib/nxp_driver/sdk
-MCU_DIR = $(MCUX_SDK_DIR)/devices/$(MCU_SERIES)
+MCU_DIR ?= $(MCUX_SDK_DIR)/devices/$(MCU_SERIES)
 
 # Select linker scripts based on MCU_SERIES
 LD_FILES ?= boards/$(MCU_SERIES).ld boards/common.ld
@@ -263,7 +263,6 @@ SRC_C += \
 	machine_rtc.c \
 	machine_sdcard.c \
 	machine_spi.c \
-	main.c \
 	mbedtls/mbedtls_port.c \
 	mimxrt_flash.c \
 	mimxrt_sdram.c \
@@ -375,8 +374,8 @@ else
 endif
 
 # Reset variables
-SUPPORTS_HARDWARE_FP_SINGLE = 0
-SUPPORTS_HARDWARE_FP_DOUBLE = 0
+SUPPORTS_HARDWARE_FP_SINGLE ?= 0
+SUPPORTS_HARDWARE_FP_DOUBLE ?= 0
 
 # Assembly source files
 SRC_SS = \
@@ -422,6 +421,7 @@ CFLAGS += \
 	-DBOARD_FLASH_SIZE=$(MICROPY_HW_FLASH_SIZE) \
 	-DCFG_TUSB_MCU=OPT_MCU_MIMXRT1XXX \
 	-DCFG_TUD_MAX_SPEED=OPT_MODE_HIGH_SPEED \
+	-DCFG_TUD_TASK_QUEUE_SZ=128 \
 	-DCLOCK_CONFIG_H='<boards/$(MCU_SERIES)_clock_config.h>' \
 	-DCPU_$(MCU_SERIES)$(MCU_CORE) \
 	-DCPU_$(MCU_VARIANT) \
@@ -439,11 +439,10 @@ CFLAGS += \
 	-mcpu=cortex-m7 \
 	-mthumb \
 	-mtune=cortex-m7 \
-	-std=c99 \
+	-std=gnu99 \
 	-Wall \
 	-Wdouble-promotion \
 	-Werror \
-	-Wfloat-conversion \
 	-Wno-error=unused-parameter
 
 # Configure respective board flash type
@@ -462,7 +461,7 @@ ifeq ($(MICROPY_FLOAT_IMPL),single)
     CFLAGS += \
         -DMICROPY_FLOAT_IMPL=MICROPY_FLOAT_IMPL_FLOAT \
         -fsingle-precision-constant \
-        -mfloat-abi=softfp \
+        -mfloat-abi=hard \
         -mfpu=fpv5-sp-d16
 else ifeq ($(MICROPY_FLOAT_IMPL),double)
     CFLAGS += \
@@ -479,12 +478,13 @@ endif
 
 # All settings for Ethernet support are controller by the value of MICROPY_PY_LWIP
 ifeq ($(MICROPY_PY_LWIP),1)
-CFLAGS += \
-	-DFSL_FEATURE_PHYKSZ8081_USE_RMII50M_MODE=1
+ifeq ($(MICROPY_PY_NETWORK_PHYKSZ8081RND),0)
+CFLAGS += -DFSL_FEATURE_PHYKSZ8081_USE_RMII50M_MODE=1
+endif
 endif
 
 ifdef MICROPY_HW_FLASH_CLK
-	CFLAGS += -DMICROPY_HW_FLASH_CLK=$(MICROPY_HW_FLASH_CLK)
+CFLAGS += -DMICROPY_HW_FLASH_CLK=$(MICROPY_HW_FLASH_CLK)
 endif
 ifdef MICROPY_HW_FLASH_QE_CMD
 	CFLAGS += -DMICROPY_HW_FLASH_QE_CMD=$(MICROPY_HW_FLASH_QE_CMD)
@@ -554,11 +554,7 @@ $(BUILD)/lib/tinyusb/src/device/usbd.o: CFLAGS += -Wno-missing-braces
 # Build targets
 # =============================================================================
 
-ifeq ($(USE_UF2_BOOTLOADER),1)
-all: $(BUILD)/firmware.hex $(BUILD)/firmware.bin $(BUILD)/firmware.uf2
-else
-all: $(BUILD)/firmware.hex $(BUILD)/firmware.bin
-endif
+all: $(OBJ)
 
 # Process linker scripts with C preprocessor to exchange LDDEFINES and
 #	aggregate output of preprocessor in a single linker script `link.ld`
@@ -592,15 +588,15 @@ $(HEADER_BUILD)/qstrdefs.generated.h: $(BOARD_DIR)/mpconfigboard.h
 
 $(GEN_FLEXRAM_CONFIG_SRC): $(HEADER_BUILD)
 	$(ECHO) "Create $@"
-	$(Q)$(PYTHON) $(MAKE_FLEXRAM_LD) -d $(TOP)/$(MCU_DIR)/$(MCU_SERIES)$(MCU_CORE).h \
-		-f $(TOP)/$(MCU_DIR)/$(MCU_SERIES)$(MCU_CORE)_features.h $(addprefix -l,$(LD_FILES)) -c $(MCU_SERIES) > $@
+	$(Q)$(PYTHON) $(MAKE_FLEXRAM_LD) -d $(CMSIS_DIR)/include/mimxrt/$(MCU_SERIES)$(MCU_CORE).h \
+		-f $(MCU_DIR)/$(MCU_SERIES)$(MCU_CORE)_features.h -l boards/$(MCU_SERIES).ld -c $(MCU_SERIES) > $(GEN_FLEXRAM_CONFIG_SRC)
 
 # Use a pattern rule here so that make will only call make-pins.py once to make
 # both pins_gen.c and pins.h
 $(BUILD)/%_gen.c $(HEADER_BUILD)/%.h: $(BOARD_PINS) $(MAKE_PINS) $(AF_FILE) $(PREFIX_FILE) | $(HEADER_BUILD)
 	$(ECHO) "Create $@"
 	$(Q)$(PYTHON) $(MAKE_PINS) --board-csv $(BOARD_PINS) --af-csv $(AF_FILE) \
-	    --prefix $(PREFIX_FILE) --iomux "$(abspath $(TOP)/$(MCU_DIR)/drivers/fsl_iomuxc.h)" \
+	    --prefix $(PREFIX_FILE) --iomux $(abspath $(MCU_DIR)/drivers/fsl_iomuxc.h) \
 	    --output-source $(GEN_PINS_SRC) --output-header $(GEN_PINS_HDR)
 
 include $(TOP)/py/mkrules.mk

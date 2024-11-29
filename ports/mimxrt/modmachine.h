@@ -30,6 +30,7 @@
 #include "py/obj.h"
 
 extern const mp_obj_type_t machine_can_type;
+extern const mp_obj_type_t machine_sdcard_type;
 
 void machine_adc_init(void);
 void machine_can_irq_deinit(void);

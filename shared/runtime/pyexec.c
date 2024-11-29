@@ -26,6 +26,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <stdint.h>
 #include <string.h>
 
@@ -42,6 +43,7 @@
 #include "shared/readline/readline.h"
 #include "shared/runtime/pyexec.h"
 #include "genhdr/mpversion.h"
+#include "usbdbg.h"
 
 pyexec_mode_kind_t pyexec_mode_kind = PYEXEC_MODE_FRIENDLY_REPL;
 
@@ -57,6 +59,7 @@ static bool repl_display_debugging_info = 0;
 #define EXEC_FLAG_SOURCE_IS_FILENAME    (1 << 5)
 #define EXEC_FLAG_SOURCE_IS_READER      (1 << 6)
 #define EXEC_FLAG_NO_INTERRUPT          (1 << 7)
+#define EXEC_FLAG_RERAISE               (1 << 8)
 
 // parses, compiles and executes the code in the lexer
 // frees the lexer before returning
@@ -120,6 +123,7 @@ static int parse_compile_execute(const void *source, mp_parse_input_kind_t input
         mp_hal_set_interrupt_char(-1); // disable interrupt
         mp_handle_pending(true); // handle any pending exceptions (and any callbacks)
         nlr_pop();
+
         ret = 1;
         if (exec_flags & EXEC_FLAG_PRINT_EOF) {
             mp_hal_stdout_tx_strn("\x04", 1);
@@ -132,6 +136,12 @@ static int parse_compile_execute(const void *source, mp_parse_input_kind_t input
         if (exec_flags & EXEC_FLAG_SOURCE_IS_READER) {
             const mp_reader_t *reader = source;
             reader->close(reader->data);
+        }
+
+        // re-raise same exception
+        if (exec_flags & EXEC_FLAG_RERAISE) {
+            usbdbg_set_irq_enabled(false);
+            nlr_raise(nlr.ret_val);
         }
 
         // print EOF after normal output
@@ -678,28 +688,29 @@ friendly_repl_reset:
 #endif // MICROPY_REPL_EVENT_DRIVEN
 #endif // MICROPY_ENABLE_COMPILER
 
-int pyexec_file(const char *filename) {
-    return parse_compile_execute(filename, MP_PARSE_FILE_INPUT, EXEC_FLAG_SOURCE_IS_FILENAME);
+int pyexec_file(const char *filename, bool raise_error) {
+    uint32_t flags = (raise_error) ? EXEC_FLAG_RERAISE : 0;
+    return parse_compile_execute(filename, MP_PARSE_FILE_INPUT, EXEC_FLAG_SOURCE_IS_FILENAME | flags);
 }
 
-int pyexec_file_if_exists(const char *filename) {
+int pyexec_file_if_exists(const char *filename, bool raise_error) {
     #if MICROPY_MODULE_FROZEN
     if (mp_find_frozen_module(filename, NULL, NULL) == MP_IMPORT_STAT_FILE) {
-        return pyexec_frozen_module(filename, true);
+        return pyexec_frozen_module(filename, raise_error);
     }
     #endif
     if (mp_import_stat(filename) != MP_IMPORT_STAT_FILE) {
         return 1; // success (no file is the same as an empty file executing without fail)
     }
-    return pyexec_file(filename);
+    return pyexec_file(filename, raise_error);
 }
 
 #if MICROPY_MODULE_FROZEN
-int pyexec_frozen_module(const char *name, bool allow_keyboard_interrupt) {
+int pyexec_frozen_module(const char *name, bool raise_error) {
     void *frozen_data;
     int frozen_type;
     mp_find_frozen_module(name, &frozen_type, &frozen_data);
-    mp_uint_t exec_flags = allow_keyboard_interrupt ? 0 : EXEC_FLAG_NO_INTERRUPT;
+    mp_uint_t exec_flags = (raise_error) ? EXEC_FLAG_RERAISE : 0;
 
     switch (frozen_type) {
         #if MICROPY_MODULE_FROZEN_STR
@@ -719,6 +730,11 @@ int pyexec_frozen_module(const char *name, bool allow_keyboard_interrupt) {
     }
 }
 #endif
+
+int pyexec_str(vstr_t *str, bool raise_error) {
+    uint32_t flags = (raise_error) ? EXEC_FLAG_RERAISE : 0;
+    return parse_compile_execute(str, MP_PARSE_FILE_INPUT, EXEC_FLAG_SOURCE_IS_VSTR | flags);
+}
 
 #if MICROPY_REPL_INFO
 mp_obj_t pyb_set_repl_info(mp_obj_t o_value) {

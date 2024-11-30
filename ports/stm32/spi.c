@@ -560,7 +560,14 @@ static HAL_StatusTypeDef spi_wait_dma_finished(const spi_t *spi, uint32_t t_star
             enable_irq(irq_state);
             return HAL_OK;
         }
+        // See DM00257543 2.2.5
+        // The DTCM-RAM is not accessible in read during Sleep mode (when the CPU clock is
+        // gated). When a read access to the DTCM-RAM is performed by an AHB bus master
+        // (that are the DMAs) while the CPU is in sleep mode (CPU clock is gated), the
+        // data is not transmitted to the AHB bus and the AHB master reads 0x0000_0000.
+        #if !defined(STM32F7)
         __WFI();
+        #endif
         enable_irq(irq_state);
         if (HAL_GetTick() - t_start >= timeout) {
             return HAL_TIMEOUT;

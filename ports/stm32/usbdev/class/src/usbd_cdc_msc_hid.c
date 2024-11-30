@@ -741,6 +741,9 @@ static uint8_t USBD_CDC_MSC_HID_Init(USBD_HandleTypeDef *pdev, uint8_t cfgidx) {
                        USBD_EP_TYPE_BULK,
                        mp);
 
+        extern uint8_t _msc_buf;
+        usbd->MSC_BOT_ClassData.bot_data = &_msc_buf;
+
         // Init the BOT layer
         MSC_BOT_Init(pdev);
     }

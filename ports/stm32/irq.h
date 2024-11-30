@@ -152,6 +152,12 @@ static inline void restore_irq_pri(uint32_t state) {
 // get dropped. The handling for each character only consumes about 0.5 usec
 #define IRQ_PRI_UART            NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 1, 0)
 
+// DCMI Priority
+#define IRQ_PRI_DCMI            NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 2, 0)
+
+// DCMI DMA2_Stream1
+#define IRQ_PRI_DMA21           NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 3, 0)
+
 // SDIO must be higher priority than DMA for SDIO DMA transfers to work.
 #define IRQ_PRI_SDIO            NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 4, 0)
 
@@ -159,22 +165,30 @@ static inline void restore_irq_pri(uint32_t state) {
 // into the sdcard driver which waits for the DMA to complete.
 #define IRQ_PRI_DMA             NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 5, 0)
 
+#define IRQ_PRI_MDMA            NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 6, 0)
+
 // Flash IRQ (used for flushing storage cache) must be at the same priority as
 // the USB IRQs, so that the IRQ priority can be raised to this level to disable
 // both the USB and cache flushing, when storage transfers are in progress.
-#define IRQ_PRI_FLASH           NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 6, 0)
+#define IRQ_PRI_FLASH           NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 7, 0)
 
-#define IRQ_PRI_OTG_FS          NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 6, 0)
-#define IRQ_PRI_OTG_HS          NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 6, 0)
-#define IRQ_PRI_TIM5            NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 6, 0)
+#define IRQ_PRI_OTG_FS          NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 7, 0)
+#define IRQ_PRI_OTG_HS          NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 7, 0)
+#define IRQ_PRI_TIM4            NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 7, 0)
 
-#define IRQ_PRI_CAN             NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 7, 0)
+#define IRQ_PRI_CAN             NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 8, 0)
 
-#define IRQ_PRI_SUBGHZ_RADIO    NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 8, 0)
+#define IRQ_PRI_SUBGHZ_RADIO    NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 9, 0)
 
-#define IRQ_PRI_SPI             NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 8, 0)
+#define IRQ_PRI_SPI             NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 9, 0)
+
+#define IRQ_PRI_LTDC            NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 10, 0)
+
+#define IRQ_PRI_DSI             NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 10, 0)
 
 #define IRQ_PRI_HSEM            NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 10, 0)
+
+#define IRQ_PRI_JPEG            NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 10, 0)
 
 // Interrupt priority for non-special timers.
 #define IRQ_PRI_TIMX            NVIC_EncodePriority(NVIC_PRIORITYGROUP_4, 13, 0)

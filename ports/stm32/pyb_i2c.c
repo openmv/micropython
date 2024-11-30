@@ -197,10 +197,10 @@ const pyb_i2c_obj_t pyb_i2c_obj[] = {
 
 // I2C TIMINGs obtained from the STHAL examples.
 #define MICROPY_HW_I2C_BAUDRATE_TIMING { \
-        {PYB_I2C_SPEED_STANDARD, 0x40604E73}, \
-        {PYB_I2C_SPEED_FULL, 0x00901954}, \
-        {PYB_I2C_SPEED_FAST, 0x10810915}, \
-}
+        {PYB_I2C_SPEED_STANDARD, 0xE0701F28}, \
+        {PYB_I2C_SPEED_FULL, 0x40900C22}, \
+        {PYB_I2C_SPEED_FAST, 0x4030040B}, \
+    }
 #define MICROPY_HW_I2C_BAUDRATE_DEFAULT (PYB_I2C_SPEED_FULL)
 #define MICROPY_HW_I2C_BAUDRATE_MAX (PYB_I2C_SPEED_FAST)
 
@@ -430,7 +430,7 @@ int pyb_i2c_init_freq(const pyb_i2c_obj_t *self, mp_int_t freq) {
 
 static void i2c_reset_after_error(I2C_HandleTypeDef *i2c) {
     // wait for bus-busy flag to be cleared, with a timeout
-    for (int timeout = 50; timeout > 0; --timeout) {
+    for (int timeout = 10; timeout > 0; --timeout) {
         if (!__HAL_I2C_GET_FLAG(i2c, I2C_FLAG_BUSY)) {
             // stop bit was generated and bus is back to normal
             return;
@@ -470,50 +470,8 @@ void i2c_ev_irq_handler(mp_uint_t i2c_id) {
             return;
     }
 
-    #if defined(STM32F4)
-
-    if (hi2c->Instance->SR1 & I2C_FLAG_SB) {
-        if (hi2c->State == HAL_I2C_STATE_BUSY_TX) {
-            hi2c->Instance->DR = I2C_7BIT_ADD_WRITE(hi2c->Devaddress);
-        } else {
-            hi2c->Instance->DR = I2C_7BIT_ADD_READ(hi2c->Devaddress);
-        }
-        hi2c->Instance->CR2 |= I2C_CR2_DMAEN;
-    } else if (hi2c->Instance->SR1 & I2C_FLAG_ADDR) {
-        __IO uint32_t tmp_sr2;
-        if (hi2c->State == HAL_I2C_STATE_BUSY_RX) {
-            if (hi2c->XferCount == 1U) {
-                hi2c->Instance->CR1 &= ~I2C_CR1_ACK;
-            } else {
-                if (hi2c->XferCount == 2U) {
-                    hi2c->Instance->CR1 &= ~I2C_CR1_ACK;
-                    hi2c->Instance->CR1 |= I2C_CR1_POS;
-                }
-                hi2c->Instance->CR2 |= I2C_CR2_LAST;
-            }
-        }
-        tmp_sr2 = hi2c->Instance->SR2;
-        UNUSED(tmp_sr2);
-    } else if (hi2c->Instance->SR1 & I2C_FLAG_BTF && hi2c->State == HAL_I2C_STATE_BUSY_TX) {
-        if (hi2c->XferCount != 0U) {
-            hi2c->Instance->DR = *hi2c->pBuffPtr++;
-            hi2c->XferCount--;
-        } else {
-            __HAL_I2C_DISABLE_IT(hi2c, I2C_IT_EVT | I2C_IT_BUF | I2C_IT_ERR);
-            if (hi2c->XferOptions != I2C_FIRST_FRAME) {
-                hi2c->Instance->CR1 |= I2C_CR1_STOP;
-            }
-            hi2c->Mode = HAL_I2C_MODE_NONE;
-            hi2c->State = HAL_I2C_STATE_READY;
-        }
-    }
-
-    #else
-
-    // if not an F4 MCU, use the HAL's IRQ handler
+    // Use the HAL's IRQ handler
     HAL_I2C_EV_IRQHandler(hi2c);
-
-    #endif
 }
 
 void i2c_er_irq_handler(mp_uint_t i2c_id) {

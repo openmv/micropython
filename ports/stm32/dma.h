@@ -149,6 +149,28 @@ extern const dma_descr_t dma_SPI_SUBGHZ_RX;
 
 #endif
 
+#if defined(STM32F7)
+// NOTE: F7 CCM memory is accessible by GP-DMA.
+#define DMA_BUFFER(p)       (((uint32_t)p & 3) == 0)
+#elif defined(STM32F4)
+// NOTE: F4 CCM memory is not accessible by GP-DMA.
+#define DMA_BUFFER(p)       ((((uint32_t)p & 3) == 0) && ((uint32_t) p > 0x10010000))
+#elif defined(STM32H7)
+#define DMA_BUFFER(p)       ((((uint32_t)p & 3) == 0) && ((uint32_t) p > 0x20020000))
+#else
+#error Unsupported processor
+#endif
+
+#if !defined(STM32H7)
+#define SD_DMA_BUFFER(sd, p)    DMA_BUFFER(p)
+#else
+// NOTE: H7 SDMMC1 DMA can only access D1 memory/devices,
+// and SDMMC2 DMA can access D1, D2 and D3 memory/devices.
+#define IS_D1_ADDR(p)   ((((uint32_t) p >= 0x60000000) && ((uint32_t) p < 0xD0000000)) || \
+                         (((uint32_t) p >= 0x24000000) && ((uint32_t) p < 0x24080000)))
+#define SD_DMA_BUFFER(sd, p) ((sd == SDMMC1) ? (DMA_BUFFER(p) && IS_D1_ADDR(p)) : DMA_BUFFER(p))
+#endif
+
 // API that configures the DMA via the HAL.
 void dma_init(DMA_HandleTypeDef *dma, const dma_descr_t *dma_descr, uint32_t dir, void *data);
 void dma_init_handle(DMA_HandleTypeDef *dma, const dma_descr_t *dma_descr, uint32_t dir, void *data);

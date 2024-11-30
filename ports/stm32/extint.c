@@ -248,10 +248,13 @@ static const uint8_t nvic_irq_channel[EXTI_NUM_VECTORS] = {
     #endif
 };
 
+extern void omv_gpio_irq_handler(uint32_t);
+
 #define DEFINE_EXTI_IRQ_HANDLER(line) \
     void EXTI##line##_IRQHandler(void) { \
         MP_STATIC_ASSERT(EXTI##line##_IRQn > 0); \
         IRQ_ENTER(EXTI##line##_IRQn); \
+        omv_gpio_irq_handler(line); \
         Handle_EXTI_Irq(line); \
         IRQ_EXIT(EXTI##line##_IRQn); \
     }
@@ -294,6 +297,7 @@ DEFINE_EXTI_IRQ_HANDLER(4)
 void EXTI9_5_IRQHandler(void) {
     MP_STATIC_ASSERT(EXTI9_5_IRQn > 0);
     IRQ_ENTER(EXTI9_5_IRQn);
+    omv_gpio_irq_handler(5);
     Handle_EXTI_Irq(5);
     Handle_EXTI_Irq(6);
     Handle_EXTI_Irq(7);
@@ -305,6 +309,7 @@ void EXTI9_5_IRQHandler(void) {
 void EXTI15_10_IRQHandler(void) {
     MP_STATIC_ASSERT(EXTI15_10_IRQn > 0);
     IRQ_ENTER(EXTI15_10_IRQn);
+    omv_gpio_irq_handler(10);
     Handle_EXTI_Irq(10);
     Handle_EXTI_Irq(11);
     Handle_EXTI_Irq(12);

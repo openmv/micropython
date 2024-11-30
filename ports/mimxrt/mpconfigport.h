@@ -29,7 +29,7 @@
 // Board specific definitions
 #include "mpconfigboard.h"
 #include "fsl_common.h"
-#include "lib/nxp_driver/sdk/CMSIS/Include/core_cm7.h"
+#include "core_cm7.h"
 
 uint32_t trng_random_u32(void);
 
@@ -57,9 +57,13 @@ uint32_t trng_random_u32(void);
 #define MICROPY_ENABLE_GC                   (1)
 #define MICROPY_ENABLE_EMERGENCY_EXCEPTION_BUF  (1)
 #define MICROPY_LONGINT_IMPL                (MICROPY_LONGINT_IMPL_MPZ)
+#ifndef MICROPY_FLOAT_IMPL // can be configured by each board via mpconfigboard.mk
+#define MICROPY_FLOAT_IMPL                  (MICROPY_FLOAT_IMPL_FLOAT)
+#endif
 #define MICROPY_SCHEDULER_DEPTH             (8)
 #define MICROPY_SCHEDULER_STATIC_NODES      (1)
 #define MICROPY_VFS                         (1)
+#define MICROPY_QSTR_EXTRA_POOL             mp_qstr_frozen_const_pool
 
 // Control over Python builtins
 #define MICROPY_PY_BUILTINS_HELP_TEXT       mimxrt_help_text

@@ -94,7 +94,20 @@ void board_enter_bootloader(unsigned int n_args, const void *args) {
     // Support both OpenMV bootloader and mboot.
     *((uint32_t *)OMV_BOOT_MAGIC_ADDR) = OMV_BOOT_MAGIC_VALUE;
     SCB_CleanDCache();
-    boardctrl_maybe_enter_mboot(n_args, args);
+    NVIC_SystemReset();
+}
+
+static char _boot_mem[128] __attribute__((aligned(1024), section(".ram_function_data")));
+
+__attribute__((naked, noreturn, section(".ram_function"))) void ram_reset(void) {
+    // NVIC_SystemReset doesn't get inlined here.
+    SCB->AIRCR  = (uint32_t)((0x5FAUL << SCB_AIRCR_VECTKEY_Pos) |
+                             (SCB->AIRCR & SCB_AIRCR_PRIGROUP_Msk) |
+                             SCB_AIRCR_SYSRESETREQ_Msk);
+    __DSB();
+    for (;;) {
+        __NOP();
+    }
 }
 
 void board_early_init(void) {
@@ -102,6 +115,19 @@ void board_early_init(void) {
 
     LL_PWR_EnableWakeUpPin(LL_PWR_WAKEUP_PIN3 | LL_PWR_WAKEUP_PIN2);
     LL_PWR_SetWakeUpPinPolarityLow(LL_PWR_WAKEUP_PIN3 | LL_PWR_WAKEUP_PIN2);
+}
+
+void board_enter_standby(void) {
+    HAL_PWREx_EnableTCMRetention();
+    HAL_PWREx_DisableTCMFLXRetention();
+
+    uint32_t *boot_mem = (uint32_t *)_boot_mem;
+    boot_mem[0] = (uint32_t)(_boot_mem + sizeof(_boot_mem));
+    boot_mem[1] = ((uint32_t)&ram_reset) | 1;
+    SCB_CleanDCache_by_Addr((uint32_t *)_boot_mem, 32);
+
+    SYSCFG->INITSVTORCR = (uint32_t) boot_mem;
+    (void) SYSCFG->INITSVTORCR;
 }
 
 void board_leave_standby(void) {

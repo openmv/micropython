@@ -20,7 +20,8 @@
 
 #define MICROPY_BOARD_ENTER_BOOTLOADER board_enter_bootloader
 #define MICROPY_BOARD_EARLY_INIT    board_early_init
-#define MICROPY_BOARD_LEAVE_STANDBY board_leave_standby()
+#define MICROPY_BOARD_ENTER_STANDBY board_enter_standby();
+#define MICROPY_BOARD_LEAVE_STANDBY board_leave_standby();
 
 // HSE is 48MHz, this gives a CPU frequency of 800MHz.
 #define MICROPY_HW_CLK_PLLM         (6)
@@ -199,4 +200,5 @@ void mboot_board_entry_init(void);
 
 void board_enter_bootloader(unsigned int n_args, const void *args);
 void board_early_init(void);
+void board_enter_standby(void);
 void board_leave_standby(void);

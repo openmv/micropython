@@ -73,7 +73,7 @@ typedef struct {
   uint8_t                  bot_state;
   uint8_t                  bot_status;
   uint16_t                 bot_data_length;
-  uint8_t                  bot_data[MSC_MEDIA_PACKET];
+  uint8_t                  *bot_data;
   USBD_MSC_BOT_CBWTypeDef  cbw;
   USBD_MSC_BOT_CSWTypeDef  csw;
 

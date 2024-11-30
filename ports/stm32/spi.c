@@ -481,6 +481,12 @@ int spi_init(const spi_t *self, bool enable_nss_pin) {
 }
 
 void spi_deinit(const spi_t *spi_obj) {
+    if (spi_obj->rx_dma_descr != NULL) {
+        dma_deinit(spi_obj->rx_dma_descr);
+    }
+    if (spi_obj->tx_dma_descr != NULL) {
+        dma_deinit(spi_obj->tx_dma_descr);
+    }
     SPI_HandleTypeDef *spi = spi_obj->spi;
     HAL_SPI_DeInit(spi);
     if (0) {

@@ -25,6 +25,7 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 
 #include "py/mperrno.h"
 #include "py/mphal.h"
@@ -33,6 +34,7 @@
 #include "pin_static_af.h"
 #include "pendsv.h"
 #include "sdio.h"
+#include "dma.h"
 
 #if MICROPY_PY_NETWORK_CYW43
 
@@ -51,6 +53,9 @@ static volatile bool sdmmc_dma;
 static volatile uint32_t sdmmc_error;
 static volatile uint8_t *sdmmc_buf_cur;
 static volatile uint8_t *sdmmc_buf_top;
+
+// NOTE SDMMC1 and SDMMC2 both have access to D1 AXI memory.
+static uint8_t DMA_BUFFER[4*1024] __attribute__((aligned(32), section(".d1_dma_buffer")));
 
 // The H7/F7/L4 have 2 SDMMC peripherals, but at the moment this driver only supports
 // using one of them in a given build, selected by MICROPY_HW_SDIO_SDMMC.
@@ -339,7 +344,7 @@ int sdio_transfer(uint32_t cmd, uint32_t arg, uint32_t *resp) {
     return 0;
 }
 
-int sdio_transfer_cmd53(bool write, uint32_t block_size, uint32_t arg, size_t len, uint8_t *buf) {
+int sdio_transfer_cmd53(bool write, uint32_t block_size, uint32_t arg, size_t len, uint8_t *buf_in) {
     #if defined(STM32F7)
     // Wait for any outstanding TX to complete
     while (SDMMC->STA & SDMMC_STA_TXACT) {
@@ -367,7 +372,19 @@ int sdio_transfer_cmd53(bool write, uint32_t block_size, uint32_t arg, size_t le
         return -MP_EINVAL;
     }
 
-    bool dma = (len > 16);
+    uint8_t *buf = buf_in;
+    bool dma = (len > 16) && SD_DMA_BUFFER(SDMMC, buf);
+    bool dma_buf_used = false;
+
+    // For read transfers bigger than FIFO size with a non-DMA buffer provided, we use
+    // a temporary DMA buffer instead to force a DMA transfer, to avoid FIFO overruns.
+    if (dma == false && len > 16 && len <= sizeof(DMA_BUFFER)) {
+        dma = dma_buf_used = true;
+        if (write) {
+            memcpy(DMA_BUFFER, buf_in, len);
+        }
+        buf = DMA_BUFFER; // overwrite dest buffer with DMA_BUFFER.
+    }
 
     SDMMC->ICR = SDMMC_STATIC_FLAGS; // clear interrupts
     SDMMC->MASK &= SDMMC_MASK_SDIOITIE;
@@ -458,7 +475,7 @@ int sdio_transfer_cmd53(bool write, uint32_t block_size, uint32_t arg, size_t le
         if (sdmmc_irq_state == SDMMC_IRQ_STATE_DONE) {
             break;
         }
-        if (mp_hal_ticks_ms() - start > 200) {
+        if (mp_hal_ticks_ms() - start > 1000) {
             SDMMC->MASK &= SDMMC_MASK_SDIOITIE;
             #if defined(STM32F7)
             printf("sdio_transfer_cmd53: timeout wr=%d len=%u dma=%u buf_idx=%u STA=%08x SDMMC=%08x:%08x DMA=%08x:%08x:%08x RCC=%08x\n", write, (uint)len, (uint)dma, sdmmc_buf_cur - buf, (uint)SDMMC->STA, (uint)SDMMC->DCOUNT, (uint)SDMMC->FIFOCNT, (uint)DMA2->LISR, (uint)DMA2->HISR, (uint)DMA2_Stream3->NDTR, (uint)RCC->AHB1ENR);
@@ -501,6 +518,10 @@ int sdio_transfer_cmd53(bool write, uint32_t block_size, uint32_t arg, size_t le
         #endif
     }
 
+    if (dma_buf_used && write == 0) {
+        // If DMA buffer was used, copy back to user buffer.
+        memcpy(buf_in, DMA_BUFFER, len);
+    }
     return 0;
 }
 

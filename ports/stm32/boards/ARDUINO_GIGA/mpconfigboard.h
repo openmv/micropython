@@ -29,9 +29,12 @@ typedef unsigned int mp_uint_t;     // must be pointer size
 #define MICROPY_HW_ENABLE_TIMER     (1)
 #define MICROPY_HW_ENABLE_SDCARD    (0)
 #define MICROPY_HW_ENABLE_MMCARD    (0)
+#define MICROPY_HW_ENTER_BOOTLOADER_VIA_RESET   (0)
+#define MICROPY_HW_TIM_IS_RESERVED(id) (id == 1)
 
 // Flash storage config
 #define MICROPY_HW_SPIFLASH_ENABLE_CACHE            (1)
+#define MICROPY_HW_SPIFLASH_SOFT_RESET              (1)
 #define MICROPY_HW_ENABLE_INTERNAL_FLASH_STORAGE    (0)
 
 #define MICROPY_BOARD_STARTUP       GIGA_board_startup
@@ -40,7 +43,6 @@ void GIGA_board_startup(void);
 #define MICROPY_BOARD_EARLY_INIT    GIGA_board_early_init
 void GIGA_board_early_init(void);
 
-#define MICROPY_HW_ENTER_BOOTLOADER_VIA_RESET   (0)
 #define MICROPY_BOARD_ENTER_BOOTLOADER(nargs, args) GIGA_board_enter_bootloader()
 void GIGA_board_enter_bootloader(void);
 
@@ -298,7 +300,7 @@ extern struct _spi_bdev_t spi_bdev;
 #define MICROPY_HW_FMC_D15          (pin_D10)
 
 #define MICROPY_HW_USB_VID                      0x2341
-#define MICROPY_HW_USB_PID                      0x0566
+#define MICROPY_HW_USB_PID                      0x0466
 #define MICROPY_HW_USB_PID_CDC_MSC              (MICROPY_HW_USB_PID)
 #define MICROPY_HW_USB_PID_CDC_HID              (MICROPY_HW_USB_PID)
 #define MICROPY_HW_USB_PID_CDC                  (MICROPY_HW_USB_PID)

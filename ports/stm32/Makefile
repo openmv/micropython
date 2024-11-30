@@ -99,22 +99,24 @@ GEN_PLLFREQTABLE_HDR = $(HEADER_BUILD)/pllfreqtable.h
 GEN_PLLI2STABLE_HDR = $(HEADER_BUILD)/plli2stable.h
 GEN_STMCONST_HDR = $(HEADER_BUILD)/modstm_const.h
 GEN_STMCONST_MPZ = $(HEADER_BUILD)/modstm_mpz.h
-CMSIS_MCU_HDR = $(STM32LIB_CMSIS_ABS)/Include/$(CMSIS_MCU_LOWER).h
+CMSIS_MCU_HDR = $(STM32LIB_CMSIS_ABS)/include/st/$(CMSIS_MCU_LOWER).h
 
 # Select the cross compile prefix
 CROSS_COMPILE ?= arm-none-eabi-
 
 INC += -I.
-INC += -I$(TOP)
+INC += -I..
 INC += -I$(BUILD)
 INC += -I$(TOP)/lib/cmsis/inc
-INC += -I$(STM32LIB_CMSIS_ABS)/Include
-INC += -I$(STM32LIB_HAL_ABS)/Inc
+INC += -I$(STM32LIB_CMSIS_ABS)/include
+INC += -I$(STM32LIB_CMSIS_ABS)/include/st
+INC += -I$(STM32LIB_HAL_ABS)/include
 INC += -I$(USBDEV_DIR)/core/inc -I$(USBDEV_DIR)/class/inc
 #INC += -I$(USBHOST_DIR)
 INC += -Ilwip_inc
 
 CFLAGS += $(INC) -Wall -Wpointer-arith -Werror -Wdouble-promotion -Wfloat-conversion -std=gnu99 -nostdlib $(CFLAGS_EXTRA)
+CFLAGS += -fno-inline-small-functions
 CFLAGS += -D$(CMSIS_MCU) -DUSE_FULL_LL_DRIVER
 CFLAGS += $(CFLAGS_MCU_$(MCU_SERIES))
 CFLAGS += $(COPT)
@@ -170,7 +172,7 @@ endif
 
 # Debugging/Optimization
 ifeq ($(DEBUG), 1)
-CFLAGS += -g -DPENDSV_DEBUG
+CFLAGS += -ggdb3 -DPENDSV_DEBUG
 COPT ?= -Og
 # Disable text compression in debug builds
 MICROPY_ROM_TEXT_COMPRESSION = 0
@@ -232,9 +234,7 @@ DRIVERS_SRC_C += $(addprefix drivers/,\
 	dht/dht.c \
 	)
 
-SRC_C += \
-	boardctrl.c \
-	main.c \
+SRC_C = \
 	stm32_it.c \
 	usbd_conf.c \
 	usbd_desc.c \
@@ -317,7 +317,6 @@ SRC_O += \
 	shared/runtime/gchelper_thumb2.o
 else
 SRC_O += \
-	system_stm32.o \
 	resethandler.o \
 	shared/runtime/gchelper_thumb2.o
 endif
@@ -485,18 +484,13 @@ $(PY_BUILD)/parsenum.o: COPT += -Os
 $(PY_BUILD)/mpprint.o: COPT += -Os
 endif
 
-all: $(TOP)/lib/stm32lib/README.md all_main $(BUILD)/firmware.hex
+all: $(OBJ)
 
 ifeq ($(MBOOT_ENABLE_PACKING),1)
 all_main: $(BUILD)/firmware.pack.dfu
 else
 all_main: $(BUILD)/firmware.dfu
 endif
-
-# For convenience, automatically fetch required submodules if they don't exist
-$(TOP)/lib/stm32lib/README.md:
-	$(ECHO) "stm32lib submodule not found, fetching it now..."
-	(cd $(TOP) && git submodule update --init lib/stm32lib)
 
 define RUN_DFU
 	$(ECHO) "Writing $(1) to the board"
@@ -630,7 +624,7 @@ $(HEADER_BUILD)/qstrdefs.generated.h: $(BOARD_DIR)/mpconfigboard.h
 # main.c can't be even preprocessed without $(GEN_CDCINF_HEADER)
 # As main.c is in SRC_QSTR this will also ensure that GEN_CDCINF_HEADER
 # will be run before QSTR extraction.
-main.c: $(GEN_CDCINF_HEADER)
+factoryreset.c: $(GEN_CDCINF_HEADER)
 
 # Use a pattern rule here so that make will only call make-pins.py once to make
 # both pins_$(BOARD).c and pins.h

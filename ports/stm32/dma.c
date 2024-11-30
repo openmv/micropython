@@ -205,7 +205,7 @@ static const DMA_InitTypeDef dma_init_struct_dac = {
 };
 #else
 // Default parameters to dma_init() for DAC tx
-static const DMA_InitTypeDef dma_init_struct_dac = {
+DMA_InitTypeDef dma_init_struct_dac = {
     #if defined(STM32F4) || defined(STM32F7)
     .Channel = 0,
     #elif defined(STM32G0) || defined(STM32G4) || defined(STM32H7) || defined(STM32L0) || defined(STM32L4) || defined(STM32WB) || defined(STM32WL)
@@ -828,7 +828,7 @@ static const uint8_t dma_irqn[NSTREAM] = {
 
 #endif
 
-static DMA_HandleTypeDef *dma_handle[NSTREAM] = {NULL};
+DMA_HandleTypeDef *dma_handle[NSTREAM] = {NULL};
 static uint8_t dma_last_sub_instance[NSTREAM];
 static volatile uint32_t dma_enable_mask = 0;
 #if MICROPY_HW_DMA_ENABLE_AUTO_TURN_OFF
@@ -1512,6 +1512,7 @@ void dma_init(DMA_HandleTypeDef *dma, const dma_descr_t *dma_descr, uint32_t dir
 
 void dma_deinit(const dma_descr_t *dma_descr) {
     if (dma_descr != NULL) {
+        HAL_DMA_Abort(dma_handle[dma_descr->id]);
         #if !defined(STM32F0)
         HAL_NVIC_DisableIRQ(dma_irqn[dma_descr->id]);
         #endif

@@ -824,7 +824,7 @@ static mp_obj_t pyb_i2c_send(size_t n_args, const mp_obj_t *pos_args, mp_map_t *
     pyb_buf_get_for_send(args[0].u_obj, &bufinfo, data);
 
     // if option is set and IRQs are enabled then we can use DMA
-    bool use_dma = *self->use_dma && query_irq() == IRQ_STATE_ENABLED;
+    bool use_dma = (*self->use_dma && query_irq() == IRQ_STATE_ENABLED && DMA_BUFFER(bufinfo.buf));
 
     DMA_HandleTypeDef tx_dma;
     if (use_dma) {
@@ -1000,7 +1000,7 @@ static mp_obj_t pyb_i2c_mem_read(size_t n_args, const mp_obj_t *pos_args, mp_map
     }
 
     // if option is set and IRQs are enabled then we can use DMA
-    bool use_dma = *self->use_dma && query_irq() == IRQ_STATE_ENABLED;
+    bool use_dma = (*self->use_dma && query_irq() == IRQ_STATE_ENABLED && DMA_BUFFER(vstr.buf));
 
     HAL_StatusTypeDef status;
     if (!use_dma) {

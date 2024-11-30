@@ -46,22 +46,22 @@
 // SPI6_RX: DMA2_Stream6.CHANNEL_1
 
 #if defined(MICROPY_HW_SPI1_SCK)
-static SPI_HandleTypeDef SPIHandle1 = {.Instance = NULL};
+SPI_HandleTypeDef SPIHandle1 = {.Instance = NULL};
 #endif
 #if defined(MICROPY_HW_SPI2_SCK)
-static SPI_HandleTypeDef SPIHandle2 = {.Instance = NULL};
+SPI_HandleTypeDef SPIHandle2 = {.Instance = NULL};
 #endif
 #if defined(MICROPY_HW_SPI3_SCK)
-static SPI_HandleTypeDef SPIHandle3 = {.Instance = NULL};
+SPI_HandleTypeDef SPIHandle3 = {.Instance = NULL};
 #endif
 #if defined(MICROPY_HW_SPI4_SCK)
-static SPI_HandleTypeDef SPIHandle4 = {.Instance = NULL};
+SPI_HandleTypeDef SPIHandle4 = {.Instance = NULL};
 #endif
 #if defined(MICROPY_HW_SPI5_SCK)
-static SPI_HandleTypeDef SPIHandle5 = {.Instance = NULL};
+SPI_HandleTypeDef SPIHandle5 = {.Instance = NULL};
 #endif
 #if defined(MICROPY_HW_SPI6_SCK)
-static SPI_HandleTypeDef SPIHandle6 = {.Instance = NULL};
+SPI_HandleTypeDef SPIHandle6 = {.Instance = NULL};
 #endif
 #if defined(MICROPY_HW_SUBGHZSPI_ID)
 static SPI_HandleTypeDef SPIHandleSubGhz = {.Instance = NULL};

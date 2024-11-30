@@ -264,7 +264,10 @@ bool sdcard_is_present(void) {
 }
 
 #if MICROPY_HW_ENABLE_SDCARD
+static void sdcard_reset_periph();
 static HAL_StatusTypeDef sdmmc_init_sd(void) {
+    sdcard_reset_periph();
+
     // SD device interface configuration
     sdmmc_handle.sd.Instance = SDIO;
     sdmmc_handle.sd.Init.ClockEdge = SDIO_CLOCK_EDGE_RISING;
@@ -273,7 +276,7 @@ static HAL_StatusTypeDef sdmmc_init_sd(void) {
     #endif
     sdmmc_handle.sd.Init.ClockPowerSave = SDIO_CLOCK_POWER_SAVE_ENABLE;
     sdmmc_handle.sd.Init.BusWide = SDIO_BUS_WIDE_1B;
-    sdmmc_handle.sd.Init.HardwareFlowControl = SDIO_HARDWARE_FLOW_CONTROL_DISABLE;
+    sdmmc_handle.sd.Init.HardwareFlowControl = SDIO_HARDWARE_FLOW_CONTROL_ENABLE;
     sdmmc_handle.sd.Init.ClockDiv = SDIO_TRANSFER_CLK_DIV;
 
     // init the SD interface, with retry if it's not ready yet
@@ -461,7 +464,6 @@ static HAL_StatusTypeDef sdcard_wait_finished(uint32_t timeout) {
                 break;
             }
         }
-        __WFI();
         enable_irq(irq_state);
         if (HAL_GetTick() - start >= timeout) {
             return HAL_TIMEOUT;
@@ -493,7 +495,6 @@ static HAL_StatusTypeDef sdcard_wait_finished(uint32_t timeout) {
         if (HAL_GetTick() - start >= timeout) {
             return HAL_TIMEOUT;
         }
-        __WFI();
     }
     return HAL_OK;
 }
@@ -506,28 +507,10 @@ mp_uint_t sdcard_read_blocks(uint8_t *dest, uint32_t block_num, uint32_t num_blo
 
     HAL_StatusTypeDef err = HAL_OK;
 
-    // check that dest pointer is aligned on a 4-byte boundary
-    uint8_t *orig_dest = NULL;
-    uint32_t saved_word;
-    if (((uint32_t)dest & 3) != 0) {
-        // Pointer is not aligned so it needs fixing.
-        // We could allocate a temporary block of RAM (as sdcard_write_blocks
-        // does) but instead we are going to use the dest buffer inplace.  We
-        // are going to align the pointer, save the initial word at the aligned
-        // location, read into the aligned memory, move the memory back to the
-        // unaligned location, then restore the initial bytes at the aligned
-        // location.  We should have no trouble doing this as those initial
-        // bytes at the aligned location should be able to be changed for the
-        // duration of this function call.
-        orig_dest = dest;
-        dest = (uint8_t *)((uint32_t)dest & ~3);
-        saved_word = *(uint32_t *)dest;
-    }
+    // we must disable USB irqs to prevent MSC contention with SD card
+    uint32_t basepri = raise_irq_pri(IRQ_PRI_OTG_FS);
 
-    if (query_irq() == IRQ_STATE_ENABLED) {
-        // we must disable USB irqs to prevent MSC contention with SD card
-        uint32_t basepri = raise_irq_pri(IRQ_PRI_OTG_FS);
-
+    if (query_irq() == IRQ_STATE_ENABLED && SD_DMA_BUFFER(SDIO, dest)) {
         #if SDIO_USE_GPDMA
         DMA_HandleTypeDef sd_dma;
         dma_init(&sd_dma, &SDMMC_DMA, DMA_PERIPH_TO_MEMORY, &sdmmc_handle);
@@ -569,8 +552,6 @@ mp_uint_t sdcard_read_blocks(uint8_t *dest, uint32_t block_num, uint32_t num_blo
             sdmmc_handle.sd.hdmarx = NULL;
         }
         #endif
-
-        restore_irq_pri(basepri);
     } else {
         #if MICROPY_HW_ENABLE_MMCARD
         if (pyb_sdmmc_flags & PYB_SDMMC_FLAG_MMC) {
@@ -584,13 +565,7 @@ mp_uint_t sdcard_read_blocks(uint8_t *dest, uint32_t block_num, uint32_t num_blo
             err = sdcard_wait_finished(60000);
         }
     }
-
-    if (orig_dest != NULL) {
-        // move the read data to the non-aligned position, and restore the initial bytes
-        memmove(orig_dest, dest, num_blocks * SDCARD_BLOCK_SIZE);
-        memcpy(dest, &saved_word, orig_dest - dest);
-    }
-
+    restore_irq_pri(basepri);
     return err;
 }
 
@@ -601,29 +576,10 @@ mp_uint_t sdcard_write_blocks(const uint8_t *src, uint32_t block_num, uint32_t n
     }
 
     HAL_StatusTypeDef err = HAL_OK;
+    // we must disable USB irqs to prevent MSC contention with SD card
+    uint32_t basepri = raise_irq_pri(IRQ_PRI_OTG_FS);
 
-    // check that src pointer is aligned on a 4-byte boundary
-    if (((uint32_t)src & 3) != 0) {
-        // pointer is not aligned, so allocate a temporary block to do the write
-        uint8_t *src_aligned = m_new_maybe(uint8_t, SDCARD_BLOCK_SIZE);
-        if (src_aligned == NULL) {
-            return HAL_ERROR;
-        }
-        for (size_t i = 0; i < num_blocks; ++i) {
-            memcpy(src_aligned, src + i * SDCARD_BLOCK_SIZE, SDCARD_BLOCK_SIZE);
-            err = sdcard_write_blocks(src_aligned, block_num + i, 1);
-            if (err != HAL_OK) {
-                break;
-            }
-        }
-        m_del(uint8_t, src_aligned, SDCARD_BLOCK_SIZE);
-        return err;
-    }
-
-    if (query_irq() == IRQ_STATE_ENABLED) {
-        // we must disable USB irqs to prevent MSC contention with SD card
-        uint32_t basepri = raise_irq_pri(IRQ_PRI_OTG_FS);
-
+    if (query_irq() == IRQ_STATE_ENABLED && SD_DMA_BUFFER(SDIO, src)) {
         #if SDIO_USE_GPDMA
         DMA_HandleTypeDef sd_dma;
         dma_init(&sd_dma, &SDMMC_DMA, DMA_MEMORY_TO_PERIPH, &sdmmc_handle);
@@ -664,8 +620,6 @@ mp_uint_t sdcard_write_blocks(const uint8_t *src, uint32_t block_num, uint32_t n
             sdmmc_handle.sd.hdmatx = NULL;
         }
         #endif
-
-        restore_irq_pri(basepri);
     } else {
         #if MICROPY_HW_ENABLE_MMCARD
         if (pyb_sdmmc_flags & PYB_SDMMC_FLAG_MMC) {
@@ -679,6 +633,7 @@ mp_uint_t sdcard_write_blocks(const uint8_t *src, uint32_t block_num, uint32_t n
             err = sdcard_wait_finished(60000);
         }
     }
+    restore_irq_pri(basepri);
 
     return err;
 }

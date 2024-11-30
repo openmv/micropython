@@ -83,6 +83,7 @@
 #include "i2c.h"
 #include "usb.h"
 
+extern void omv_gpio_irq_handler(uint32_t line);
 #if defined(MICROPY_HW_USB_FS)
 extern PCD_HandleTypeDef pcd_fs_handle;
 #endif
@@ -459,36 +460,42 @@ void OTG_HS_WKUP_IRQHandler(void) {
   */
 void EXTI0_IRQHandler(void) {
     IRQ_ENTER(EXTI0_IRQn);
+    omv_gpio_irq_handler(0);
     Handle_EXTI_Irq(0);
     IRQ_EXIT(EXTI0_IRQn);
 }
 
 void EXTI1_IRQHandler(void) {
     IRQ_ENTER(EXTI1_IRQn);
+    omv_gpio_irq_handler(1);
     Handle_EXTI_Irq(1);
     IRQ_EXIT(EXTI1_IRQn);
 }
 
 void EXTI2_IRQHandler(void) {
     IRQ_ENTER(EXTI2_IRQn);
+    omv_gpio_irq_handler(2);
     Handle_EXTI_Irq(2);
     IRQ_EXIT(EXTI2_IRQn);
 }
 
 void EXTI3_IRQHandler(void) {
     IRQ_ENTER(EXTI3_IRQn);
+    omv_gpio_irq_handler(3);
     Handle_EXTI_Irq(3);
     IRQ_EXIT(EXTI3_IRQn);
 }
 
 void EXTI4_IRQHandler(void) {
     IRQ_ENTER(EXTI4_IRQn);
+    omv_gpio_irq_handler(4);
     Handle_EXTI_Irq(4);
     IRQ_EXIT(EXTI4_IRQn);
 }
 
 void EXTI9_5_IRQHandler(void) {
     IRQ_ENTER(EXTI9_5_IRQn);
+    omv_gpio_irq_handler(5);
     Handle_EXTI_Irq(5);
     Handle_EXTI_Irq(6);
     Handle_EXTI_Irq(7);
@@ -499,6 +506,7 @@ void EXTI9_5_IRQHandler(void) {
 
 void EXTI15_10_IRQHandler(void) {
     IRQ_ENTER(EXTI15_10_IRQn);
+    omv_gpio_irq_handler(10);
     Handle_EXTI_Irq(10);
     Handle_EXTI_Irq(11);
     Handle_EXTI_Irq(12);
@@ -573,6 +581,7 @@ void RTC_WKUP_IRQHandler(void)
     RTC->ISR &= ~RTC_ISR_WUTF; // clear wakeup interrupt flag
     #endif
     Handle_EXTI_Irq(EXTI_RTC_WAKEUP); // clear EXTI flag and execute optional callback
+    __HAL_RTC_WAKEUPTIMER_EXTI_CLEAR_FLAG(); // Clear the EXTI's line Flag for RTC WakeUpTimer
     IRQ_EXIT(RTC_WKUP_IRQn);
 }
 

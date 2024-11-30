@@ -823,6 +823,11 @@ void powerctrl_enter_stop_mode(void) {
     }
     #endif
 
+    #if defined(STM32H7)
+    // Clear any pending EXTIs.
+    EXTI_D1->PR1 = 0x3fffff; __ISB(); __DSB();
+    #endif
+
     #if defined(STM32WB)
     powerctrl_low_power_prep_wb55();
     #endif
@@ -1085,7 +1090,8 @@ NORETURN void powerctrl_enter_standby_mode(void) {
     EXTI_D2->PR1 = 0x3fffffu;
     EXTI_D2->IMR1 &= ~(0xFFFFu); // 16 lines
     #endif
-    // Clear all wake-up flags.
+    // Disable all wakeup pins and clear flags.
+    PWR->WKUPEPR &= ~(0x1Fu);
     PWR->WKUPCR |= PWR_WAKEUP_FLAG_ALL;
     #elif defined(STM32G0) || defined(STM32G4) || defined(STM32L4) || defined(STM32WB)
     // clear all wake-up flags

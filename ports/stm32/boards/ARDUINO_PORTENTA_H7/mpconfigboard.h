@@ -7,6 +7,7 @@
 #define MICROPY_HW_BOARD_NAME       "Arduino Portenta H7"
 #define MICROPY_HW_MCU_NAME         "STM32H747"
 #define MICROPY_HW_FLASH_FS_LABEL   "Portenta H7"
+#define MICROPY_VFS_ROM             (1)
 
 // Network config
 #define MICROPY_PY_NETWORK_HOSTNAME_DEFAULT "mpy-portenta-h7"
@@ -129,8 +130,8 @@ void PORTENTA_board_osc_enable(int enable);
 // QSPI flash #1 for storage
 #define MICROPY_HW_QSPI_PRESCALER           (2) // 100MHz
 #define MICROPY_HW_QSPIFLASH_SIZE_BITS_LOG2 (27)
-// Reserve 1MiB at the end for compatibility with alternate firmware that places WiFi blob here.
-#define MICROPY_HW_SPIFLASH_SIZE_BITS       (120 * 1024 * 1024)
+// Reserve 4MiB for romfs and 1MiB at for WiFi/BT firmware.
+#define MICROPY_HW_SPIFLASH_SIZE_BITS       (88 * 1024 * 1024)
 #define MICROPY_HW_QSPIFLASH_CS             (pyb_pin_QSPI2_CS)
 #define MICROPY_HW_QSPIFLASH_SCK            (pyb_pin_QSPI2_CLK)
 #define MICROPY_HW_QSPIFLASH_IO0            (pyb_pin_QSPI2_D0)

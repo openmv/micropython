@@ -2,6 +2,7 @@
 #define MICROPY_HW_MCU_NAME         "STM32F427"
 #define MICROPY_PY_SYS_PLATFORM     "OpenMV2"
 #define MICROPY_HW_FLASH_FS_LABEL   "OPENMV"
+#define MICROPY_VFS_ROM             (1)
 
 #define MICROPY_OBJ_REPR            (MICROPY_OBJ_REPR_C)
 #define UINT_FMT                    "%u"

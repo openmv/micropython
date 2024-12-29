@@ -2,6 +2,7 @@
 #define MICROPY_HW_MCU_NAME         "STM32H743"
 #define MICROPY_PY_SYS_PLATFORM     "OpenMVPureThermal"
 #define MICROPY_HW_FLASH_FS_LABEL   "OPENMV"
+#define MICROPY_VFS_ROM             (1)
 
 #define MICROPY_OBJ_REPR            (MICROPY_OBJ_REPR_C)
 #define UINT_FMT                    "%u"
@@ -145,7 +146,7 @@ extern const struct _mp_obj_type_t mod_network_nic_type_winc;
 
 // QSPI Flash 256MBits
 #define MICROPY_HW_QSPI_PRESCALER           (2) // F_CLK = F_AHB/2 (100MHz)
-#define MICROPY_HW_SPIFLASH_SIZE_BITS       (256 * 1024 * 1024)
+#define MICROPY_HW_SPIFLASH_SIZE_BITS       (192 * 1024 * 1024)
 #define MICROPY_HW_QSPIFLASH_SIZE_BITS_LOG2 (28)
 #define MICROPY_HW_QSPIFLASH_CS             (pin_G6)
 #define MICROPY_HW_QSPIFLASH_SCK            (pin_F10)

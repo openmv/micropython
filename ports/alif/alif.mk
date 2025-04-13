@@ -74,7 +74,7 @@ CFLAGS += $(INC) \
           --specs=nosys.specs \
           -D$(MCU_CORE)=1 \
           -DCORE_$(MCU_CORE) \
-          -DALIF_CMSIS_H="\"$(MCU_CORE).h\""
+          -DALIF_CMSIS_H='<system_utils.h>'
 
 ifeq ($(MICROPY_FLOAT_IMPL),float)
 CFLAGS += -fsingle-precision-constant

@@ -24,7 +24,7 @@ datatypes are provided: `str`(including basic Unicode support), `bytes`,
 `asyncio`. Note that only a subset of Python 3 functionality is implemented
 for the data types and modules.
 
-MicroPython can execute scripts in textual source form (.py files) or from
+MMicroPython can execute scripts in textual source form (.py files) or from
 precompiled bytecode (.mpy files), in both cases either from an on-device
 filesystem or "frozen" into the MicroPython executable.
 

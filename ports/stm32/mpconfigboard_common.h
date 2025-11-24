@@ -484,6 +484,24 @@
 #define MICROPY_HW_MAX_UART (10)
 #define MICROPY_HW_MAX_LPUART (1)
 
+#define CFG_TUSB_MCU OPT_MCU_STM32N6
+#define CFG_TUSB_RHPORT0_MODE (OPT_MODE_DEVICE | OPT_MODE_HIGH_SPEED)
+
+// Configuration for STM32U5 series
+#elif defined(STM32U5)
+
+#define MP_HAL_UNIQUE_ID_ADDRESS (UID_BASE)
+// STM32U5 has 26 EXTI vectors but does not have line for RTC/USB.
+// To treat these interrupts as same as exti, add virtual vectors for
+// EXTI_RTC_TIMESTAMP (26), EXTI_RTC_WAKEUP (27),
+// EXTI_RTC_ALARM (28), and EXTI_USB_OTG_FS_WAKEUP  (29)
+#define PYB_EXTI_NUM_VECTORS (30)
+#define MICROPY_HW_MAX_I2C (6)
+#define MICROPY_HW_MAX_TIMER (17)
+#define MICROPY_HW_MAX_UART (6)
+#define MICROPY_HW_MAX_LPUART (1)
+
+>>>>>>> b087cb41e (stm32/mpconfigboard_common: Define TinyUSB MCU type for N6.)
 // Configuration for STM32WB series
 #elif defined(STM32WB)
 

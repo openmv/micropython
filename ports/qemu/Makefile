@@ -315,7 +315,7 @@ SRC_QSTR += $(SRC_C) $(LIBM_SRC_C)
 ################################################################################
 # Main targets
 
-all: $(BUILD)/firmware.elf $(BUILD)/firmware.bin
+all: $(OBJ)
 
 .PHONY: repl
 repl: $(QEMU_RUN_TARGET)

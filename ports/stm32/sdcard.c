@@ -278,7 +278,14 @@ static HAL_StatusTypeDef sdmmc_init_sd(void) {
     #endif
     sdmmc_handle.sd.Init.ClockPowerSave = SDIO_CLOCK_POWER_SAVE_ENABLE;
     sdmmc_handle.sd.Init.BusWide = SDIO_BUS_WIDE_1B;
+    #if defined(STM32F4)
+    // The STM32F4 SDIO hardware flow control is broken (see the errata sheets:
+    // glitches occur on SDIOCLK when it is enabled, corrupting data written to
+    // the card), so it must be kept disabled here.
+    sdmmc_handle.sd.Init.HardwareFlowControl = SDIO_HARDWARE_FLOW_CONTROL_DISABLE;
+    #else
     sdmmc_handle.sd.Init.HardwareFlowControl = SDIO_HARDWARE_FLOW_CONTROL_ENABLE;
+    #endif
     sdmmc_handle.sd.Init.ClockDiv = SDIO_TRANSFER_CLK_DIV;
 
     // init the SD interface, with retry if it's not ready yet

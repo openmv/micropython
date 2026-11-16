@@ -222,10 +222,12 @@ void mp_hal_pin_config(const machine_pin_obj_t *pin, uint32_t mode,
     // For INPUT/OUTPUT/OD modes, set the GPIO direction.
     switch (mode) {
         case MP_HAL_PIN_MODE_INPUT:
+            mp_hal_pin_enable_clock(pin);
             gpio_set_direction_input(pin->gpio, pin->pin);
             break;
         case MP_HAL_PIN_MODE_OUTPUT:
         case MP_HAL_PIN_MODE_OPEN_DRAIN:
+            mp_hal_pin_enable_clock(pin);
             gpio_set_direction_output(pin->gpio, pin->pin);
             break;
         default:

@@ -294,10 +294,21 @@ static inline qstr mp_hal_pin_name(mp_hal_pin_obj_t pin) {
     return pin->name;
 }
 
+// Enable the clock of the pin's GPIO port, on parts where it is gated.
+// LPGPIO (port 15) has no clock gate.
+static inline void mp_hal_pin_enable_clock(mp_hal_pin_obj_t pin) {
+    #if SOC_FEAT_GPIO_HAS_CLOCK_ENABLE
+    if (pin->port < sizeof(CLKCTL_PER_SLV->GPIO_CTRL) / sizeof(CLKCTL_PER_SLV->GPIO_CTRL[0])) {
+        CLKCTL_PER_SLV->GPIO_CTRL[pin->port] |= (1U << 16);
+    }
+    #endif
+}
+
 static inline void mp_hal_pin_input(mp_hal_pin_obj_t pin) {
     uint8_t alt_func = PINMUX_ALTERNATE_FUNCTION_0;
     uint8_t pad_ctrl = PADCTRL_READ_ENABLE;
     pinconf_set(pin->port, pin->pin, alt_func, pad_ctrl);
+    mp_hal_pin_enable_clock(pin);
     gpio_set_direction_input(pin->gpio, pin->pin);
 }
 
@@ -305,6 +316,7 @@ static inline void mp_hal_pin_output(mp_hal_pin_obj_t pin) {
     uint8_t alt_func = PINMUX_ALTERNATE_FUNCTION_0;
     uint8_t pad_ctrl = PADCTRL_READ_ENABLE;
     pinconf_set(pin->port, pin->pin, alt_func, pad_ctrl);
+    mp_hal_pin_enable_clock(pin);
     gpio_set_direction_output(pin->gpio, pin->pin);
 }
 
@@ -312,6 +324,7 @@ static inline void mp_hal_pin_open_drain(mp_hal_pin_obj_t pin) {
     uint8_t alt_func = PINMUX_ALTERNATE_FUNCTION_0;
     uint8_t pad_ctrl = PADCTRL_DRIVER_OPEN_DRAIN | PADCTRL_READ_ENABLE;
     pinconf_set(pin->port, pin->pin, alt_func, pad_ctrl);
+    mp_hal_pin_enable_clock(pin);
     gpio_set_direction_output(pin->gpio, pin->pin);
 }
 

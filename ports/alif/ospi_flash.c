@@ -345,6 +345,7 @@ int ospi_flash_init(void) {
     // Switch to the higher frequency.
     self->cfg.ospi_clock = set->freq_hz;
     ospi_init(&self->cfg, instance);
+    ospi_set_tx_delay_ext(&self->cfg);
 
     // Check the device ID after switching mode.
     if (set->flash_init != NULL && ospi_flash_read_id(self) != set->jedec_id) {

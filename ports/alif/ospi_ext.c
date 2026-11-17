@@ -39,6 +39,20 @@ static void ospi_xip_enable(ospi_flash_cfg_t *ospi_cfg) {
     #endif
 }
 
+// Delay the data and output-enable lines relative to SCLK. This is needed
+// in DDR mode on parts where the drive edge cannot be adjusted at the
+// selected frequency (e.g. a baud divider of 2).
+void ospi_set_tx_delay_ext(ospi_flash_cfg_t *ospi_cfg) {
+    #if SOC_FEAT_AES_OSPI_SIGNALS_DELAY && defined(OSPI_XIP_TXD_DELAY)
+    AES_Type *aes = (AES_Type *)ospi_cfg->aes_regs;
+    uint32_t delay = OSPI_XIP_TXD_DELAY * 0x01010101U;
+    aes->AES_TXD_DELAY_0 = delay;
+    aes->AES_TXD_DELAY_1 = delay;
+    aes->AES_SSI_OE_N_DELAY_0 = delay;
+    aes->AES_SSI_OE_N_DELAY_1 = delay;
+    #endif
+}
+
 // Standard SPI transfer.
 void ospi_spi_transfer(ospi_flash_cfg_t *ospi_cfg, size_t len, const uint8_t *buf_out, uint8_t *buf_in) {
     ospi_writel(ospi_cfg, ser, 0);

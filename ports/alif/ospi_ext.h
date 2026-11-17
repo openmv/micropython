@@ -43,6 +43,7 @@
 #define OSPI_DATA_L_32bit   (CTRLR0_DFS_32bit)
 
 void ospi_spi_transfer(ospi_flash_cfg_t *ospi_cfg, size_t len, const uint8_t *buf_out, uint8_t *buf_in);
+void ospi_set_tx_delay_ext(ospi_flash_cfg_t *ospi_cfg);
 
 void ospi_setup_read_ext(ospi_flash_cfg_t *ospi_cfg, bool rxds, uint32_t inst_len, uint32_t addr_len, uint32_t data_len, uint32_t read_len, uint32_t wait_cycles);
 int ospi_recv_blocking_8bit_data(ospi_flash_cfg_t *ospi_cfg, uint32_t command, uint8_t *buffer);

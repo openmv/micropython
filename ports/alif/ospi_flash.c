@@ -336,18 +336,19 @@ int ospi_flash_init(void) {
         return -1;
     }
 
+    // Switch to octal mode if needed. This is done at the detection
+    // frequency, as the SPI-mode commands may not support the final one.
+    if (set->flash_init != NULL) {
+        set->flash_init(self);
+    }
+
     // Switch to the higher frequency.
     self->cfg.ospi_clock = set->freq_hz;
     ospi_init(&self->cfg, instance);
 
-    // Switch to octal mode if needed.
-    if (set->flash_init != NULL) {
-        set->flash_init(self);
-
-        // Check the device ID after switching mode.
-        if (ospi_flash_read_id(self) != set->jedec_id) {
-            return -1;
-        }
+    // Check the device ID after switching mode.
+    if (set->flash_init != NULL && ospi_flash_read_id(self) != set->jedec_id) {
+        return -1;
     }
 
     // Enter XIP mode.

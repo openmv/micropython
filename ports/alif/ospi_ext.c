@@ -251,7 +251,9 @@ void ospi_xip_enter_ext(ospi_flash_cfg_t *ospi_cfg, uint32_t inst_len, uint32_t 
     ospi_writel(ospi_cfg, xip_mode_bits, 0x0);
     ospi_writel(ospi_cfg, xip_incr_inst, incr_command);
     ospi_writel(ospi_cfg, xip_wrap_inst, wrap_command);
+    #if SOC_FEAT_OSPI_HAS_XIP_SER
     ospi_writel(ospi_cfg, xip_ser, ospi_cfg->ser);
+    #endif
     ospi_writel(ospi_cfg, xip_cnt_time_out, 100);
 
     spi_enable(ospi_cfg);
@@ -285,7 +287,9 @@ void ospi_xip_exit_ext(ospi_flash_cfg_t *ospi_cfg, uint32_t inst_len, uint16_t i
     ospi_writel(ospi_cfg, xip_mode_bits, 0x1);
     ospi_writel(ospi_cfg, xip_incr_inst, incr_command);
     ospi_writel(ospi_cfg, xip_wrap_inst, wrap_command);
+    #if SOC_FEAT_OSPI_HAS_XIP_SER
     ospi_writel(ospi_cfg, xip_ser, ospi_cfg->ser);
+    #endif
     ospi_writel(ospi_cfg, ser, ospi_cfg->ser);
     ospi_writel(ospi_cfg, xip_cnt_time_out, 100);
 

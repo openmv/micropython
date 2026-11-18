@@ -177,12 +177,16 @@ static int machine_i2c_poll_flags(I2C_Type *base, uint32_t flags, uint32_t timeo
     return 0;
 }
 
-static int machine_i2c_write(machine_i2c_obj_t *self, uint8_t *buf, size_t tx_size) {
+static int machine_i2c_write(machine_i2c_obj_t *self, uint8_t *buf, size_t tx_size, bool stop) {
     mp_uint_t tick_start = mp_hal_ticks_us();
     for (size_t tx_idx = 0; tx_idx < tx_size;) {
         // Write data to FIFO
         if (self->i2c->I2C_STATUS & I2C_IC_STATUS_TFNF) {
-            self->i2c->I2C_DATA_CMD = (uint16_t)buf[tx_idx++];
+            uint16_t cmd = buf[tx_idx++];
+            if (stop && tx_idx == tx_size) {
+                cmd |= I2C_IC_DATA_CMD_STOP;
+            }
+            self->i2c->I2C_DATA_CMD = cmd;
             I2C_CHECK_ERRORS(self->i2c);
             tick_start = mp_hal_ticks_us();
         }
@@ -195,14 +199,15 @@ static int machine_i2c_write(machine_i2c_obj_t *self, uint8_t *buf, size_t tx_si
     return 0;
 }
 
-static int machine_i2c_read(machine_i2c_obj_t *self, uint8_t *buf, size_t rx_size) {
+static int machine_i2c_read(machine_i2c_obj_t *self, uint8_t *buf, size_t rx_size, bool stop) {
     mp_uint_t tick_start = mp_hal_ticks_us();
     for (size_t tx_idx = 0, rx_idx = 0; rx_idx < rx_size;) {
         // Write command to FIFO
         if (tx_idx < rx_size && (self->i2c->I2C_STATUS & I2C_IC_STATUS_TFNF)) {
-            self->i2c->I2C_DATA_CMD = I2C_IC_DATA_CMD_READ_REQ;
-            I2C_CHECK_ERRORS(self->i2c);
             ++tx_idx;
+            self->i2c->I2C_DATA_CMD = I2C_IC_DATA_CMD_READ_REQ |
+                ((stop && tx_idx == rx_size) ? I2C_IC_DATA_CMD_STOP : 0);
+            I2C_CHECK_ERRORS(self->i2c);
         }
 
         // Read data from FIFO
@@ -267,12 +272,13 @@ int machine_i2c_transfer(mp_obj_base_t *self_in, uint16_t addr, size_t n, mp_mac
 
     for (size_t i = 0; i < n; i++) {
         mp_machine_i2c_buf_t *buf = &bufs[i];
+        bool last = (i == n - 1);
         if (i == 0 && (flags & MP_MACHINE_I2C_FLAG_WRITE1)) {
-            ret = machine_i2c_write(self, buf->buf, buf->len);
+            ret = machine_i2c_write(self, buf->buf, buf->len, last);
         } else if (flags & MP_MACHINE_I2C_FLAG_READ) {
-            ret = machine_i2c_read(self, buf->buf, buf->len);
+            ret = machine_i2c_read(self, buf->buf, buf->len, last);
         } else if (bufs->len != 0) {
-            ret = machine_i2c_write(self, buf->buf, buf->len);
+            ret = machine_i2c_write(self, buf->buf, buf->len, last);
         }
         if (ret < 0) {
             return ret;

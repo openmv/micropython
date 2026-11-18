@@ -283,7 +283,8 @@ static mp_obj_t mp_machine_i2c_target_make_new(const mp_obj_type_t *type, size_t
     // Get static peripheral object.
     machine_i2c_target_obj_t *self = &machine_i2c_target_obj[i2c_id];
 
-    // Disable I2C controller.
+    // Enable the I2C clock and disable the I2C controller.
+    mp_hal_i2c_enable_clock(i2c_id);
     i2c_disable(self->i2c);
 
     // Initialise data.

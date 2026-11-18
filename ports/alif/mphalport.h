@@ -304,6 +304,15 @@ static inline void mp_hal_pin_enable_clock(mp_hal_pin_obj_t pin) {
     #endif
 }
 
+// Enable the clock of the I2C controller (0-3), on parts where it is gated
+// (e.g. E4). The DFP has no feature flag for this, but
+// SOC_FEAT_I2C_HAS_RESTART_CAP is set on the same parts.
+static inline void mp_hal_i2c_enable_clock(unsigned int i2c_id) {
+    #if SOC_FEAT_I2C_HAS_RESTART_CAP
+    (&CLKCTL_PER_SLV->I2C0_CTRL)[i2c_id] |= (1U << 0);
+    #endif
+}
+
 static inline void mp_hal_pin_input(mp_hal_pin_obj_t pin) {
     uint8_t alt_func = PINMUX_ALTERNATE_FUNCTION_0;
     uint8_t pad_ctrl = PADCTRL_READ_ENABLE;

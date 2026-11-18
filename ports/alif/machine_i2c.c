@@ -134,7 +134,8 @@ mp_obj_t machine_i2c_make_new(const mp_obj_type_t *type, size_t n_args, size_t n
         self->sda = mp_hal_get_pin_obj(args[ARG_sda].u_obj);
     }
 
-    // Disable I2C controller.
+    // Enable the I2C clock and disable the I2C controller.
+    mp_hal_i2c_enable_clock(self->i2c_id);
     i2c_disable(self->i2c);
 
     // Configure I2C pins.
